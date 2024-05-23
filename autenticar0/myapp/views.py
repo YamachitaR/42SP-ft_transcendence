@@ -74,3 +74,5 @@ def callback_view(request):
 
     # Redireciona o usuário para a URL definida em LOGIN_REDIRECT_URL
     return redirect(settings.LOGIN_REDIRECT_URL)
+
+
