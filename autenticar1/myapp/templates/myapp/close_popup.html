@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Close Popup</title>
+    <script type="text/javascript">
+        // Recarrega a janela principal
+        if (window.opener) {
+            window.opener.location.reload();
+        }
+        // Fecha o pop-up
+        window.close();
+    </script>
+</head>
+<body>
+    <p>Logging in...</p>
+</body>
+</html>

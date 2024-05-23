@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <script type="text/javascript">
+        function openLoginPopup() {
+            var width = 600;
+            var height = 700;
+            var left = (screen.width - width) / 2;
+            var top = (screen.height - height) / 2;
+            var url = "{% url 'login' %}";
+            var params = 'menubar=no,toolbar=no,status=no,width=' + width + ',height=' + height + ',top=' + top + ',left=' + left;
+            window.open(url, 'Login with 42', params);
+        }
+    </script>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}!</p>
+        <p><a href="{% url 'logout' %}">Logout</a></p>
+    {% else %}
+        <p>You are not logged in.</p>
+        <p><button onclick="openLoginPopup()">Login with 42</button></p>
+    {% endif %}
+</body>
+</html>
