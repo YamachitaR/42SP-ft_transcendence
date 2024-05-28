@@ -1,0 +1,65 @@
+services:
+  web:
+    build:
+      context: ./django
+      dockerfile: Dockerfile-web
+    expose:
+      - 8000
+    env_file:
+      - ./.env
+    environment:
+      - DEBUG=False
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/mediafiles
+    restart: on-failure
+  
+  postgres:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+    environment:
+      - DEBUG=False
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_HOST}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_HOST} -h localhost"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    restart: on-failure
+  
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-nginx
+    environment:
+      - DEBUG=False
+    ports:
+      - 8000:80
+      - 8443:443
+    depends_on:
+      - web
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/mediafiles
+      - ssl_certificates:/etc/ssl
+    restart: on-failure
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+  ssl_certificates:
+    driver: local
+    name: ssl_certificates
+    driver_opts:
+      type: none
+      o: bind
+      device: ./ssl

@@ -1,0 +1,151 @@
+.rank-sort {
+	color: var(--color-dark);
+	font-family: var(--font-text-bold);
+	font-size: var(--h4-size);
+}
+
+.ranking-title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+}
+
+.ranking-title-info-img {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2em;
+	height: 2em;
+	margin-left: 0.5em;
+}
+
+.stats-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	width: 90%;
+	margin: 5%;
+}
+
+.pie-stats-container {
+	margin-top: 5em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	width: 60vw;
+	height: 30vw;
+	position: relative;
+}
+
+.pie-stats-games {
+	position: relative;
+	width: 50%;
+	height: 100%;
+}
+
+.pie-chart-games {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	height: 100%;
+}
+
+.pie-stats-points {
+	position: relative;
+	width: 50%;
+	height: 100%;
+}
+
+.pie-chart-points {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	height: 100%;
+}
+
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+	border-radius: var(--border-radius);
+}
+
+td, th {
+	border: 1px solid #dddddd;
+	text-align: center;
+	padding: 8px;
+	color: var(--color-dark);
+}
+
+tr.rank-user {
+	background-color: #7393B3 !important;
+
+}
+
+tr:nth-child(even) {
+	background-color: var(--color-light-hover);
+	overflow: hidden;
+}
+
+.ranking-table {
+	margin-top: 2em;
+}
+
+.rank-user-info {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	color: var(--color-dark);
+}
+
+.rank-image {
+	margin-right: 5px;
+}
+
+.rank-position {
+	font-weight: bold;
+}
+
+.rank-total {
+	font-weight: bold;
+}
+
+.selected-row {
+	background-color: rgba(225, 223, 217, 0.4);
+}
+
+.ranking-search {
+	width: 100%;
+	height: 2em;
+	background-color: var(--color-light);
+	border: 0;
+	border-bottom: 1px solid var(--color-dark);
+	font-family: var(--font-text-regular);
+	font-size: var(--h4-size);
+	outline: none;
+}
+
+/* Reorganize ranking CSS on mobile */
+@media (max-width: 1000px) {
+	.popup {
+		width: 70%;
+	}
+	
+	.pie-stats-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: row;
+		width: 90%;
+		height: 50vw;
+		margin-top: 0;
+	}
+}
