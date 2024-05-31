@@ -6,14 +6,14 @@ services:
     expose:
       - 8000
     env_file:
-      - .env
+      - ./.env
     environment:
-      - DEBUG=True
+      - DEBUG=${DEBUG_DJANGO}
     depends_on:
       postgres:
         condition: service_healthy
     volumes:
-      - ./django/static:/home/app/web/staticfiles
+      - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
     restart: on-failure
   
@@ -22,14 +22,14 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - .env
+      - ./.env
     environment:
-      - DEBUG=True
+      - DEBUG=False
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
-      - POSTGRES_DB=${DATABASE_HOST}
+      - POSTGRES_DB=${DATABASE_NAME}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_HOST} -h localhost"]
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME} -h localhost"]
       interval: 10s
       timeout: 10s
       retries: 3
@@ -40,28 +40,21 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     environment:
-      - DEBUG=True
+      - DEBUG=${DEBUG_NGINX}
     ports:
       - 8000:80
       - 8443:443
     depends_on:
       - web
     volumes:
-      - ./django/static:/home/app/web/staticfiles
+      - static_volume:/home/app/web/staticfiles
       - media_volume:/home/app/web/mediafiles
-      - ssl_certificates:/etc/ssl
-    restart: on-failure
-  
-  adminer:
-    image: adminer:4.8.1
-    ports:
-      - 8080:8080
-    depends_on:
-      - postgres
+      - ssl_certificates:/etc/
     restart: on-failure
 
 volumes:
   postgres_data:
+  static_volume:
   media_volume:
   ssl_certificates:
     driver: local
@@ -69,4 +62,4 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ./ssl
+      device: ./srcs/ssl
