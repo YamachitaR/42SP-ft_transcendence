@@ -12,7 +12,7 @@ up-detached:
 	$(DOCKER_COMPOSE) --file=$(PROJECT_DIR) up --build --detach 
 
 down:
-	$(DOCKER_COMPOSE) --file=$(PROJECT_DIR) down --rmi all --remove-orphans -v
+	- $(DOCKER_COMPOSE) --file=$(PROJECT_DIR) down --rmi all --remove-orphans -v
 
 logs:
 	$(DOCKER_COMPOSE) --file=$(PROJECT_DIR) logs 

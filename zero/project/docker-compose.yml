@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: python backend/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - dados_compartilhados:/app/backend/staticfiles
+    expose:
+      - "8000"
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8000:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - dados_compartilhados:/app/backend/staticfiles 
+    depends_on:
+      - web
+
+volumes:
+  dados_compartilhados:  # Definição do volume compartilhado

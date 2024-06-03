@@ -1,4 +1,3 @@
-# srcs/docker-compose.yml
 version: '3.8'
 
 services:
@@ -17,9 +16,11 @@ services:
     build:
       context: ./django
       dockerfile: Dockerfile
-    command: gunicorn ft_transcendence.wsgi:application --bind 0.0.0.0:8000
+    command: >
+      sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - ./django:/code
+      - ./django:/app
+      - staticfiles:/app/staticfiles 
     ports:
       - "8000:8000"
     depends_on:
@@ -42,6 +43,7 @@ services:
     volumes:
       - ssl_certificates:/etc/nginx/certs
       - ./nginx:/etc/nginx/conf.d
+      - staticfiles:/app/staticfiles 
     depends_on:
       - web
 
@@ -53,3 +55,4 @@ volumes:
       type: none
       o: bind
       device: ./srcs/ssl
+  staticfiles:  
