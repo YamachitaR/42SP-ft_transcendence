@@ -1,0 +1,22 @@
+<!-- backend/templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPA com Django e JavaScript</title>
+    {% load static %}
+</head>
+<body>
+    <div id="app">
+        <h1>Lista de Tarefas</h1>
+        <ul id="todo-list"></ul>
+        <form id="todo-form">
+            <input type="text" id="todo-title" placeholder="Nova Tarefa">
+            <button type="submit">Adicionar</button>
+        </form>
+    </div>
+    <script src="{% static 'main.js' %}"></script>
+</body>
+</html>
