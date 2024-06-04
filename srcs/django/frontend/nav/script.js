@@ -20,6 +20,9 @@ function loadPage(page) {
         case 'ranking':
             content.innerHTML = '<h1>Ranking</h1><p>Ranking details...</p>';
             break;
+        case 'chat':
+            content.innerHTML = '<h1>Chat </h1><p> Chat..</p>';
+            break;
         default:
             content.innerHTML = '<h1>404 Not Found</h1>';
     }
