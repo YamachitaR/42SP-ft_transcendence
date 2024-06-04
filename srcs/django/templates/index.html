@@ -1,20 +1,26 @@
 <!-- backend/templates/index.html -->
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>42SP-Ft_transcendence</title>
-    {% load static %}
-</head>
-<body>
 
-<!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{% static 'style.css' %}" rel="stylesheet">
+  <title>42SP-ft_transcendence</title>
+</head>
+
+<body class="d-flex-column">
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#"><img
+        src="https://user-images.githubusercontent.com/37448340/134789193-f88ff2a8-e8b8-4bf8-a438-5c0a7c8cce8e.png"
+        width="100" height="40" alt="Logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -23,25 +29,38 @@
           <a class="nav-link" href="#" onclick="loadPage('home')">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" onclick="loadPage('features')">Features</a>
+          <a class="nav-link" href="#" onclick="loadPage('game')">Game</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" onclick="loadPage('pricing')">Pricing</a>
+          <a class="nav-link" href="#" onclick="loadPage('ranking')">Ranking</a>
         </li>
       </ul>
     </div>
   </nav>
-  
-  <!-- Content -->
-  <div class="container" id="content">
-      <!-- Content will be loaded here -->
+
+
+
+
+  <div class="container flex-grow-1" id="content">
+    <h1>Bem-vindo ao Meu Site</h1>
+    <p>Este é um exemplo de página com um footer fixado na parte inferior usando Bootstrap e Flexbox.</p>
+
   </div>
-  
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white mt-5">
+    <div class="bg-secondary text-center py-3">
+      &copy; 2024 42SP-ft_transcendence. 
+    </div>
+  </footer>
+
+
   <!-- Bootstrap JS and dependencies -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="{% static 'script.js' %}"></script>
+  <script src="{% static 'nav/script.js' %}"></script>
   <script src="{% static 'man/man.js' %}"></script>
 </body>
+
 </html>

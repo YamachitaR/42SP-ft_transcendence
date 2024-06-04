@@ -1,0 +1,14 @@
+html, body {
+    height: 100%;
+    margin: 0;
+
+}
+.d-flex-column {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.flex-grow-1 {
+    flex: 1;
+}

@@ -14,11 +14,11 @@ function loadPage(page) {
                     content.innerHTML = `<h1>${data.message}</h1>`;
                 });
             break;
-        case 'features':
-            content.innerHTML = '<h1>Features</h1><p>List of features...</p>';
+        case 'game':
+            content.innerHTML = '<h1>Criar o jogo.</h1>';
             break;
-        case 'pricing':
-            content.innerHTML = '<h1>Pricing</h1><p>Pricing details...</p>';
+        case 'ranking':
+            content.innerHTML = '<h1>Ranking</h1><p>Ranking details...</p>';
             break;
         default:
             content.innerHTML = '<h1>404 Not Found</h1>';
