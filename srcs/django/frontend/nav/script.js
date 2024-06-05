@@ -15,7 +15,12 @@ function loadPage(page) {
                 });
             break;
         case 'game':
-            content.innerHTML = '<h1>Criar o jogo.</h1>';
+            content.innerHTML = `
+            <canvas id="canvas" width="800" height="500"></canvas>
+        `;
+            var canvas = document.getElementById('canvas');
+            var game = new PongGame.Game(canvas, 800, 500);
+            game.play();
             break;
         case 'ranking':
             content.innerHTML = '<h1>Ranking</h1><p>Ranking details...</p>';

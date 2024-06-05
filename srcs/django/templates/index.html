@@ -9,6 +9,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="{% static 'style.css' %}" rel="stylesheet">
+
+
+  <link rel="stylesheet" type="text/css" href="{% static 'pong/pong.css' %}">
+  <script src="{% static 'pong/pong.js' %}"></script>
+  <script src="{% static 'pong/collision_detector.js' %}"></script>
+  <script src="{% static 'pong/paddle.js' %}"></script>
+  <script src="{% static  'pong/player.js' %}"></script>
+  <script src="{% static 'pong/ball.js' %}"></script>
+
   <title>42SP-ft_transcendence</title>
 </head>
 
@@ -20,7 +29,7 @@
       <img src="https://user-images.githubusercontent.com/37448340/134789193-f88ff2a8-e8b8-4bf8-a438-5c0a7c8cce8e.png"
         width="100" height="40" alt="Logo">
     </a>
-   
+
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
@@ -36,10 +45,21 @@
           <a class="nav-link" href="#" onclick="loadPage('chat')">Chat</a>
         </li>
       </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/login">
+            <button type="button" class="btn btn-outline-secondary">Login</button>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/sign">
+            <button type="button" class="btn btn-outline-secondary">Sign up</button>
+          </a>
+        </li>
+      </ul>
+
     </div>
-    <form class="form-inline">
-      <button class="btn btn-secondary" id="changeContentButton" type="button">Loginn</button>
-    </form>
+
   </nav>
 
 
@@ -51,12 +71,16 @@
 
   </div>
 
+
+
   <!-- Footer -->
   <footer class="bg-dark text-white mt-5">
     <div class="bg-secondary text-center py-3">
-      &copy; 2024 42SP-ft_transcendence. 
+      &copy; 2024 42SP-ft_transcendence.
     </div>
   </footer>
+
+
 
 
   <!-- Bootstrap JS and dependencies 
