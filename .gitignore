@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+carol
+
 # Distribution / packaging
 .Python
 build/

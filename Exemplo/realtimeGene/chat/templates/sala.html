@@ -1,0 +1,53 @@
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Geek Chat</title>
+    {% bootstrap_css %}
+</head>
+<body>
+    <div class="container">
+        <textarea id="sala" cols="70" rows="15"></textarea><br/>
+        <input id="texto" type="text" size="50"/><br/>
+        {% buttons %}
+            <input id="botao" type="button" value="Enviar" />
+        {% endbuttons %}
+    </div>
+
+{% bootstrap_javascript jquery='full' %}
+<script>
+    var nome_sala = {{ nome_sala_json }};
+
+    var chatSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/chat/' + nome_sala + '/');
+
+    chatSocket.onmessage = function(e){
+        var dados = JSON.parse(e.data);
+        var mensagem = dados['mensagem'];
+        document.querySelector('#sala').value += (mensagem + '\n');
+    };
+
+    chatSocket.onclose = function(e){
+        console.error('O chat encerrou de forma inesperada.');
+    };
+
+    document.querySelector('#texto').focus();
+    document.querySelector('#texto').onkeyup = function(e){
+        if(e.keyCode === 13){
+            document.querySelector('#botao').click();
+        }
+    };
+
+    document.querySelector('#botao').onclick = function(e){
+        var mensagemInput = document.querySelector('#texto');
+        var mensagem = mensagemInput.value;
+        chatSocket.send(JSON.stringify({
+            'mensagem': mensagem
+        }));
+        mensagemInput.value = '';
+    };
+</script>
+</body>
+</html>

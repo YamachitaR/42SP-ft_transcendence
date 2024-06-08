@@ -1,0 +1,38 @@
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Geek Chat</title>
+    {% bootstrap_css %}
+</head>
+<body>
+ <div clas="container">
+     Qual sala de chat você gostaria de entrar?<br/>
+        <input id="nome_sala" name="nome_sala" type="text" size="100" placeholder="Nome da sala..."><br/>
+        {% buttons %}
+            <input id="botao" class="btn btn-primary" type="button" value="Entrar" />
+        {% endbuttons %}
+ </div>
+ <script>
+     document.querySelector('#nome_sala').focus();
+     document.querySelector('#nome_sala').onkeyup = function(e){
+         if(e.keyCode === 13){
+             document.querySelector('#botao').click();
+         }
+     };
+
+     document.querySelector('#botao').onclick = function(e){
+         var nome_sala = document.querySelector('#nome_sala').value;
+         if(nome_sala != ""){
+             window.location.pathname = '/chat/' + nome_sala + '/';
+         }else{
+             alert('Você precisa informar o nome da sala.');
+             document.querySelector('#nome_sala').focus();
+         }
+     };
+
+ </script>
+{% bootstrap_javascript jquery='full' %}
+</body>
+</html>
