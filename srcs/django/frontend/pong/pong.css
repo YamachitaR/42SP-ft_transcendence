@@ -1,5 +1,13 @@
-#canvas {
+#canvas_grey {
  background-color: #353535;
+}
+
+#canvas_orange {
+  background-color: #D2691E;
+}
+
+#canvas {
+  background-color: #98FB98;
 }
 
 body {
