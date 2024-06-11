@@ -6,18 +6,17 @@
   }
     var Game = PongGame.Game = function (canvas, width, height, ball_color, ground_color, l_color, r_color, ball_url, ground_url) {
       this.canvas = canvas;
-      this.ball_color = ball_color;
-      this.ground_color = ground_color;
-      this.ground_url = ground_url;
-      this.l_color = l_color;
-      this.r_color = r_color;
       this.context = canvas.getContext('2d');
+      //Define o tamanho da tela do game
       this.canvas.width = width;
       this.canvas.height = height;
-      this.ball = new PongGame.Ball(this.context, this.ball_color, ball_url);
-      this.groud = new PongGame.Ground(this.context, width, height, this.ground_color, this.ground_url);
-      this.playerLeft = new PongGame.Player(this.context, "left", this.l_color);
-      this.playerRight = new PongGame.Player(this.context, "right", this.r_color);
+      //Define a bolinha e a quadra
+      this.ball = new PongGame.Ball(this.context, ball_color, ball_url);
+      this.groud = new PongGame.Ground(this.context, width, height, ground_color, ground_url);
+      //cria os players
+      this.playerLeft = new PongGame.Player(this.context, "left", l_color);
+      this.playerRight = new PongGame.Player(this.context, "right", r_color);
+      //Cria a detecção de colisão
       this.leftDetector = new PongGame.CollisionDetector(this.playerLeft, this.ball, this.context);
       this.rightDetector = new PongGame.CollisionDetector(this.playerRight, this.ball, this.context);
     }
