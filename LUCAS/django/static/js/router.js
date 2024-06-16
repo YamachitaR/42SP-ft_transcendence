@@ -1,3 +1,5 @@
+import { renderPong } from './views/pong.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     function navigate(event) {
         event.preventDefault();
@@ -10,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 	function handleRoute(route) {
+		let content = '';
         switch (route) {
             case '/example':
                 console.log('Example route clicked.');
@@ -18,12 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('About route clicked.');
                 break;
             case '/pong/':
+				content = renderPong();
                 console.log('Pong route clicked.');
                 break;
             default:
                 console.log('Unknown route clicked.' + route);
                 break;
         }
+		document.getElementById('content').innerHTML = content;
     }
 
     document.querySelectorAll('.menu-link').forEach(link => {
