@@ -9,11 +9,11 @@ all: up
 	@echo "\033[0;33m	Try "./foda-se" \033[0m"
 
 build:
-	docker compose build
+	docker-compose build
 
 up:
-	docker compose up --build -d
-	docker compose logs -f nginx
+	docker-compose up --build -d
+	docker-compose logs -f nginx
 
 inpostgres:
 	docker exec -it c_postgres psql -U admin -d pong
@@ -25,7 +25,7 @@ innginx:
 	docker exec -it c_nginx bash
 
 down:
-	docker compose down
+	docker-compose down
 
 clean:
 	docker rm -f $$(docker ps -a -q) || true

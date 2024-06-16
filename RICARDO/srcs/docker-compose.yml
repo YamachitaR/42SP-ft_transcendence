@@ -3,6 +3,7 @@ version: '3.8'
 services:
   db:
     image: postgres:15
+    container_name: c_postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
@@ -13,6 +14,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
 
   web:
+    container_name: c_django
     build:
       context: ./django
       dockerfile: Dockerfile
@@ -39,11 +41,12 @@ services:
 
   nginx:
     image: nginx:latest
+    container_name: c_nginx
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ssl_certificates:/etc/nginx/certs
+      - ssl_certificates:/etc/ssl
       - ./nginx:/etc/nginx/conf.d
       - staticfiles:/app/staticfiles
     depends_on:
@@ -52,10 +55,11 @@ services:
 
 volumes:
   postgres_data:
+  staticfiles:
   ssl_certificates:
     driver: local
+    name: ssl_certificates
     driver_opts:
       type: none
       o: bind
-      device: ./srcs/ssl
-  staticfiles:
+      device: ./ssl

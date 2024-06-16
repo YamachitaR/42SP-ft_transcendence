@@ -2,7 +2,7 @@
 
 # Variáveis
 DOCKER_COMPOSE = sudo docker-compose
-PROJECT_DIR = ./srcs/docker-compose.yml
+PROJECT_DIR = docker-compose.yml
 
 # Comandos
 up:

@@ -1,6 +1,6 @@
 FROM postgres:latest
 
-COPY ../.env /app/.env
+#COPY ../.env /app/.env
 
 ENV POSTGRES_USER=$POSTGRES_USER
 ENV POSTGRES_PASSWORD=$POSTGRES_PASSWORD
