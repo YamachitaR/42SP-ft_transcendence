@@ -11,6 +11,7 @@ services:
       - "5432:5432"
     volumes:
       - ./model/data:/var/lib/postgresql/data
+    restart: on-failure
 
   django:
     container_name: c_django
@@ -28,6 +29,7 @@ services:
     env_file:
       - ./.env
     command: ["./waitPostgres.sh", "postgres", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+    restart: on-failure
 
   nginx:
     container_name: c_nginx
@@ -36,13 +38,21 @@ services:
       dockerfile: Dockerfile
     image: i_nginx
     volumes:
-      - ./nginx:/bk_nginx
+      - ssl_certificates:/etc/ssl
       - static_volume:/bk_django/staticfiles
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - django
+    restart: on-failure
 
 volumes:
   static_volume:
-
+  ssl_certificates:
+    driver: local
+    name: ssl_certificates
+    driver_opts:
+      type: none
+      o: bind
+      device: ./ssl

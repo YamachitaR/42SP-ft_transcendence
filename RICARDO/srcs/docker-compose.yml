@@ -21,7 +21,7 @@ services:
       sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./django:/app
-      - staticfiles:/app/staticfiles 
+      - staticfiles:/app/staticfiles
     ports:
       - "8000:8000"
     depends_on:
@@ -30,7 +30,7 @@ services:
       - ./.env
     environment:
       DEBUG: ${DEBUG}
-      SECRET_KEY: ${SECRET_KEY} 
+      SECRET_KEY: ${SECRET_KEY}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
       DB_NAME: ${DB_NAME}
@@ -45,9 +45,10 @@ services:
     volumes:
       - ssl_certificates:/etc/nginx/certs
       - ./nginx:/etc/nginx/conf.d
-      - staticfiles:/app/staticfiles 
+      - staticfiles:/app/staticfiles
     depends_on:
       - web
+    
 
 volumes:
   postgres_data:
@@ -57,4 +58,4 @@ volumes:
       type: none
       o: bind
       device: ./srcs/ssl
-  staticfiles:  
+  staticfiles:

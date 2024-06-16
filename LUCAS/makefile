@@ -13,7 +13,7 @@ build:
 
 up:
 	docker compose up --build -d
-	docker compose logs -f django
+	docker compose logs -f nginx
 
 inpostgres:
 	docker exec -it c_postgres psql -U admin -d pong
