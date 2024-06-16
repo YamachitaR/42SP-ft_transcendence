@@ -6,16 +6,16 @@ PROJECT_DIR = ./srcs/docker-compose.yml
 
 # Comandos
 up:
-	$(DOCKER_COMPOSE)  --file=$(PROJECT_DIR) up --build --detach 
+	$(DOCKER_COMPOSE)  --file=$(PROJECT_DIR) up --build --detach
 
 up-detached:
-	$(DOCKER_COMPOSE) --file=$(PROJECT_DIR) up --build --detach 
+	$(DOCKER_COMPOSE) --file=$(PROJECT_DIR) up --build --detach
 
 down:
 	-$(DOCKER_COMPOSE) --file=$(PROJECT_DIR) down --rmi all --remove-orphans -v
 
 logs:
-	$(DOCKER_COMPOSE) --file=$(PROJECT_DIR) logs 
+	$(DOCKER_COMPOSE) --file=$(PROJECT_DIR) logs
 
 start:
 	$(DOCKER_COMPOSE) --file=$(PROJECT_DIR) start
@@ -59,7 +59,7 @@ all: up
 clean-volume:
 	$(DOCKER_COMPOSE) down -v
 
-clean: down 
+clean: down
 	clean-volume
 
 
@@ -77,4 +77,4 @@ help:
 
 re: fclean all
 
-.PHONY: all run up down start stop ls clean fclean re 
+.PHONY: all run up down start stop ls clean fclean re

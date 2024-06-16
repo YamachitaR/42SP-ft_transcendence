@@ -23,7 +23,7 @@ function loadPage(page) {
             game.play();
             break;
         case 'ranking':
-            content.innerHTML = '<h1>Ranking</h1><p>Ranking details...</p>';
+            content.innerHTML = '<h1 class="display-1">Display 1</h1>';
             break;
         case 'chat':
             content.innerHTML = '<h1>Chat </h1><p> Chat..</p>';

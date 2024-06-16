@@ -1,0 +1,48 @@
+services:
+  postgres:
+    container_name: c_postgres
+    build:
+      context: .
+      dockerfile: ./model/Dockerfile
+    image: i_postgres
+    env_file:
+      - ./.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./model/data:/var/lib/postgresql/data
+
+  django:
+    container_name: c_django
+    build:
+      context: ./django
+      dockerfile: Dockerfile
+    image: i_django
+    volumes:
+      - ./django:/bk_django
+      - static_volume:/bk_django/staticfiles
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres  # Define que o serviço web depende do serviço db
+    env_file:
+      - ./.env
+    command: ["./waitPostgres.sh", "postgres", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+  nginx:
+    container_name: c_nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: i_nginx
+    volumes:
+      - ./nginx:/bk_nginx
+      - static_volume:/bk_django/staticfiles
+    ports:
+      - "80:80"
+    depends_on:
+      - django
+
+volumes:
+  static_volume:
+
