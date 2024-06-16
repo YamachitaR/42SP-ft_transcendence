@@ -35,6 +35,9 @@ clean:
 stop:
 	docker compose stop
 
+collectstatic:
+    docker compose -f docker-compose.yml exec django python manage.py collectstatic --noinput
+
 atualizar: stop down build up
 
 fclean: down clean

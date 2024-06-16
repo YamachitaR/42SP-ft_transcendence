@@ -2,14 +2,67 @@
 <html lang="pt-br">
 	{% load static %}
 	<head>
-	    <meta charset="UTF-8">
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	    <title>Página Simples</title>
-	    <link rel="stylesheet" href="{% static '/css/lucas.css' %}">
+		<title>Transcendence do Tigrinho</title>
+		<link rel="icon" href="{% static '/img/favicon.ico' %}">
+
+		<meta charset="UTF-8">
+		<meta name="author" content="Emerson Silva - Lucas Apontes - Ricardo Yamachita">
+		<meta name="description" content="Bem Vindo ao Trancendence do Tigrinho 42sp">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	</head>
+
 	<body>
-		<h1>Olá, Porra!</h1>
-	    <p>Esta é uma página HTML simples servida pelo Django.</p>
-		<img src="{% static '/img/death.png' %}" alt="Django">
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<div>
+
+					<button
+						type="button" class="btn btn-primary menu-link"
+						data-route="/pong/">
+						PONG
+					</button>
+
+
+					<button
+					type="button" class="btn btn-primary menu-link"
+						data-route="/chat/">
+						CHAT
+					</button>
+
+
+					<!-- <button class="menu-link" data-route="/pong/"><img class="menu-img" src="{% static 'main/img/pong.png' %}"><p class="menu-text">Pong</p></button>
+					<button class="menu-link" data-route="/ranking/total"><img class="menu-img" src="{% static 'main/img/ranking.png' %}"><p class="menu-text">Ranking</p></button>
+					<button class="menu-link" data-route="/chat/"><img class="menu-img" src="{% static 'main/img/chats.png' %}"><p class="menu-text">Chats</p></button>
+					<button class="menu-link" data-route="/friends/"><img class="menu-img" src="{% static 'main/img/users.png' %}"><p class="menu-text">Friends</p></button> -->
+				</div>
+				<div >
+					<button type="button" class="btn btn-link">GAME->2</button>
+					<!-- <button class="menu-link" data-route="/sign_in/"><img class="menu-img" src="{% static 'main/img/signin.png' %}"><p class="menu-text">Sign in</p></button>
+					<button class="menu-link" data-route="/sign_up/"><img class="menu-img" src="{% static 'main/img/signup.png' %}"><p class="menu-text">Sign up</p></button> -->
+				</div>
+				<!-- <div>
+					<button class="menu-profile" id="button-profile" data-route="/profile/me">
+						<p class="menu-username" id="header-username"></p>
+						<img class="menu-img-user" id="header-user-photo" alt="profile picture">
+					</button>
+					<button class="menu-notifs" data-route="/notifications/">
+						<img class="menu-img-notifs" id="notifs-gif" alt="notifications">
+						<span class="notification-count" id="header-notification-count"></span>
+					</button>
+				</div> -->
+			</nav>
+		</header>
+
+		<div>
+			<!-- App -->
+			<div id="content"></div>
+
+			<footer>
+				<p>Transcendence do Tigrinho 42sp</p>
+			</footer>
+		</div>
+		<script src="{% static '/js/router.js' %}"></script>
 	</body>
 </html>
