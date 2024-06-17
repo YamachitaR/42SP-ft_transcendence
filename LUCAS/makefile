@@ -1,4 +1,7 @@
 NAME = Transcendence
+DOCKER = docker compose
+# DOCKER = sudo docker-compose
+
 
 all: up
 # message in terminal ************ #
@@ -9,11 +12,18 @@ all: up
 	@echo "\033[0;33m	Try "./foda-se" \033[0m"
 
 build:
-	docker compose build
+	$(DOCKER) build
 
 up:
-	docker compose up --build -d
-	docker compose logs -f nginx
+	$(DOCKER) up --build -d
+	$(DOCKER) logs -f nginx
+
+logDjango:
+	$(DOCKER) logs -f django
+logPostgres:
+	$(DOCKER) logs -f postgres
+logNginx:
+	$(DOCKER) logs -f nginx
 
 inpostgres:
 	docker exec -it c_postgres psql -U admin -d pong
@@ -25,7 +35,7 @@ innginx:
 	docker exec -it c_nginx bash
 
 down:
-	docker compose down
+	$(DOCKER) down
 
 clean:
 	docker rm -f $$(docker ps -a -q) || true
@@ -33,10 +43,10 @@ clean:
 	docker system prune --all --force --volumes
 
 stop:
-	docker compose stop
+	$(DOCKER) stop
 
 collectstatic:
-	docker compose -f docker-compose.yml exec django python manage.py collectstatic --noinput
+	$(DOCKER) -f docker-compose.yml exec django python manage.py collectstatic --noinput
 
 atualizar: stop down build up
 

@@ -13,4 +13,6 @@ until nc -z "$host" 5432; do
 done
 
 >&2 echo "waitPostgres: Postgres is up - executing command"
+python manage.py makemigrations app
+python manage.py migrate
 exec $cmd
