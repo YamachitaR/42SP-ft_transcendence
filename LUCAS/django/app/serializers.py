@@ -1,4 +1,3 @@
-
 from .models import TbUser
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
@@ -15,11 +14,11 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        user = TbUser.objects.create(
-            username=validated_data.get('username', ''),
-            email=validated_data['email'],
-			password=make_password(validated_data['password']),
-            nickname=validated_data.get('nickname', ''),
-            photo=validated_data.get('photo')
-        )
+        validated_data['username'] = validated_data.get('username', 'default_username')
+        validated_data['nickname'] = validated_data.get('nickname', 'default_nickname')
+        validated_data['photo'] = validated_data.get('photo', None)
+        validated_data['password'] = make_password(validated_data['password'])
+        print("Validated data: ", validated_data)
+        user = TbUser.objects.create(**validated_data)
+        print("User created: ", user)
         return user

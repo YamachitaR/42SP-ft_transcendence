@@ -12,7 +12,6 @@ def register(request):
             serializer = UserSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                print ("!!!!!!!!!salvo!!!!!!!!!")
                 return Response({'status': 'success', 'message': 'User registered successfully!'}, status=status.HTTP_201_CREATED)
             else:
                 return Response({'status': 'error', 'message': 'User registration failed!', 'errors': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
