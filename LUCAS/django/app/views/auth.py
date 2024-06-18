@@ -4,6 +4,8 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from app.serializers import UserSerializer
 from app.models import CustomUser
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class RegisterView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
@@ -29,3 +31,21 @@ class LoginView(generics.GenericAPIView):
             token, created = Token.objects.get_or_create(user=user)
             return Response({'token': token.key})
         return Response({'error': 'Invalid Credentials'}, status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
+
+
+class CheckAuthView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        if user.is_authenticated:
+            return Response({'authenticated': True})
+        else:
+            return Response({'authenticated': False}, status=401)

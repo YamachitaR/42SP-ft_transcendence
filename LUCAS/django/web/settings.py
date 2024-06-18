@@ -47,6 +47,9 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'app.CustomUser'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'login'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -56,7 +59,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
 }
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
