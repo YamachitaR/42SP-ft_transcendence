@@ -36,7 +36,6 @@ function handleButtonClick(event) {
             break;
         case '/logout/':
             logout();
-            window.location.href = '/';
             break;
         default:
             content = '<h1>Welcome to the Main Page</h1>';
