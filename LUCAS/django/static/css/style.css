@@ -10,6 +10,8 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #58554a;
+	 display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -118,3 +120,76 @@ footer {
     font-weight: 400;
     font-style: normal;
 }
+
+#content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
+
+
+/* tela de login lucas excluir */
+.card {
+    width: 100%;
+    max-width: 400px;
+    background-color: #333;
+    border-color: #daa520;
+}
+
+.card-title {
+    color: #daa520;
+}
+
+.form-label {
+    color: #fff;
+}
+
+.btn {
+    background-color: #daa520;
+    color: #333;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid #daa520;
+    color: #daa520;
+}
+
+#login-42-button {
+    background-color: #000;
+    color: #fff;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.justify-content-center {
+    justify-content: center !important;
+}
+
+.align-items-center {
+    align-items: center !important;
+}
+
+.min-vh-100 {
+    min-height: 100vh !important;
+}
+
+.mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.d-grid {
+    display: grid !important;
+    gap: 10px; /* Espaçamento entre botões */
+}
+
+/* fim tela login lucas excluir */

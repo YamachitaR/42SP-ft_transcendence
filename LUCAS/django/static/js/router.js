@@ -2,18 +2,22 @@ import { checkAuth } from './asset/auth.js';
 import { logout } from './asset/logout.js';
 import { renderPong } from './views/pong.js';
 import renderLogin from './views/login.js';
+import renderRegister from './views/register.js';
+import { addLoginFormListener } from './asset/loginEvent.js';
+import { addRegisterFormListener, addLoginButtonListener } from './asset/registerEvent.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const isAuthenticated = await checkAuth();
     if (isAuthenticated) {
         console.log('Usuário está autenticado');
-		document.getElementById('nav-buttons').style.display = 'block';
+        document.getElementById('nav-buttons').style.display = 'block';
         document.getElementById('content').innerHTML = '<h1>Welcome to the Main Page</h1>';
     } else {
         console.log('Usuário não está autenticado');
-		document.getElementById('nav-buttons').style.display = 'none';
-		document.getElementById('content').innerHTML = renderLogin();
+        document.getElementById('nav-buttons').style.display = 'none';
+        document.getElementById('content').innerHTML = renderLogin();
         addLoginFormListener();
+        addRegisterButtonListener();
     }
 
     document.querySelectorAll('.menu-link').forEach(link => {
@@ -33,7 +37,6 @@ function handleButtonClick(event) {
         case '/logout/':
             logout();
             window.location.href = '/';
-            addLoginFormListener(); // Adicionar o listener para o formulário de login após o logout
             break;
         default:
             content = '<h1>Welcome to the Main Page</h1>';
@@ -42,26 +45,10 @@ function handleButtonClick(event) {
     document.getElementById('content').innerHTML = content;
 }
 
-function addLoginFormListener() {
-    document.getElementById('login-form').addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const email = event.target.email.value;
-        const password = event.target.password.value;
-
-        const response = await fetch('/api/login/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-            window.location.href = '/'; // Recarregar a página para refletir o estado autenticado
-        } else {
-            alert('Login failed');
-        }
+function addRegisterButtonListener() {
+    document.getElementById('register-button').addEventListener('click', () => {
+        document.getElementById('content').innerHTML = renderRegister();
+        addRegisterFormListener();
+        addLoginButtonListener();
     });
 }
