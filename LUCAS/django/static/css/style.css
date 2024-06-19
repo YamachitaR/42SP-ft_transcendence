@@ -1,32 +1,120 @@
-.contentStyle {
-    background-color: rgb(105, 105, 105);
-}
-
-.btn-custom {
-	background-color: rgb(231, 204, 47);
-	color: rgb(228, 19, 19);
-}
-
-
-html, body {
+html {
     height: 100%;
-    margin: 0;
+    width: 100%;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    background-color: #000; /* Cor de fundo preto */
+    height: 100%;
+    width: 100%;
+    font-size: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #58554a;
 }
 
-#content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+header {
+    /* height: 90px; */
+    height: 13%;
+    width: 100%;
+    font-size: 100%;
+    position: relative;
+    z-index: 1;
+    background-color: #b29642;
+    justify-content: space-between;
     align-items: center;
-    min-height: 60vh;
-    padding: 20px;
-    box-sizing: border-box;
+    padding: 10px 20px;
 }
 
+header h1 {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 400%;
+    color: #000;
+    margin: 0;
+}
+
+nav {
+    height: 4%;
+    position: relative;
+    z-index: 1;
+    margin-top: 10px;
+    background-color: #b29642;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 400px;
+}
+
+nav button {
+    height: 95%;
+    width: 300px;
+    background-color: #c7bca1;
+    border: none;
+    border-radius: 5px;
+    padding: 0px 20px;
+    font-size: 10px;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+nav button:hover {
+    background-color: #bbb;
+}
+
+.logo_header {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    transform: translateX(-50%);
+    height: 24%;
+    width: auto;
+}
+
+.logo_left{
+    left: 10%;
+}
+
+.logo_right{
+    left: 90%;
+}
+
+.box_shandow {
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.contentStyle {
+    height: 69%;
+}
+
+.decorate_footer {
+    height: 3%;
+    position: relative;
+    z-index: 1;
+    margin-top: 10px;
+    background-color: #b29642;
+}
+
+footer {
+    height: 11%;
+    position: relative;
+    z-index: 1;
+    margin-top: 10px;
+    background-color: #b29642;
+}
+
+.logo_footer {
+    position: absolute;
+    z-index: 2;
+    top: 88%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 20%;
+    width: auto;
+}
+
+.montez-regular {
+    font-family: "Montez", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
