@@ -5,6 +5,10 @@ export default function renderRegister() {
                 <div class="card-body">
                     <h3 class="card-title text-center" style="color: #daa520;">Cadastrar</h3>
                     <form id="register-form">
+					    <div class="mb-3">
+                            <label for="username" class="form-label" style="color: #fff;">Username</label>
+                            <input type="username" class="form-control" id="username" name="username" required>
+                        </div>
                         <div class="mb-3">
                             <label for="email" class="form-label" style="color: #fff;">Email</label>
                             <input type="email" class="form-control" id="email" name="email" required>
@@ -23,3 +27,4 @@ export default function renderRegister() {
         </div>
     `;
 }
+
