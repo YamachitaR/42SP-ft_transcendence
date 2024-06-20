@@ -18,8 +18,8 @@ services:
       dockerfile: Dockerfile
     image: i_django
     volumes:
-      - django_volume:/bk_django
-      - static_volume:/bk_django/staticfiles
+      - ./django:/bk_django
+      - ./django/static:/bk_django/staticfiles
     ports:
       - "8000:8000"
     depends_on:
@@ -37,7 +37,7 @@ services:
     image: i_nginx
     volumes:
       - ssl_certificates:/etc/ssl
-      - static_volume:/bk_django/staticfiles
+      - ./django/static:/bk_django/staticfiles
     ports:
       - "80:80"
       - "443:443"
