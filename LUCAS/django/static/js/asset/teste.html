@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Link para seu CSS -->
+    <style>
+        body {
+            background-color: #f0f0f0; /* Cor de fundo atual */
+            font-family: Arial, sans-serif;
+        }
+        .profile-container {
+            background-color: #fff; /* Fundo branco para o container principal */
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+        }
+        .profile-header input {
+            display: none;
+        }
+        .profile-header label {
+            display: inline-block;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .profile-field {
+            margin-bottom: 15px;
+        }
+        .profile-field label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .profile-field input, .profile-field textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .profile-field textarea {
+            resize: vertical;
+        }
+        .save-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff; /* Cor do botão */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .save-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="{% if user.profile.photo %}{{ user.profile.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="Profile Photo">
+            <input type="file" id="profile-photo" name="photo">
+            <label for="profile-photo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M20 4h-3.17l-1.84-2h-6l-1.83 2h-3.17c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h16c1.11 0 2-.9 2-2v-14c0-1.1-.89-2-2-2zm-10 4c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3zm8 10h-16v-1c0-2 4-3.1 8-3.1s8 1.1 8 3.1v1z"/>
+                </svg>
+            </label>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="profile-field">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="{{ user.username }}" required>
+            </div>
+            <div class="profile-field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+            <div class="profile-field">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" value="{{ user.profile.age }}">
+            </div>
+            <div class="profile-field">
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio">{{ user.profile.bio }}</textarea>
+            </div>
+            <button type="submit" class="save-button">Save Changes</button>
+        </form>
+    </div>
+</body>
+</html>

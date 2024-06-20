@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   postgres:
     container_name: c_postgres
@@ -18,12 +20,12 @@ services:
       dockerfile: Dockerfile
     image: i_django
     volumes:
-      - ./django:/bk_django
+      - django_volume:/bk_django
       - static_volume:/bk_django/staticfiles
     ports:
       - "8000:8000"
     depends_on:
-      - postgres  # Define que o serviço web depende do serviço db
+      - postgres
     env_file:
       - ./.env
     command: ["./waitPostgres.sh", "postgres", "python", "manage.py", "runserver", "0.0.0.0:8000"]
@@ -47,6 +49,9 @@ services:
 
 volumes:
   static_volume:
+    driver: local
+  django_volume:
+    driver: local
   ssl_certificates:
     driver: local
     name: ssl_certificates
