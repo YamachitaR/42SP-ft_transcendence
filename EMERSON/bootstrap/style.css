@@ -1,0 +1,72 @@
+.bg-body-color {
+    background-color: antiquewhite;
+}
+
+.my-bg-gold {
+    background-color: #b29642;
+}
+
+.bg-dashboard {
+    background-color:gray;
+}
+
+.bg-dashboard-2 {
+    background-color:dimgray;
+}
+
+.btn-custom-menu {
+    background-color: #b29642;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-custom-menu:hover {
+    color: black;
+    background-color: antiquewhite;
+}
+
+.btn-custom {
+    background-color: dimgray;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-custom:hover {
+    color: black;
+    background-color: antiquewhite;
+}
+
+.no-content {
+    height: 70vh;
+}
+
+.h-2vh {
+    height: 2vh;
+}
+
+.h-4vh {
+    height: 4vh;
+}
+
+.h-6vh {
+    height: 6vh;
+}
+
+.h-8vh {
+    height: 8vh;
+}
+
+.h-10vh {
+    height: 10vh;
+}
+
+.montez-regular {
+    font-family: "Montez", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.country-flags-size {
+    height: 20px;
+    width: auto;
+}
