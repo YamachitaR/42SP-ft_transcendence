@@ -38,7 +38,11 @@ down:
 
 clean:
 	docker rm -f $$(docker ps -a -q) || true
+	$(DOCKER) down --volumes --remove-orphans
 	docker volume rm -f $$(docker volume ls -q) || true
+	docker image prune -a -f
+	docker network prune -f
+	docker container prune -f
 	docker system prune --all --force --volumes
 
 stop:
