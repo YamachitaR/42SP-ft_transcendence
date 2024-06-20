@@ -1,5 +1,4 @@
 import renderLogin from '../views/login.js';
-import { addLoginFormListener } from './loginEvent.js';
 
 export function addRegisterFormListener() {
     document.getElementById('register-form').addEventListener('submit', async (event) => {
@@ -24,18 +23,10 @@ export function addRegisterFormListener() {
             alert('Registration failed');
         }
     });
-
-    // document.getElementById('login-button').addEventListener('click', () => {
-    //     document.getElementById('content').innerHTML = renderLogin();
-    //     addLoginFormListener();
-    //     addRegisterButtonListener();
-    // });
 }
 
 export function addLoginButtonListener() {
-    document.getElementById('login-button').addEventListener('click', () => {
-        document.getElementById('content').innerHTML = renderLogin();
-        addLoginFormListener();
-        addRegisterButtonListener();
-    });
+	document.getElementById('login-button').addEventListener('click', () => {
+	        window.location.href = 'http://localhost/';
+	});
 }

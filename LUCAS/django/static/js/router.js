@@ -6,7 +6,23 @@ import renderRegister from './views/register.js';
 import { addLoginFormListener } from './asset/loginEvent.js';
 import { addRegisterFormListener, addLoginButtonListener } from './asset/registerEvent.js';
 
+
+function getQueryParameter(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
+
+function checkAndStoreToken() {
+    const token = getQueryParameter('token');
+    if (token) {
+        localStorage.setItem('token', token);
+		window.location.href = '/';
+    }
+}
+
+
 document.addEventListener('DOMContentLoaded', async () => {
+	checkAndStoreToken()
     const isAuthenticated = await checkAuth();
     if (isAuthenticated) {
         console.log('Usuário está autenticado');
@@ -18,6 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('content').innerHTML = renderLogin();
         addLoginFormListener();
         addRegisterButtonListener();
+		api42login();
     }
 
     document.querySelectorAll('.menu-link').forEach(link => {
@@ -50,4 +67,10 @@ function addRegisterButtonListener() {
         addRegisterFormListener();
         addLoginButtonListener();
     });
+}
+
+function api42login() {
+	document.getElementById('login-42-button').addEventListener('click', () => {
+	        window.location.href = 'http://localhost/login-external/';
+	    });
 }

@@ -1,6 +1,6 @@
 # app/urls.py
 from django.urls import path, include
-from .views.auth import RegisterView, LoginView, LogoutView, CheckAuthView
+from .views.auth import RegisterView, LoginView, LogoutView, CheckAuthView, external_login, external_callback
 from .views import views
 
 urlpatterns = [
@@ -9,4 +9,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
 	path('logout/', LogoutView.as_view(), name='logout'),
 	path('check-auth/', CheckAuthView.as_view(), name='check_auth'),
+	path('login-external/', external_login, name='external_login'),
+    path('callback/', external_callback, name='external_callback'),
+
 ]
