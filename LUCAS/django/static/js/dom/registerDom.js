@@ -1,6 +1,4 @@
-import renderLogin from '../views/login.js';
-
-export function addRegisterFormListener() {
+export function domBtnRegister() {
     document.getElementById('register-form').addEventListener('submit', async (event) => {
         event.preventDefault();
         const username = event.target.username.value;
@@ -25,7 +23,7 @@ export function addRegisterFormListener() {
     });
 }
 
-export function addLoginButtonListener() {
+export function domBtnBackHome() {
 	document.getElementById('login-button').addEventListener('click', () => {
 	        window.location.href = 'http://localhost/';
 	});
