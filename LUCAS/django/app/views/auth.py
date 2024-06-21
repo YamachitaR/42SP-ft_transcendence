@@ -27,6 +27,7 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
+        data = request.data.copy()
         response = super().create(request, *args, **kwargs)
         user = CustomUser.objects.get(username=response.data['username'])
         token, created = Token.objects.get_or_create(user=user)

@@ -44,6 +44,16 @@ export async function apiLogout(token) {
 //   "password": "sua_senha"
 // }'
 
+
+// curl -X POST http://localhost:8000/api/users/ \
+//     -H "Content-Type: multipart/form-data" \
+//     -F "username=testeuser" \
+//     -F "email=testeuser@example.com" \
+//     -F "password=123456" \
+//     -F "image=@/caminho/para/sua/imagem.jpg"
+
+
+
 export async function apiSignup(username, email, password) {
 	const response = await fetch('/api/signup/', {
 		method: 'POST',

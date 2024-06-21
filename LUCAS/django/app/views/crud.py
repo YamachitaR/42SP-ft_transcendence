@@ -12,7 +12,7 @@ def get_user_info(request):
             'id': user.id,
             'username': user.username,
             'email': user.email,
-            # Adicione outras informações conforme necessário
+            'image': user.profile_image.url if user.profile_image else None
         }
         return JsonResponse(user_info)
     except User.DoesNotExist:

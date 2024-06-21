@@ -20,6 +20,7 @@ services:
     volumes:
       - ./django:/bk_django
       - ./django/static:/bk_django/staticfiles
+      - ./media:/bk_django/media
     ports:
       - "8000:8000"
     depends_on:
