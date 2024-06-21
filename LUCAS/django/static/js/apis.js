@@ -56,3 +56,17 @@ export async function apiSignup(username, email, password) {
 }
 
 
+// curl -X GET http://localhost/api/get-user-info/ \
+//      -H "Authorization: Token your_token_here"
+
+export async function apiUserInfo(token) {
+    const url = '/api/get-user-info/';
+    const options = {
+        method: 'GET',
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    };
+
+    return fetch(url, options);
+}

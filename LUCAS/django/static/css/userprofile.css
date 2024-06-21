@@ -1,0 +1,28 @@
+body {
+	background-color: #f8f9fa;
+	padding: 20px;
+}
+.profile-card {
+	max-width: 400px;
+	margin: auto;
+	background: white;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.profile-card img {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	margin-bottom: 20px;
+}
+.profile-card h2 {
+	margin-bottom: 10px;
+}
+.profile-card p {
+	margin-bottom: 5px;
+	color: #777;
+}
+.edit-form {
+	display: none;
+}

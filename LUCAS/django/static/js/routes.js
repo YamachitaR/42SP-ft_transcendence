@@ -5,6 +5,8 @@ import renderRegister from './views/registerViews.js';
 import { domBtnLogin, domBtnCad, domBtn42 } from './dom/loginDom.js';
 import { domBtnRegister, domBtnBackHome } from './dom/registerDom.js';
 import { logout } from './dom/logoutDom.js';
+import  renderProfileUser  from './views/userProfileViews.js';
+import { renderUserInfo } from './dom/userProfileDom.js';
 
 const routes = {
     '/login/': {
@@ -28,6 +30,12 @@ const routes = {
         template: '',
         init: () => {
             logout();
+        }
+    },
+	'/profile/': {
+        template: renderProfileUser(),
+        init: () => {
+            renderUserInfo();
         }
     },
 	'/playGame/': {

@@ -1,4 +1,4 @@
-import { apiLogout } from '../api/api.js';
+import { apiLogout } from '../apis.js';
 
 export async function logout() {
     const token = localStorage.getItem('token');
