@@ -60,6 +60,14 @@
     height: 10vh;
 }
 
+.h-20vh {
+    height: 20vh;
+}
+
+.h-50vh {
+    height: 50vh;
+}
+
 .montez-regular {
     font-family: "Montez", cursive;
     font-weight: 400;
