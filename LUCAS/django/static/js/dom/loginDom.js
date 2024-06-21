@@ -1,19 +1,15 @@
 import { domBtnRegister, domBtnBackHome } from "./registerDom.js";
 import  renderRegister  from "../views/registerViews.js";
+import { apiLogin } from "../apis.js";
 
 export function domBtnLogin() {
     document.getElementById('login-form').addEventListener('submit', async (event) => {
+
         event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;
 
-        const response = await fetch('/api/login/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
+		const response = await apiLogin(email, password);
 
         if (response.ok) {
             const data = await response.json();

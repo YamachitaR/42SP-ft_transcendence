@@ -1,3 +1,5 @@
+import { apiSignup } from "../apis";
+
 export function domBtnRegister() {
     document.getElementById('register-form').addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -5,14 +7,8 @@ export function domBtnRegister() {
         const password = event.target.password.value;
 		const email = event.target.email.value;
 
-        const response = await fetch('/api/signup/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, email, password })
-        });
-
+        const response = await apiSignup(username, email, password);
+		
         if (response.ok) {
             const data = await response.json();
             localStorage.setItem('token', data.token);
