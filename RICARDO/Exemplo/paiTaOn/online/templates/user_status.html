@@ -1,0 +1,21 @@
+<!-- myapp/templates/user_status.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Status</title>
+</head>
+<body>
+    <h2>User Status</h2>
+    {% if user.is_authenticated %}
+        <ul>
+            {% for user, online in users_status.items %}
+                <li>{{ user.username }} - {% if online %}Online{% else %}Offline{% endif %}</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+    <a href="{% url 'register' %}">Register a new user</a>
+</body>
+</html>

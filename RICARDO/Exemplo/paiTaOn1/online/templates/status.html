@@ -1,0 +1,44 @@
+<!-- myapp/templates/status.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Status</title>
+    <script>
+        function fetchUserStatus() {
+            fetch('/online/api/user_status/')
+                .then(response => response.json())
+                .then(data => {
+                    const userList = document.getElementById('user-list');
+                    userList.innerHTML = '';
+                    for (const [username, isOnline] of Object.entries(data)) {
+                        const status = isOnline ? 'Online' : 'Offline';
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${username} - ${status}`;
+                        userList.appendChild(listItem);
+                    }
+                })
+                .catch(error => console.error('Error fetching user status:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            fetchUserStatus();
+            setInterval(fetchUserStatus, 5000);  // Atualiza a cada 5 segundos
+        });
+    </script>
+</head>
+<body>
+    <h2>User Status</h2>
+    <ul id="user-list">
+        <!-- Status dos usuários serão carregados aqui -->
+    </ul>
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+    <a href="{% url 'register' %}">Register a new user</a>
+</body>
+</html>
