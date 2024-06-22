@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
     	<title>Bootstrap Teste</title>
-		<link href="style.css" rel="stylesheet">
+		<link href="../style.css" rel="stylesheet">
 
 		<link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,42 +16,43 @@
 		<header class="my-bg-gold shadow-lg conteiner">
 			<div class="row">
 				<div class="col-3">
-					<img src="../img/logo.png" class="img-fluid" alt="logo_tiger">
+					<img src="../../img/logo.png" class="img-fluid" alt="logo_tiger">
 				</div>
 				<div class="col-6 d-flex align-items-center justify-content-center">
 					<h1 class="montez-regular display-5">Fortune Tiger - Pong the Great Gain</h1>
 				</div>
 				<div class="col-3">
-					<img src="../img/logo.png" class="img-fluid" alt="logo_tiger">
+					<img src="../../img/logo.png" class="img-fluid" alt="logo_tiger">
 				</div>
 			</div>
 		</header>
-		<main class="contentStyle" id="content">
-			<div class="d-flex justify-content-center align-items-center min-vh-100">
-				<div class="card p-4" style="width: 100%; max-width: 400px; background-color: #333; border-color: #daa520;">
-					<div class="card-body">
-						<h3 class="card-title text-center" style="color: #daa520;">Cadastro</h3>
+		<main class="contentStyle bg-body-color" id="content">
+
+			<div class="conteiner m-4">
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 bg-dashboard rounded mx-auto">
+						<h3 class="mt-3 text-center text-light">Login</h3>
 						<form id="login-form">
 							<div class="mb-3">
-								<label for="email" class="form-label" style="color: #fff;">Email</label>
+								<label for="email" class="form-label text-light">Email</label>
 								<input type="email" class="form-control" id="email" name="email" placeholder="student@student.42.fr" required>
 							</div>
-							<div class="mb-3">
-								<label for="nickname" class="form-label" style="color: #fff;">Nickname</label>
-								<input type="nickname" class="form-control" id="nickname" name="nickname" placeholder="nickname" required>
-							</div>
-							<div class="mb-3">
-								<label for="password" class="form-label" style="color: #fff;">Password</label>
+							<div class="mb-5">
+								<label for="password" class="form-label text-light">Password</label>
 								<input type="password" class="form-control" id="password" name="password" placeholder="password" required>
 							</div>
-							<div class="d-grid gap-2">
-								<button type="submit" class="btn" style="background-color: #daa520; color: #333;">Cadastre-se</button>
-								<button type="button" id="login-button" class="btn btn-outline" style="border: 2px solid #daa520; color: #daa520;">Já tem conta? Faça o Login</button>
+							<div class="d-grid gap-2 mb-4">
+								<button type="submit" id="login-button" class="my-bg-gold btn-custom rounded p-2">Login</button>
+								<button type="button" id="login-button" class="my-bg-gold btn-custom rounded p-2">Login com 42</button>
+								<button type="button" id="login-button" class="btn-custom rounded p-2">Não tem Conta? Cadastre-se</button>
 							</div>
 						</form>
 					</div>
+					<div class="col"></div>
 				</div>
 			</div>
+
 		</main>
 		<footer class="my-bg-gold mt-4 conteiner">
 			<div class="row h-4vh"></div>
@@ -59,7 +60,7 @@
 			<div class="row">
 				<div class="col-3"></div>
 				<div class="col-6 justify-content-center">
-					<img src="../img/tiger_and_title.png" class="img-fluid mx-auto d-block">
+					<img src="../../img/tiger_and_title.png" class="img-fluid mx-auto d-block">
 				</div>
 				<div class="col-3"></div>
 			</div>
