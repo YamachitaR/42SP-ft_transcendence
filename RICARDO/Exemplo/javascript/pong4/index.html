@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torneio de Ping Pong</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .tournament {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .round {
+            margin-bottom: 20px;
+        }
+        .match {
+            display: flex;
+            justify-content: space-between;
+            width: 200px;
+            margin: 5px 0;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        #participant-list {
+            list-style: none;
+            padding: 0;
+        }
+        #participant-list li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Torneio de Ping Pong</h1>
+        <div class="form-group">
+            <input type="text" id="participant-name" placeholder="Nome do participante">
+            <button id="add-participant">Adicionar Participante</button>
+        </div>
+        <ul id="participant-list"></ul>
+        <button id="start-tournament">Iniciar Torneio</button>
+        <div class="tournament" id="tournament">
+            <!-- Jogos do torneio serão gerados aqui -->
+        </div>
+    </div>
+    <script src="tournament.js"></script>
+</body>
+</html>
