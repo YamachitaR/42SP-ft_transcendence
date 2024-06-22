@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #000;
+}
+
+#gameCanvas {
+    background-color: #fff;
+    border: 2px solid #000;
+}
+
+#scoreBoard {
+    display: flex;
+    justify-content: space-around;
+    width: 800px;
+    color: #fff;
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+#winnerMessage {
+    color: #fff;
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+#pauseButton {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}

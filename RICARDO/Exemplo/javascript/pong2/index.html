@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ping Pong Game</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            margin: 0;
+        }
+        canvas {
+            border: 1px solid #fff;
+        }
+        #header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 10px;
+            box-sizing: border-box;
+            color: #fff;
+        }
+        #header img {
+            border-radius: 50%;
+            height: 50px;
+            width: 50px;
+        }
+        #header span {
+            font-size: 24px;
+        }
+        #form-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        #form-container input {
+            margin: 10px;
+        }
+        #form-container label {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <img id="player-photo-img" src="" alt="Player Photo">
+        <span id="player-nick-span">Player Nickname</span>
+    </div>
+    <canvas id="pong" width="800" height="600"></canvas>
+    <div id="form-container">
+        <label for="player-nick">Player Nickname:</label>
+        <input type="text" id="player-nick" placeholder="Enter your nickname">
+        <label for="player-photo">Player Photo:</label>
+        <input type="file" id="player-photo">
+        <button id="start-button">Start Game</button>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
