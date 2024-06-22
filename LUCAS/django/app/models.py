@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import PermissionsMixin
+from django.conf import settings
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -33,3 +34,16 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+class UserPreferences(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='preferences')
+    # Adicione aqui os campos para as preferências do usuário
+    preference1 = models.CharField(max_length=100, blank=True, null=True)
+    preference2 = models.CharField(max_length=100, blank=True, null=True)
+    preference3 = models.CharField(max_length=100, blank=True, null=True)
+    preference4 = models.CharField(max_length=100, blank=True, null=True)
+    preference5 = models.BooleanField(default=False)
+    # Outros campos de preferência
+
+    def __str__(self):
+        return f"{self.user.username}'s Preferences"

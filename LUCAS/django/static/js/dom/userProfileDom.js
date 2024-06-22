@@ -36,7 +36,6 @@ export async function sendUpdate() {
         if (fileInput.files[0]) {
             formData.append('profile_image', fileInput.files[0]);
         }
-		debugger;
         await fetch('/api/update-user/', {
             method: 'PUT',
             headers: {

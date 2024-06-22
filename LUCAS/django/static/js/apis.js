@@ -93,3 +93,31 @@ export async function apiUserInfo(token) {
 // {"id": 2, "username": "Lucas", "email": "mail@example.com", "image": "/media/profile_images/logo.png"}%
 
 
+
+
+
+
+
+
+
+// % curl -X PUT http://localhost:8000/api/user-preferences/ \
+// -H "Authorization: Token 724fbf6d8d4dd99eff614d6a3fd72a33d3876012" \
+// -H "Content-Type: application/json" \
+// -d '{
+// 	  "preference1": "value1",
+// 	  "preference2": "true"
+// 	}'
+
+
+// {"id":1,"preference1":"value1","preference2":"true","preference3":null,"preference4":null,"preference5":false,"user":2}%
+
+
+
+
+
+
+
+// curl -X GET http://localhost:8000/api/user-preferences/ \
+// -H "Authorization: Token 724fbf6d8d4dd99eff614d6a3fd72a33d3876012"
+
+// {"id":1,"preference1":"va2","preference2":"tr","preference3":null,"preference4":null,"preference5":false,"user":2}%

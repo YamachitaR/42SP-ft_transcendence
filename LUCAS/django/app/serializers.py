@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import CustomUser
+from .models import UserPreferences
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,3 +16,8 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+class UserPreferencesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPreferences
+        fields = '__all__'
