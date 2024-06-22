@@ -80,3 +80,16 @@ export async function apiUserInfo(token) {
 
     return fetch(url, options);
 }
+
+
+// % curl -X PUT http://localhost:8000/api/update-user/ \
+// -H "Authorization: Token 420b23dcc80960c9ee6920dff59a86b2ba6da8c5" \
+// -H "Content-Type: application/json" \
+// -d '{
+//   "username": "Lucas",
+//   "email": "mail@example.com"
+// }'
+
+// {"id": 2, "username": "Lucas", "email": "mail@example.com", "image": "/media/profile_images/logo.png"}%
+
+

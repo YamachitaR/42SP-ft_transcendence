@@ -1,7 +1,7 @@
 # app/urls.py
 from django.urls import path, include
 from .views.auth import RegisterView, LoginView, LogoutView, CheckAuthView, external_login, external_callback
-from .views.crud import get_user_info
+from .views.crud import get_user_info, update_user
 from .views import views
 
 urlpatterns = [
@@ -13,5 +13,6 @@ urlpatterns = [
 	path('login-external/', external_login, name='external_login'),
     path('callback/', external_callback, name='external_callback'),
 	path('get-user-info/', get_user_info, name='get_user_info'),
+	path('update-user/', update_user, name='update_user'),
 
 ]

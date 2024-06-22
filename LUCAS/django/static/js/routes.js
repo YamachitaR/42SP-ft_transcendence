@@ -7,6 +7,8 @@ import { domBtnRegister, domBtnBackHome } from './dom/registerDom.js';
 import { logout } from './dom/logoutDom.js';
 import  renderProfileUser  from './views/userProfileViews.js';
 import { renderUserInfo } from './dom/userProfileDom.js';
+import { sendUpdate } from './dom/userProfileDom.js';
+import { fetchUserInfo } from './crud/user.js';
 
 const routes = {
     '/login/': {
@@ -36,6 +38,8 @@ const routes = {
         template: renderProfileUser(),
         init: () => {
             renderUserInfo();
+			sendUpdate();
+			fetchUserInfo();
         }
     },
 	'/playGame/': {

@@ -4,9 +4,10 @@ function getQueryParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(name);
 }
+export let token = null;
 
 function checkAndStoreToken() {
-    const token = getQueryParameter('token');
+    token = getQueryParameter('token');
     if (token) {
         localStorage.setItem('token', token);
         window.location.href = '/';
@@ -14,7 +15,7 @@ function checkAndStoreToken() {
 }
 
 export async function checkAuth() {
-    const token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     if (!token) return false;
 
     const response = await fetch('/api/check-auth/', {
