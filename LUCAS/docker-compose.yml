@@ -39,6 +39,7 @@ services:
     volumes:
       - ssl_certificates:/etc/ssl
       - ./django/static:/bk_django/staticfiles
+      - ./media:/bk_django/media
     ports:
       - "80:80"
       - "443:443"
