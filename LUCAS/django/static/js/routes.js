@@ -9,6 +9,8 @@ import  renderProfileUser  from './views/userProfileViews.js';
 import { renderUserInfo } from './dom/userProfileDom.js';
 import { sendUpdate } from './dom/userProfileDom.js';
 import { fetchUserInfo } from './crud/user.js';
+import  renderDashboard  from './views/dashboardView.js';
+import { renderDashUserInfo } from './dom/dashboardDom.js';
 
 const routes = {
     '/login/': {
@@ -48,10 +50,16 @@ const routes = {
             initPlayGame();
         }
     },
-    '/': {
-        template: '<h1>Welcome to the Main Page</h1>',
+    '/dashboard/': {
+        template: renderDashboard(),
         init: () => {
-            console.log('Página principal carregada');
+            renderDashUserInfo();
+        }
+    },
+    '/': {
+        template: renderDashboard(),
+        init: () => {
+            renderDashUserInfo();
         }
     }
 };

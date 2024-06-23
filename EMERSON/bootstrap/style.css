@@ -106,6 +106,22 @@
 .h-50vh {
     height: 50vh;
 }
+.h-60vh {
+    height: 60vh;
+}
+.h-70vh {
+    height: 70vh;
+}
+.h-80vh {
+    height: 80vh;
+}
+.h-90vh {
+    height: 90vh;
+}
+
+.h-100vh {
+    height: 100vh;
+}
 
 /* Fontes */
 .montez-regular {
