@@ -35,6 +35,17 @@
     cursor: pointer;
 }
 
+.btn-custom-nocolor {
+    color: azure;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-custom-nocolor:hover {
+    color: black;
+    background-color: antiquewhite;
+}
+
 .btn-custom:hover {
     color: black;
     background-color: antiquewhite;

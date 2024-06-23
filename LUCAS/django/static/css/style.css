@@ -40,6 +40,17 @@
     background-color: antiquewhite;
 }
 
+.btn-custom-nocolor {
+    color: azure;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-custom-nocolor:hover {
+    color: black;
+    background-color: antiquewhite;
+}
+
 /* Tamanhos diversos */
 .country-flags-size {
     height: 20px;
