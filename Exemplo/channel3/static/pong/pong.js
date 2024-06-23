@@ -51,21 +51,22 @@ function update() {
     requestAnimationFrame(update);
 }
 
+// seta para cima e para baixo, parece que da conflito no navegador crome
 document.addEventListener('keydown', function(event) {
     let move = false;
     if (controlLeftPaddle) {
-        if (event.key === 'w') {
+        if (event.key === 'ArrowUp') {
             leftPaddle.y -= 20;
             move = true;
-        } else if (event.key === 's') {
+        } else if (event.key === 'ArrowDown') {
             leftPaddle.y += 20;
             move = true;
         }
     } else {
-        if (event.key === 'w') {
+        if (event.key === 'ArrowUp') {
             rightPaddle.y -= 20;
             move = true;
-        } else if (event.key === 's') {
+        } else if (event.key === 'ArrowDown') {
             rightPaddle.y += 20;
             move = true;
         }
