@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Game</title>
+    <style>
+        #pongCanvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="pongCanvas" width="800" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('pongCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let ball = { x: 400, y: 200, radius: 10, dx: 2, dy: 2 };
+        let paddle1 = { x: 362.5, y: 390, width: 75, height: 10 };
+        let paddle2 = { x: 362.5, y: 10, width: 75, height: 10 };
+
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/pong/');
+
+        socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            ball = data.ball;
+            paddle1 = data.paddle1;
+            paddle2 = data.paddle2;
+            draw();
+        };
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight') {
+                sendPaddleMove('right');
+            } else if (event.key === 'ArrowLeft') {
+                sendPaddleMove('left');
+            }
+        });
+
+        function sendPaddleMove(direction) {
+            const paddleMove = { paddle_move: direction };
+            socket.send(JSON.stringify(paddleMove));
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#0095DD';
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.rect(paddle1.x, paddle1.y, paddle1.width, paddle1.height);
+            ctx.fillStyle = '#0095DD';
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.rect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
+            ctx.fillStyle = '#0095DD';
+            ctx.fill();
+            ctx.closePath();
+        }
+    </script>
+</body>
+</html>
