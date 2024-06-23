@@ -49,13 +49,23 @@ def update_user(request):
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
 def UserPreferencesView(request):
+    try:
+        preferences = UserPreferences.objects.get(user=request.user)
+    except UserPreferences.DoesNotExist:
+        preferences = UserPreferences.objects.create(
+            user=request.user,
+            preference1='option1',
+            preference2='option1',
+            preference3='option1',
+            preference4='option1',
+            preference5=True
+        )
+
     if request.method == 'GET':
-        preferences, created = UserPreferences.objects.get_or_create(user=request.user)
         serializer = UserPreferencesSerializer(preferences)
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        preferences, created = UserPreferences.objects.get_or_create(user=request.user)
         serializer = UserPreferencesSerializer(preferences, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()

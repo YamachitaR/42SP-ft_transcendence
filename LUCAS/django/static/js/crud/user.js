@@ -1,6 +1,7 @@
 import { apiUserInfo } from "../apis.js";
 
 export let user = null;
+// export let user-preferences = null;
 
 export async function fetchUserInfo() {
     const token = localStorage.getItem('token');
