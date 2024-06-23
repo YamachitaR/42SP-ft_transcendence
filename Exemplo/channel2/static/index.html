@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Test</title>
+</head>
+<body>
+    <h1>WebSocket Test</h1>
+    <p>Status: <span id="status">Disconnected</span></p>
+    <button id="connectBtn">Connect</button>
+    <button id="sendBtn">Send "a"</button>
+    <p>Received Message: <span id="message"></span></p>
+
+    <script>
+        let socket;
+
+        document.getElementById('connectBtn').onclick = () => {
+            // Connect to the WebSocket server
+            socket = new WebSocket('ws://' + window.location.host + '/ws/some_path/');
+
+            socket.onopen = () => {
+                document.getElementById('status').innerText = 'Connected';
+            };
+
+            socket.onclose = () => {
+                document.getElementById('status').innerText = 'Disconnected';
+            };
+
+            socket.onmessage = (e) => {
+                const data = JSON.parse(e.data);
+                document.getElementById('message').innerText = data.message;
+            };
+
+            socket.onerror = (error) => {
+                console.error('WebSocket Error:', error);
+            };
+        };
+
+        document.getElementById('sendBtn').onclick = () => {
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                // Send the character "a" to the WebSocket server
+                socket.send(JSON.stringify({ 'message': 'a' }));
+            } else {
+                alert('WebSocket is not connected.');
+            }
+        };
+    </script>
+</body>
+</html>
