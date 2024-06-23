@@ -143,7 +143,7 @@ export default function renderProfileUser() {
                 </div>
                 <!--Botão Submit-->
                 <div class="d-grid gap-2 mb-4">
-                    <button type="button" class="btn-custom rounded p-2">Salvar Alterações</button>
+                    <button type="submit" class="btn-custom rounded p-2">Salvar Alterações</button>
                 </div>
             </form>
         </div>

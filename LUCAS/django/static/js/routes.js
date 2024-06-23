@@ -55,18 +55,15 @@ const routes = {
     },
     '/dashboard/': {
         template: renderDashboard(),
+        init: () => {
+            renderDashUserInfo();
+        }
     },
 	'/friends/': {
         template: renderBuscarAmigos(),
         init: () => {
             domBtnBuscarAmigos();
 			carregarSolicitacoesPendentes();
-        }
-    },
-    '/': {
-        template: '<h1>Welcome to the Main Page</h1>',
-        init: () => {
-            renderDashUserInfo();
         }
     },
     '/': {
