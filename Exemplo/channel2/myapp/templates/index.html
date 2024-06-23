@@ -1,160 +1,16 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pong Game</title>
     <style>
-        #pongCanvas {
-            border: 1px solid black;
-        }
+        canvas { background: #000; display: block; margin: 0 auto; }
     </style>
 </head>
 <body>
-    <canvas id="pongCanvas" width="800" height="400"></canvas>
-    <div id="scoreBoard">Player 1: 0 | Player 2: 0</div>
-    <script>
-        const canvas = document.getElementById('pongCanvas');
-        const ctx = canvas.getContext('2d');
-        const scoreBoard = document.getElementById('scoreBoard');
-
-        let ball = { x: 400, y: 200, radius: 10, dx: 2, dy: 2 };
-        let paddle1 = { x: 362.5, y: 390, width: 75, height: 10 };
-        let paddle2 = { x: 362.5, y: 10, width: 75, height: 10 };
-        let scores = { player1: 0, player2: 0 };
-        let playerRole = null;
-        let socket;
-
-        function initializeWebSocket() {
-            socket = new WebSocket('ws://' + window.location.host + '/ws/pong/');
-
-            socket.onopen = () => {
-                console.log("WebSocket connection established.");
-                requestAnimationFrame(gameLoop);
-            };
-
-            socket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                if (data.role) {
-                    playerRole = data.role;
-                }
-                if (data.ball) {
-                    ball = data.ball;
-                }
-                if (data.paddle1) {
-                    paddle1 = data.paddle1;
-                }
-                if (data.paddle2) {
-                    paddle2 = data.paddle2;
-                }
-                if (data.scores) {
-                    scores = data.scores;
-                }
-                updateScoreBoard();
-                draw();
-            };
-
-            socket.onerror = (error) => {
-                console.log("WebSocket error: ", error);
-            };
-
-            socket.onclose = () => {
-                console.log("WebSocket connection closed.");
-            };
-        }
-
-        document.addEventListener('keydown', (event) => {
-            if (playerRole === 'player1') {
-                if (event.key === 'ArrowRight') {
-                    sendPaddleMove('right', 'player1');
-                } else if (event.key === 'ArrowLeft') {
-                    sendPaddleMove('left', 'player1');
-                }
-            } else if (playerRole === 'player2') {
-                if (event.key === 'ArrowRight') {
-                    sendPaddleMove('right', 'player2');
-                } else if (event.key === 'ArrowLeft') {
-                    sendPaddleMove('left', 'player2');
-                }
-            }
-        });
-
-        function sendPaddleMove(direction, player) {
-            if (socket.readyState === WebSocket.OPEN) {
-                const paddleMove = { paddle_move: direction, player: player };
-                socket.send(JSON.stringify(paddleMove));
-            }
-        }
-
-        function updateBallPosition() {
-            ball.x += ball.dx;
-            ball.y += ball.dy;
-
-            if (ball.y - ball.radius <= 0) {
-                scores.player1 += 1;
-                resetBall();
-            } else if (ball.y + ball.radius >= canvas.height) {
-                scores.player2 += 1;
-                resetBall();
-            }
-
-            if (ball.x - ball.radius <= 0 || ball.x + ball.radius >= canvas.width) {
-                ball.dx = -ball.dx;
-            }
-
-            if (ball.y + ball.radius >= paddle1.y && ball.x >= paddle1.x && ball.x <= paddle1.x + paddle1.width) {
-                ball.dy = -ball.dy;
-            }
-
-            if (ball.y - ball.radius <= paddle2.y + paddle2.height && ball.x >= paddle2.x && ball.x <= paddle2.x + paddle2.width) {
-                ball.dy = -ball.dy;
-            }
-
-            if (socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({ ball: ball, scores: scores }));
-            }
-        }
-
-        function resetBall() {
-            ball.x = 400;
-            ball.y = 200;
-            ball.dx = 2;
-            ball.dy = 2;
-        }
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            ctx.beginPath();
-            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-            ctx.fillStyle = '#0095DD';
-            ctx.fill();
-            ctx.closePath();
-
-            ctx.beginPath();
-            ctx.rect(paddle1.x, paddle1.y, paddle1.width, paddle1.height);
-            ctx.fillStyle = '#0095DD';
-            ctx.fill();
-            ctx.closePath();
-
-            ctx.beginPath();
-            ctx.rect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
-            ctx.fillStyle = '#0095DD';
-            ctx.fill();
-            ctx.closePath();
-        }
-
-        function updateScoreBoard() {
-            scoreBoard.innerHTML = `Player 1: ${scores.player1 || 0} | Player 2: ${scores.player2 || 0}`;
-        }
-
-        function gameLoop() {
-            updateBallPosition();
-            draw();
-            requestAnimationFrame(gameLoop);
-        }
-
-        initializeWebSocket();
-    </script>
+    <h1>Pong Game</h1>
+    <canvas id="pongCanvas" width="800" height="600"></canvas>
+    <script src="{% static 'pong/pong.js' %}"></script>
 </body>
 </html>

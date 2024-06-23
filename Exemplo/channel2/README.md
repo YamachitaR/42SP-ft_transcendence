@@ -1,248 +1,237 @@
-Para resolver o erro "Page not found (404)" ao tentar acessar `index.html`, você deve garantir que o arquivo HTML esteja corretamente servido pelo Django. Abaixo estão os passos para configurar a entrega de arquivos estáticos no Django e servir o `index.html` corretamente.
+Sim, é possível fazer com que cada navegador controle uma raquete diferente. Podemos usar WebSockets para diferenciar os navegadores e atribuir o controle das raquetes de acordo com a conexão. Vou mostrar como você pode ajustar o código para que cada navegador controle apenas uma raquete específica.
 
-### Passos para Configurar e Servir Arquivos Estáticos
+### Ajustes Necessários
 
-1. **Configurar as Variáveis de Arquivo Estático no `settings.py`**:
-   Adicione as seguintes linhas no seu `settings.py` para configurar os arquivos estáticos:
+1. **Identificação dos Navegadores**: Usaremos um identificador único para cada navegador para determinar qual raquete ele deve controlar.
+2. **Atribuição de Controles**: Atribuiremos os controles das setas `ArrowUp` e `ArrowDown` para o navegador que controlar a raquete direita, e as teclas `w` e `s` para o navegador que controlar a raquete esquerda.
 
-   ```python
-   import os
+### Passos
 
-   # Configurações de arquivos estáticos
-   STATIC_URL = '/static/'
-   STATICFILES_DIRS = [
-       os.path.join(BASE_DIR, 'static'),
-   ]
-   ```
+#### 1. Atualize o `pong.js` para Gerar um Identificador Único
 
-2. **Criar a Pasta `static`**:
-   Crie uma pasta chamada `static` na raiz do seu projeto (onde o arquivo `manage.py` está localizado).
+Adicione um identificador único para cada navegador (por exemplo, um número randômico ou UUID). Este identificador será enviado ao servidor para que ele saiba qual raquete deve ser controlada por cada navegador.
 
-3. **Adicionar o Arquivo `index.html` na Pasta `static`**:
-   Coloque o arquivo `index.html` dentro da pasta `static`.
+```javascript
+const canvas = document.getElementById('pongCanvas');
+const context = canvas.getContext('2d');
 
-4. **Configurar o `urls.py` para Servir Arquivos Estáticos**:
-   Modifique seu `urls.py` para incluir as configurações de arquivos estáticos durante o desenvolvimento.
+// Gera um identificador único para cada navegador
+const clientId = Math.random().toString(36).substr(2, 9);
 
-   ```python
-   from django.conf import settings
-   from django.conf.urls.static import static
-   from django.urls import path
+// WebSocket setup
+const socket = new WebSocket('ws://' + window.location.host + '/ws/pong/');
 
-   urlpatterns = [
-       # Suas outras URLs aqui
-   ]
+socket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    // Update game state based on the received data
+    if (data.type === 'update') {
+        leftPaddle.y = data.leftPaddleY;
+        rightPaddle.y = data.rightPaddleY;
+    }
+};
 
-   if settings.DEBUG:
-       urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-   ```
+// Pong game setup
+const paddleWidth = 10, paddleHeight = 100;
+const ballSize = 10;
 
-### Exemplo Completo
+const leftPaddle = { x: 0, y: canvas.height / 2 - paddleHeight / 2 };
+const rightPaddle = { x: canvas.width - paddleWidth, y: canvas.height / 2 - paddleHeight / 2 };
+const ball = { x: canvas.width / 2, y: canvas.height / 2, vx: 4, vy: 4 };
 
-Aqui está um resumo da configuração completa:
+function draw() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
-#### 1. Estrutura de Diretórios:
-```
-your_project/
-├── your_app/
-│   ├── consumers.py
-│   ├── routing.py
-│   ├── ...
-├── static/
-│   └── index.html
-├── your_project/
-│   ├── asgi.py
-│   ├── settings.py
-│   ├── urls.py
-│   ├── ...
-├── manage.py
-```
-
-#### 2. `settings.py`:
-```python
-import os
-
-INSTALLED_APPS = [
-    ...
-    'channels',
-    ...
-]
-
-ASGI_APPLICATION = 'your_project_name.asgi.application'
-
-# Configurações de arquivos estáticos
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-
-# Sem Redis (usando o backend de canais padrão baseado em memória)
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-    },
+    context.fillStyle = 'white';
+    context.fillRect(leftPaddle.x, leftPaddle.y, paddleWidth, paddleHeight);
+    context.fillRect(rightPaddle.x, rightPaddle.y, paddleWidth, paddleHeight);
+    context.fillRect(ball.x, ball.y, ballSize, ballSize);
 }
+
+function update() {
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+
+    if (ball.y < 0 || ball.y + ballSize > canvas.height) {
+        ball.vy = -ball.vy;
+    }
+
+    if ((ball.x < leftPaddle.x + paddleWidth && ball.y > leftPaddle.y && ball.y < leftPaddle.y + paddleHeight) ||
+        (ball.x + ballSize > rightPaddle.x && ball.y > rightPaddle.y && ball.y < rightPaddle.y + paddleHeight)) {
+        ball.vx = -ball.vx;
+    }
+
+    draw();
+    requestAnimationFrame(update);
+}
+
+document.addEventListener('keydown', function(event) {
+    let move = false;
+    if (event.key === 'ArrowUp') {
+        rightPaddle.y -= 20;
+        move = true;
+    } else if (event.key === 'ArrowDown') {
+        rightPaddle.y += 20;
+        move = true;
+    }
+
+    if (event.key === 'w') {
+        leftPaddle.y -= 20;
+        move = true;
+    } else if (event.key === 's') {
+        leftPaddle.y += 20;
+        move = true;
+    }
+
+    if (move) {
+        socket.send(JSON.stringify({
+            type: 'move',
+            clientId: clientId,
+            leftPaddleY: leftPaddle.y,
+            rightPaddleY: rightPaddle.y
+        }));
+    }
+});
+
+update();
 ```
 
-#### 3. `asgi.py`:
-```python
-import os
-from django.core.asgi import get_asgi_application
-from channels.routing import ProtocolTypeRouter, URLRouter
-from channels.auth import AuthMiddlewareStack
-import your_app.routing
+#### 2. Atualize o `consumers.py` para Diferenciar os Controles
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project_name.settings')
+No arquivo `consumers.py`, altere o método `receive` para distinguir entre os clientes com base no `clientId`.
 
-application = ProtocolTypeRouter({
-    "http": get_asgi_application(),
-    "websocket": AuthMiddlewareStack(
-        URLRouter(
-            your_app.routing.websocket_urlpatterns
-        )
-    ),
-})
-```
-
-#### 4. `routing.py`:
-```python
-from django.urls import re_path
-from . import consumers
-
-websocket_urlpatterns = [
-    re_path(r'ws/some_path/$', consumers.YourConsumer.as_asgi()),
-]
-```
-
-#### 5. `consumers.py`:
 ```python
 import json
-from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.generic.websocket import WebsocketConsumer
 
-# Armazenamento em memória para rastrear conexões
-connected_users = []
+class PongConsumer(WebsocketConsumer):
+    clients = {}
 
-class YourConsumer(AsyncWebsocketConsumer):
-    async def connect(self):
-        self.room_name = 'some_room'
-        self.room_group_name = 'some_group'
+    def connect(self):
+        self.accept()
+        self.client_id = None
 
-        # Adicionar conexão à lista
-        self.user_id = len(connected_users) + 1
-        connected_users.append(self.user_id)
+    def disconnect(self, close_code):
+        if self.client_id in self.clients:
+            del self.clients[self.client_id]
 
-        await self.channel_layer.group_add(
-            self.room_group_name,
-            self.channel_name
-        )
+    def receive(self, text_data):
+        data = json.loads(text_data)
+        if self.client_id is None:
+            self.client_id = data['clientId']
+            self.clients[self.client_id] = self
 
-        await self.accept()
-
-    async def disconnect(self, close_code):
-        # Remover conexão da lista
-        connected_users.remove(self.user_id)
-
-        await self.channel_layer.group_discard(
-            self.room_group_name,
-            self.channel_name
-        )
-
-    async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-
-        # Verificar se a tecla pressionada é "a"
-        if message == 'a':
-            # Enviar número correspondente de volta ao cliente
-            await self.send(text_data=json.dumps({
-                'message': str(self.user_id)
-            }))
-        else:
-            # Enviar mensagem ao grupo de chat
-            await self.channel_layer.group_send(
-                self.room_group_name,
-                {
-                    'type': 'chat_message',
-                    'message': message
-                }
-            )
-
-    async def chat_message(self, event):
-        message = event['message']
-
-        await self.send(text_data=json.dumps({
-            'message': message
-        }))
+        # Determine which paddle to move based on clientId
+        if self.client_id in self.clients:
+            if self.clients[self.client_id] == self:
+                left_paddle_y = data['leftPaddleY']
+                right_paddle_y = data['rightPaddleY']
+                
+                # Broadcast the move to all clients
+                for client in self.clients.values():
+                    client.send(text_data=json.dumps({
+                        'type': 'update',
+                        'leftPaddleY': left_paddle_y,
+                        'rightPaddleY': right_paddle_y,
+                    }))
 ```
 
-#### 6. `index.html` (dentro da pasta `static`):
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSocket Test</title>
-</head>
-<body>
-    <h1>WebSocket Test</h1>
-    <p>Status: <span id="status">Disconnected</span></p>
-    <button id="connectBtn">Connect</button>
-    <button id="sendBtn">Send "a"</button>
-    <p>Received Message: <span id="message"></span></p>
+### 3. Adicione Lógica no `pong.js` para Atribuir Raquetes Diferentes
 
-    <script>
-        let socket;
+Adicione lógica ao `pong.js` para diferenciar entre os navegadores e controlar raquetes diferentes. Por exemplo, você pode definir um clientId específico para cada navegador ou fazer com que um navegador controle a raquete esquerda e o outro controle a raquete direita.
 
-        document.getElementById('connectBtn').onclick = () => {
-            // Connect to the WebSocket server
-            socket = new WebSocket('ws://' + window.location.host + '/ws/some_path/');
+```javascript
+const canvas = document.getElementById('pongCanvas');
+const context = canvas.getContext('2d');
 
-            socket.onopen = () => {
-                document.getElementById('status').innerText = 'Connected';
-            };
+// Gera um identificador único para cada navegador
+const clientId = Math.random().toString(36).substr(2, 9);
+const controlLeftPaddle = clientId < 'm'; // Navegadores com clientId começando com letras de 'a' a 'm' controlam a raquete esquerda
 
-            socket.onclose = () => {
-                document.getElementById('status').innerText = 'Disconnected';
-            };
+// WebSocket setup
+const socket = new WebSocket('ws://' + window.location.host + '/ws/pong/');
 
-            socket.onmessage = (e) => {
-                const data = JSON.parse(e.data);
-                document.getElementById('message').innerText = data.message;
-            };
+socket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    // Update game state based on the received data
+    if (data.type === 'update') {
+        leftPaddle.y = data.leftPaddleY;
+        rightPaddle.y = data.rightPaddleY;
+    }
+};
 
-            socket.onerror = (error) => {
-                console.error('WebSocket Error:', error);
-            };
-        };
+// Pong game setup
+const paddleWidth = 10, paddleHeight = 100;
+const ballSize = 10;
 
-        document.getElementById('sendBtn').onclick = () => {
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                // Send the character "a" to the WebSocket server
-                socket.send(JSON.stringify({ 'message': 'a' }));
-            } else {
-                alert('WebSocket is not connected.');
-            }
-        };
-    </script>
-</body>
-</html>
+const leftPaddle = { x: 0, y: canvas.height / 2 - paddleHeight / 2 };
+const rightPaddle = { x: canvas.width - paddleWidth, y: canvas.height / 2 - paddleHeight / 2 };
+const ball = { x: canvas.width / 2, y: canvas.height / 2, vx: 4, vy: 4 };
+
+function draw() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    context.fillStyle = 'white';
+    context.fillRect(leftPaddle.x, leftPaddle.y, paddleWidth, paddleHeight);
+    context.fillRect(rightPaddle.x, rightPaddle.y, paddleWidth, paddleHeight);
+    context.fillRect(ball.x, ball.y, ballSize, ballSize);
+}
+
+function update() {
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+
+    if (ball.y < 0 || ball.y + ballSize > canvas.height) {
+        ball.vy = -ball.vy;
+    }
+
+    if ((ball.x < leftPaddle.x + paddleWidth && ball.y > leftPaddle.y && ball.y < leftPaddle.y + paddleHeight) ||
+        (ball.x + ballSize > rightPaddle.x && ball.y > rightPaddle.y && ball.y < rightPaddle.y + paddleHeight)) {
+        ball.vx = -ball.vx;
+    }
+
+    draw();
+    requestAnimationFrame(update);
+}
+
+document.addEventListener('keydown', function(event) {
+    let move = false;
+    if (controlLeftPaddle) {
+        if (event.key === 'w') {
+            leftPaddle.y -= 20;
+            move = true;
+        } else if (event.key === 's') {
+            leftPaddle.y += 20;
+            move = true;
+        }
+    } else {
+        if (event.key === 'ArrowUp') {
+            rightPaddle.y -= 20;
+            move = true;
+        } else if (event.key === 'ArrowDown') {
+            rightPaddle.y += 20;
+            move = true;
+        }
+    }
+
+    if (move) {
+        socket.send(JSON.stringify({
+            type: 'move',
+            clientId: clientId,
+            leftPaddleY: leftPaddle.y,
+            rightPaddleY: rightPaddle.y
+        }));
+    }
+});
+
+update();
 ```
 
-### Como Testar
+### 4. Execute o Servidor Django
 
-1. **Inicie o servidor Django**:
-   Certifique-se de que seu servidor Django está rodando.
+Execute o servidor Django:
 
-   ```sh
-   python manage.py runserver
-   ```
+```bash
+python manage.py runserver
+```
 
-2. **Abra o arquivo HTML**:
-   Abra o arquivo `index.html` no seu navegador, navegando para `http://localhost:8000/static/index.html`.
-
-3. **Conectar e Enviar Mensagem**:
-   - Clique no botão "Connect" para se conectar ao WebSocket.
-   - Clique no botão "Send 'a'" para enviar a mensagem "a" e receber o número correspondente.
-
-Se precisar de mais alguma ajuda ou tiver dúvidas adicionais, estou à disposição!
+Abra duas janelas do navegador e acesse o endereço `http://localhost:8000`. Você deve ver o jogo Pong, onde cada navegador controla uma raquete diferente. Navegadores com `clientId` começando com letras de 'a' a 'm' controlarão a raquete esquerda (`w` e `s`), enquanto os outros controlarão a raquete direita (`ArrowUp` e `ArrowDown`).
