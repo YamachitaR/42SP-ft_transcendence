@@ -101,7 +101,7 @@ export default function renderProfileUser() {
 
 
     <!--Titulo da Pagina-->
-    <div class="row mx-3 mt-4 text-light h-10vh ">
+    <div class="row mx-3 mt-4 text-light ">
         <div class="col shadow rounded d-flex align-items-center justify-content-center bg-dashboard text-center">
             <h3>Editar informações</h4>
         </div>
@@ -111,11 +111,11 @@ export default function renderProfileUser() {
     <div class="row mx-3 mt-4 text-light d-flex align-items-center justify-content-center">
 
         <!--Caixa de modificar Infos-->
-        <div class="col-mb-5 col-xl-5 bg-dashboard shadow rounded mt-4 mx-auto h-100vh">
+        <div class="col-mb-5 col-xl-5 bg-dashboard shadow rounded mt-4 mx-auto">
 
             <!--Imagem Atual do Usuario-->
-            <div id="user-info" class="col-md-6" data-default-image="../../static/img/pf.jpg" class="d-flex align-items-center justify-content-center">
-                <img id="user-image" class="mx-auto mt-3 mb-3 img-size-h20 rounded">
+            <div id="user-info" class="mx-auto " data-default-image="../../static/img/pf.jpg">
+                <img id="user-image" class="mx-auto mt-3 mb-3 w-50 rounded">
             </div>
 
             <form id="user-form" enctype="multipart/form-data">
@@ -149,7 +149,7 @@ export default function renderProfileUser() {
         </div>
 
         <!--Caixa para modificar preferencias do Jogo-->
-        <div id="user-preferences" class="col-5 bg-dashboard rounded mt-4 mx-auto h-100vh">
+        <div id="user-preferences" class="col-5 bg-dashboard rounded mt-4 mx-auto">
             
             <div class="d-flex align-items-center justify-content-center mt-5">
                 <h3 class=" mb-3">Preferências do Usuário</h3>

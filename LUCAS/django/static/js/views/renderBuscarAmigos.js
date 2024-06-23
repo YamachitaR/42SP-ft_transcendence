@@ -32,9 +32,9 @@ export default function renderBuscarAmigos() {
         </div-->
 
         <!--Header do Dashboard-->
-        <div class="row mx-3 mt-4 text-light h-10vh ">
-            <div class="col shadow rounded d-flex align-items-center justify-content-center bg-dashboard text-center">
-                <h3>Lista de Amigos</h4>
+        <div class="row mx-3 mt-4 text-light">
+            <div class="col shadow rounded bg-dashboard text-center">
+                <h4 class="m-3">Lista de Amigos</h4>
             </div>
         </div>
     
@@ -119,13 +119,13 @@ export default function renderBuscarAmigos() {
                         </div>
                     </form>
                 </div>
+                <!--Solicitar amigos-->
+                <div class="m-3 d-flex align-items-center justify-content-center">
+                    <button id="enviar-solicitacao-btn" class="w-100 btn-custom-nocolor bg-dashboard-2 rounded" style="display: none;">Enviar Solicitação de Amizade</button>
+                </div>
                 <!--Total de amigos-->
                 <div class="m-3 p-2 rounded shadow bg-dashboard-2">
                     <span id="total-amigos">Total Amigos: 0</span>
-                </div>
-                <!--Solicitar amigos-->
-                <div class="m-3">
-                    <button id="enviar-solicitacao-btn" class="btn-custom-nocolor bg-dashboard rounded" style="display: none;">Enviar Solicitação de Amizade</button>
                 </div>
                 <!--Solicitações pendentes-->
                 <div class="m-3 p-2 rounded bg-dashboard-2">
@@ -143,7 +143,7 @@ export default function renderBuscarAmigos() {
 
         <!--Barra com função de adicionar novos amigos e qt de amigos que o usuario tem-->
         <div class="row mt-4 mb-4 mx-3 bg-dashboard shadow rounded d-flex justify-content-center align-items-center">
-            <!--Imput e botão para adicionar novo amigo-->>
+            <!--Imput e botão para adicionar novo amigo-->
             <div class="col-6 d-flex align-items-center justify-content-center">
                 <form class="d-flex align-items-center justify-content-center">
                     <div class="m-2">
@@ -157,7 +157,7 @@ export default function renderBuscarAmigos() {
                 </form>
             </div>
             <!--Quantidade de amigos que o usuario tem-->
-            <div class="col-4 text-center">
+            <div class="col-4 text-light text-center">
                 <h5>Total Amigos: 4</h5>
             </div>
         </div>
