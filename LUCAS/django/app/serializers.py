@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from .models import CustomUser
 from .models import UserPreferences
-
+from .models import Amizade, CustomUser
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,3 +20,10 @@ class UserPreferencesSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserPreferences
         fields = '__all__'
+
+class AmizadeSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Amizade
+        fields = ['id', 'user', 'amigo', 'aceita']

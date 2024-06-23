@@ -9,6 +9,9 @@ import  renderProfileUser  from './views/userProfileViews.js';
 import { renderUserInfo } from './dom/userProfileDom.js';
 import { sendUpdate } from './dom/userProfileDom.js';
 import { fetchUserInfo } from './crud/user.js';
+import  renderBuscarAmigos  from './views/renderBuscarAmigos.js';
+import { domBtnBuscarAmigos } from './dom/domBtnBuscarAmigos.js';
+import { carregarSolicitacoesPendentes } from './dom/domBtnBuscarAmigos.js';
 
 const routes = {
     '/login/': {
@@ -46,6 +49,13 @@ const routes = {
         template: renderPlayGame(),
         init: () => {
             initPlayGame();
+        }
+    },
+	'/friends/': {
+        template: renderBuscarAmigos(),
+        init: () => {
+            domBtnBuscarAmigos();
+			carregarSolicitacoesPendentes();
         }
     },
     '/': {
