@@ -11,6 +11,9 @@ import { sendUpdate } from './dom/userProfileDom.js';
 import { fetchUserInfo } from './crud/user.js';
 import  renderDashboard  from './views/dashboardView.js';
 import { renderDashUserInfo } from './dom/dashboardDom.js';
+import  renderBuscarAmigos  from './views/renderBuscarAmigos.js';
+import { domBtnBuscarAmigos } from './dom/domBtnBuscarAmigos.js';
+import { carregarSolicitacoesPendentes } from './dom/domBtnBuscarAmigos.js';
 
 const routes = {
     '/login/': {
@@ -52,6 +55,16 @@ const routes = {
     },
     '/dashboard/': {
         template: renderDashboard(),
+    },
+	'/friends/': {
+        template: renderBuscarAmigos(),
+        init: () => {
+            domBtnBuscarAmigos();
+			carregarSolicitacoesPendentes();
+        }
+    },
+    '/': {
+        template: '<h1>Welcome to the Main Page</h1>',
         init: () => {
             renderDashUserInfo();
         }

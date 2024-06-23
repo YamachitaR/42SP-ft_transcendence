@@ -9,6 +9,10 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import generics, permissions
 from ..models import UserPreferences
 from ..serializers import UserPreferencesSerializer
+from ..models import CustomUser
+from ..serializers import UserSerializer
+import logging
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -71,3 +75,38 @@ def UserPreferencesView(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listar_todos_usuarios(request):
+    try:
+        usuarios = CustomUser.objects.all()
+        serializer = UserSerializer(usuarios, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': f'Erro ao listar usuários: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+
+logger = logging.getLogger(__name__)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def buscar_id_pelo_username(request):
+    username = request.data.get('username')
+    try:
+        logger.info(f"Buscando usuário: {username}")
+        usuario = CustomUser.objects.get(username=username)
+        logger.info(f"Usuário encontrado: {usuario.id}")
+        return Response({'id': usuario.id}, status=status.HTTP_200_OK)
+    except CustomUser.DoesNotExist:
+        logger.warning(f"Usuário não encontrado: {username}")
+        return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        logger.error(f"Erro ao buscar usuário: {e}")
+        return Response({'error': f'Erro ao buscar usuário: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

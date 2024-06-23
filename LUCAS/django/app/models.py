@@ -47,3 +47,16 @@ class UserPreferences(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s Preferences"
+
+
+class Amizade(models.Model):
+    user = models.ForeignKey(CustomUser, related_name='amigos', on_delete=models.CASCADE)
+    amigo = models.ForeignKey(CustomUser, related_name='amigos_de', on_delete=models.CASCADE)
+    aceita = models.BooleanField(default=False)
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'amigo')
+
+    def __str__(self):
+        return f"{self.user} é amigo de {self.amigo}"

@@ -6,3 +6,4 @@ gunicorn
 Pillow
 bcrypt
 requests
+django-cors-headers
