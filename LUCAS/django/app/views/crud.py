@@ -84,11 +84,19 @@ def UserPreferencesView(request):
 def listar_todos_usuarios(request):
     try:
         usuarios = CustomUser.objects.all()
-        serializer = UserSerializer(usuarios, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        usuarios_data = [
+            {
+                'id': usuario.id,
+                'email': usuario.email,
+                'first_name': usuario.first_name,
+                'last_name': usuario.last_name,
+                'is_online': usuario.is_online(),
+            }
+            for usuario in usuarios
+        ]
+        return Response(usuarios_data, status=status.HTTP_200_OK)
     except Exception as e:
         return Response({'error': f'Erro ao listar usuários: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
 
 

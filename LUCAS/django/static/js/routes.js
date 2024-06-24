@@ -14,7 +14,10 @@ import { renderDashUserInfo } from './dom/dashboardDom.js';
 import  renderBuscarAmigos  from './views/renderBuscarAmigos.js';
 import { domBtnBuscarAmigos } from './dom/domBtnBuscarAmigos.js';
 import { carregarSolicitacoesPendentes, carregarSolicitacoesEnviadas,
-	     carregarListaAmigos} from './dom/domBtnBuscarAmigos.js';
+        carregarListaAmigos } from './dom/domBtnBuscarAmigos.js';
+import { initWebSocket } from './websocketManager.js';
+import { initUserStatus } from './updateUserStatus.js';
+
 
 const routes = {
     '/login/': {
@@ -73,6 +76,8 @@ const routes = {
         template: renderDashboard(),
         init: () => {
             renderDashUserInfo();
+			initWebSocket();
+			initUserStatus();
         }
     }
 };

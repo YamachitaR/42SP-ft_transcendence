@@ -7,3 +7,9 @@ Pillow
 bcrypt
 requests
 django-cors-headers
+channels
+uvicorn
+websockets
+django-chartjs
+daphne
+
