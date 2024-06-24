@@ -1,0 +1,45 @@
+<!-- templates/game/game.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ping Pong Game</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Ping Pong: {{ game.player1 }} vs {{ game.player2 }}</h1>
+        <div class="row">
+            <div class="col">
+                <h2>{{ game.player1 }}: {{ game.player1.score }}</h2>
+            </div>
+            <div class="col">
+                <h2>{{ game.player2 }}: {{ game.player2.score }}</h2>
+            </div>
+        </div>
+        <button id="score-btn" class="btn btn-primary">Update Score</button>
+    </div>
+    <script>
+        document.getElementById('score-btn').addEventListener('click', function() {
+            fetch('/update_score/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    game_id: {{ game.id }},
+                    player_id: {{ game.player1.id }},
+                    points: 1
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Score updated! New score: ' + data.new_score);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pong Game</title>
+    <style>
+        canvas { background: #000; display: block; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <h1>Pong Game</h1>
+    <canvas id="pongCanvas" width="800" height="600"></canvas>
+    <script src="{% static 'pong/pong.js' %}"></script>
+</body>
+</html>

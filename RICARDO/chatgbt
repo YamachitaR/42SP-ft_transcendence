@@ -33,3 +33,26 @@ Quero fazer torna viável o jogo pong anexado, usando seguintes {REGRAS}
 > pode usar Bootstrap
 > não precisa logar para jogar
 
+
+
+Quero immplenta aplicação de um jogo da ping pong seguindo as  {REGRAS}
+
+{REGRAS}
+> Django 
+> javascript vanilla 
+> Bootstrap
+> múltiplo jogo remoto 
+> Aplicação completo
+>  não usar redis 
+
+Você consegue? 
+
+
+> tem que ser SPA
+> javascript vanilla 
+> Bootstrap
+> Django 
+> Não pode usar JWT
+> Sem usar rest 
+> Aplicação completo
+> múltiplo jogo remoto 
