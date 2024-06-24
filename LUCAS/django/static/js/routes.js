@@ -9,6 +9,8 @@ import  renderProfileUser  from './views/userProfileViews.js';
 import { renderUserInfo } from './dom/userProfileDom.js';
 import { sendUpdate } from './dom/userProfileDom.js';
 import { fetchUserInfo } from './crud/user.js';
+import  renderDashboard  from './views/dashboardView.js';
+import { renderDashUserInfo } from './dom/dashboardDom.js';
 import  renderBuscarAmigos  from './views/renderBuscarAmigos.js';
 import { domBtnBuscarAmigos } from './dom/domBtnBuscarAmigos.js';
 import { carregarSolicitacoesPendentes } from './dom/domBtnBuscarAmigos.js';
@@ -51,6 +53,12 @@ const routes = {
             initPlayGame();
         }
     },
+    '/dashboard/': {
+        template: renderDashboard(),
+        init: () => {
+            renderDashUserInfo();
+        }
+    },
 	'/friends/': {
         template: renderBuscarAmigos(),
         init: () => {
@@ -59,9 +67,9 @@ const routes = {
         }
     },
     '/': {
-        template: '<h1>Welcome to the Main Page</h1>',
+        template: renderDashboard(),
         init: () => {
-            console.log('Página principal carregada');
+            renderDashUserInfo();
         }
     }
 };

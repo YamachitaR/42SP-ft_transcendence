@@ -1,3 +1,5 @@
+/* Cores de Background */
+
 .bg-body-color {
     background-color: antiquewhite;
 }
@@ -14,6 +16,7 @@
     background-color:dimgray;
 }
 
+/* Botões */
 .btn-custom-menu {
     background-color: #b29642;
     border: none;
@@ -27,6 +30,7 @@
 
 .btn-custom {
     background-color: dimgray;
+    color: azure;
     border: none;
     cursor: pointer;
 }
@@ -36,10 +40,48 @@
     background-color: antiquewhite;
 }
 
+.btn-custom-nocolor {
+    color: azure;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-custom-nocolor:hover {
+    color: black;
+    background-color: antiquewhite;
+}
+
+/* Tamanhos diversos */
+.country-flags-size {
+    height: 20px;
+    width: auto;
+}
+
+.game-simulation-size{
+    height: 71vh;
+    width: 45vh;
+}
+
+.icon-sm {
+    height: 30px;
+    width: auto;
+}
+
+.icon-friend-dash-size {
+    height: 30px;
+    width: auto;
+}
+
+.img-size-h20 {
+    height: 20vh;
+    width: auto;
+}
+
 .no-content {
     height: 70vh;
 }
 
+/* Tamanhos em h-vh */
 .h-2vh {
     height: 2vh;
 }
@@ -64,17 +106,41 @@
     height: 20vh;
 }
 
+.h-30vh {
+    height: 30vh;
+}
+
+.h-40vh {
+    height: 40vh;
+}
+
 .h-50vh {
     height: 50vh;
 }
 
+.h-60vh {
+    height: 60vh;
+}
+
+.h-70vh {
+    height: 70vh;
+}
+
+.h-80vh {
+    height: 80vh;
+}
+
+.h-90vh {
+    height: 90vh;
+}
+
+.h-100vh {
+    height: 100vh;
+}
+
+/* Fontes */
 .montez-regular {
     font-family: "Montez", cursive;
     font-weight: 400;
     font-style: normal;
-}
-
-.country-flags-size {
-    height: 20px;
-    width: auto;
 }
