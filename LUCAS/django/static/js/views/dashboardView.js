@@ -7,7 +7,7 @@ export default function renderLogin() {
 						<h3 class="mt-2" >Dashboard</h4>
 					</div>
 				</div>
-				
+
 				<div class="row mx-3 mt-4 text-light">
 					<!--User Card-->
 					<div id="user-info" data-default-image="../../static/img/pf.jpg" class="col-2 text-center bg-dashboard shadow rounded">
@@ -33,24 +33,24 @@ export default function renderLogin() {
 						<div class="bg-dashboard-2 mb-4 mt-3 mx-2 rounded shadow p-2"><h5>Online Friends</h5></div>
 							<!--Linhas Com infos dos amigos-->
 							<div class="row bg-dashboard-2 m-2 shadow rounded">
-								<div class="col-2"><img src="../../img/user_default.png" id="profile_photo_friend1" class="icon-friend-dash-size"></div>
+								<div class="col-2"><img src="static/img/user_default.png" id="profile_photo_friend1" class="icon-friend-dash-size"></div>
 								<div class="col-8"><p>zezinho_plays</p></div>
-								<div class="col-2"><img src="../../img/online.png" id="status_friend" class="icon-friend-dash-size"></div>
+								<div class="col-2"><img src="static/img/online.png" id="status_friend" class="icon-friend-dash-size"></div>
 							</div>
 							<div class="row bg-dashboard-2 m-2 shadow rounded">
-								<div class="col-2"><img src="../../img/user_default.png" id="profile_photo_friend1" class="icon-friend-dash-size"></div>
+								<div class="col-2"><img src="static/img/user_default.png" id="profile_photo_friend1" class="icon-friend-dash-size"></div>
 								<div class="col-8"><p>zezinho_plays</p></div>
-								<div class="col-2"><img src="../../img/online.png" id="status_friend" class="icon-friend-dash-size"></div>
+								<div class="col-2"><img src="static/img/online.png" id="status_friend" class="icon-friend-dash-size"></div>
 							</div>
 							<div class="row bg-dashboard-2 m-2 shadow rounded">
-								<div class="col-2"><img src="../../img/user_default.png" id="profile_photo_friend1" class="icon-friend-dash-size"></div>
+								<div class="col-2"><img src="static/img/user_default.png" id="profile_photo_friend1" class="icon-friend-dash-size"></div>
 								<div class="col-8"><p>zezinho_plays</p></div>
-								<div class="col-2"><img src="../../img/offline.png" id="status_friend" class="icon-friend-dash-size"></div>
+								<div class="col-2"><img src="static/img/offline.png" id="status_friend" class="icon-friend-dash-size"></div>
 							</div>
 							<div class="row bg-dashboard-2 m-2 shadow rounded">
-								<div class="col-2"><img src="../../img/user_default.png" id="profile_photo_friend1" class="icon-friend-dash-size"></div>
+								<div class="col-2"><img src="static/img/user_default.png" id="profile_photo_friend1" class="icon-friend-dash-size"></div>
 								<div class="col-8"><p>zezinho_plays</p></div>
-								<div class="col-2"><img src="../../img/online.png" id="status_friend" class="icon-friend-dash-size"></div>
+								<div class="col-2"><img src="static/img/online.png" id="status_friend" class="icon-friend-dash-size"></div>
 							</div>
 						</div>
 					</div>

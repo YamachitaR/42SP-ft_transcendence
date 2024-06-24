@@ -1,4 +1,5 @@
-import { apiBuscarUsuario, apiListarAmigos, apiEnviarSolicitacaoAmizade, apiListarSolicitacoesPendentes, apiAprovarSolicitacaoAmizade } from "../apis.js";
+import { apiBuscarUsuario, apiListarAmigos, apiEnviarSolicitacaoAmizade, apiListarSolicitacoesPendentes, apiAprovarSolicitacaoAmizade, apiListarSolicitacoesEnviadas } from "../apis.js";
+const token = localStorage.getItem('token');
 
 export async function carregarSolicitacoesPendentes() {
     const token = localStorage.getItem('token');
@@ -16,10 +17,17 @@ export async function carregarSolicitacoesPendentes() {
         } else {
             solicitacoesPendentesData.forEach(solicitacao => {
                 const li = document.createElement('li');
-                li.textContent = `${solicitacao.user.username} (${solicitacao.user.email})`;
+                li.style.display = 'flex';
+                li.style.alignItems = 'center';
+                li.style.justifyContent = 'space-between';
+
+                const textSpan = document.createElement('span');
+                textSpan.textContent = `${solicitacao.user.username} (${solicitacao.user.email})`;
+                textSpan.style.flexGrow = 1;
 
                 const approveButton = document.createElement('button');
-                approveButton.textContent = 'Aprovar';
+                approveButton.textContent = 'Confirmar';
+                approveButton.className = 'btn btn-confirmar';
                 approveButton.onclick = async () => {
                     try {
                         const approveResponse = await apiAprovarSolicitacaoAmizade(solicitacao.id, token);
@@ -36,13 +44,60 @@ export async function carregarSolicitacoesPendentes() {
                     }
                 };
 
+                const excluirButton = document.createElement('button');
+                excluirButton.textContent = 'Excluir';
+                excluirButton.className = 'btn btn-excluir';
+                excluirButton.onclick = async () => {
+                    try {
+                        const excluirResponse = await apiAprovarSolicitacaoAmizade(solicitacao.id, token);
+                        if (excluirResponse.message) {
+                            alert(excluirResponse.message);
+                            carregarSolicitacoesPendentes(); // Atualiza a lista após aprovar a solicitação
+                            carregarListaAmigos(); // Atualiza a lista de amigos após aprovação
+                        } else {
+                            alert('Erro ao excluir solicitação de amizade');
+                        }
+                    } catch (error) {
+                        console.error('Erro ao excluir solicitação de amizade:', error);
+                        alert('Erro ao excluir solicitação de amizade');
+                    }
+                };
+
+                li.appendChild(textSpan);
                 li.appendChild(approveButton);
+                li.appendChild(excluirButton);
                 solicitacoesPendentesList.appendChild(li);
             });
         }
     } catch (error) {
         console.error('Erro ao listar solicitações de amizade pendentes:', error);
         alert('Erro ao listar solicitações de amizade pendentes');
+    }
+}
+
+export async function carregarSolicitacoesEnviadas() {
+    const token = localStorage.getItem('token');
+
+    try {
+        console.log('Chamando API para listar solicitações enviadas');
+        const solicitacoesEnviadasData = await apiListarSolicitacoesEnviadas(token);
+        console.log('Dados recebidos da API:', solicitacoesEnviadasData);
+
+        const solicitacoesEnviadasList = document.getElementById('solicitacoes-enviadas');
+        solicitacoesEnviadasList.innerHTML = '';
+
+        if (!Array.isArray(solicitacoesEnviadasData) || solicitacoesEnviadasData.length === 0) {
+            solicitacoesEnviadasList.innerHTML = '<li>Não há solicitações enviadas</li>';
+        } else {
+            solicitacoesEnviadasData.forEach(solicitacao => {
+                const li = document.createElement('li');
+                li.textContent = `${solicitacao.amigo.username} (${solicitacao.amigo.email})`;
+                solicitacoesEnviadasList.appendChild(li);
+            });
+        }
+    } catch (error) {
+        console.error('Erro ao listar solicitações de amizade enviadas:', error);
+        alert('Erro ao listar solicitações de amizade enviadas');
     }
 }
 
@@ -62,9 +117,10 @@ export async function carregarListaAmigos() {
         } else {
             amigosData.forEach(amigo => {
                 const li = document.createElement('li');
-                li.textContent = `${amigo.username} (${amigo.email})`;
+                li.textContent = `${amigo.name} (${amigo.email})`;
                 listaAmigos.appendChild(li);
             });
+			document.getElementById('total-amigos').textContent = amigosData.length;
         }
     } catch (error) {
         console.error('Erro ao listar amigos:', error);
@@ -76,8 +132,6 @@ export function domBtnBuscarAmigos() {
     document.getElementById('buscar-amigos-form').addEventListener('submit', async (event) => {
         event.preventDefault();
         const nickname = event.target.nickname.value;
-        const token = localStorage.getItem('token');
-
         try {
             console.log('Chamando API para buscar usuário:', nickname);
             const response = await apiBuscarUsuario(nickname, token);
@@ -109,24 +163,8 @@ export function domBtnBuscarAmigos() {
                         alert('Erro ao enviar solicitação de amizade');
                     }
                 };
-
-                try {
-                    console.log('Chamando API para listar amigos');
-                    const amigosResponse = await apiListarAmigos(token);
-                    console.log('Resposta da API para listar amigos:', amigosResponse);
-
-                    if (amigosResponse.ok) {
-                        const amigosData = await amigosResponse.json();
-                        document.getElementById('total-amigos').innerText = `Total Amigos: ${amigosData.length}`;
-                        carregarListaAmigos();
-                    } else {
-                        alert('Erro ao buscar amigos');
-                    }
-                } catch (error) {
-                    console.error('Erro ao buscar amigos:', error);
-                    alert('Erro ao buscar amigos');
-                }
-            } else {
+			}
+            else {
                 alert('Usuário não encontrado');
             }
         } catch (error) {

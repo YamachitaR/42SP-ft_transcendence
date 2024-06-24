@@ -5,9 +5,9 @@ from .views.auth import RegisterView, LoginView, LogoutView, CheckAuthView,\
 from .views.crud import get_user_info, update_user, UserPreferencesView, \
                         listar_todos_usuarios, buscar_id_pelo_username
 from .views import views
-from .views.friend import enviar_solicitacao_amizade, gerenciar_solicitacao_amizade,\
-                          listar_solicitacoes_pendentes, listar_amigos, verificar_amizade,\
-						  aprovar_solicitacao_amizade
+from .views.friend import enviar_solicitacao_amizade, listar_solicitacoes_pendentes,\
+                          listar_amigos, verificar_amizade, aprovar_solicitacao_amizade,\
+						  rejeitar_solicitacao_amizade, listar_solicitacoes_enviadas
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -21,11 +21,12 @@ urlpatterns = [
     path('update-user/', update_user, name='update_user'),
     path('user-preferences/', UserPreferencesView, name='user-preferences'),
 	path('amizades/', enviar_solicitacao_amizade, name='enviar_solicitacao_amizade'),
-    path('amizades/<int:pk>/<str:action>/', gerenciar_solicitacao_amizade, name='gerenciar_solicitacao_amizade'),
 	path('amizades/pendentes/', listar_solicitacoes_pendentes, name='listar_solicitacoes_pendentes'),
-    path('amizades/amigos/', listar_amigos, name='listar_amigos'),
+    path('amizades/enviadas/', listar_solicitacoes_enviadas, name='listar_solicitacoes_enviadas'),
+	path('amizades/amigos/', listar_amigos, name='listar_amigos'),
 	path('amizades/verificar/<int:amigo_id>/', verificar_amizade, name='verificar_amizade'),
 	path('amizades/aprovar/', aprovar_solicitacao_amizade, name='aprovar_solicitacao_amizade'),
+	path('amizades/rejeitar/', rejeitar_solicitacao_amizade, name='rejeitar_solicitacao_amizade'),
 	path('usuarios/buscar-id/', buscar_id_pelo_username, name='buscar_id_pelo_username'),
  	path('usuarios/', listar_todos_usuarios, name='listar_todos_usuarios'),
 ]

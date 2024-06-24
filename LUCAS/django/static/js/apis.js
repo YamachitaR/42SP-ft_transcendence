@@ -184,7 +184,7 @@ export async function apiListarAmigos(token) {
             'Authorization': `Token ${token}`
         }
     });
-    return await response;
+    return await response.json();
 }
 
 export async function apiEnviarSolicitacaoAmizade(amigoId, token) {
@@ -196,7 +196,7 @@ export async function apiEnviarSolicitacaoAmizade(amigoId, token) {
         },
         body: JSON.stringify({ amigo_id: amigoId })
     });
-    return await response;
+    return await response.json();
 }
 
 
@@ -219,6 +219,30 @@ export async function apiAprovarSolicitacaoAmizade(solicitacaoId, token) {
             'Authorization': `Token ${token}`
         },
         body: JSON.stringify({ solicitacao_id: solicitacaoId })
+    });
+    return response.json();
+}
+
+export async function apiExcluirSolicitacaoAmizade(solicitacaoId, token) {
+    const response = await fetch('/api/amizades/rejeitar/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        body: JSON.stringify({ solicitacao_id: solicitacaoId })
+    });
+    return response.json();
+}
+
+
+export async function apiListarSolicitacoesEnviadas(token) {
+    const response = await fetch('/api/amizades/enviadas/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        }
     });
     return response.json();
 }

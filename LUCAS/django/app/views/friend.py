@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from ..models import Amizade, CustomUser
-from ..serializers import AmizadeSerializer
+from ..serializers import AmizadeSerializer, AmizadeEnviadaSerializer
 from django.db import models
 import logging
 
@@ -33,30 +33,21 @@ def enviar_solicitacao_amizade(request):
         logger.error(f"Erro ao enviar solicitação de amizade: {e}")
         return Response({'error': f'Erro ao enviar solicitação de amizade: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def gerenciar_solicitacao_amizade(request, pk, action):
-    try:
-        amizade = Amizade.objects.get(id=pk, amigo=request.user)
-    except Amizade.DoesNotExist:
-        return Response({'error': 'Solicitação de amizade não encontrada'}, status=status.HTTP_404_NOT_FOUND)
-
-    if action == 'aceitar':
-        amizade.aceita = True
-        amizade.save()
-        return Response({'status': 'Amizade aceita'}, status=status.HTTP_200_OK)
-    elif action == 'recusar':
-        amizade.delete()
-        return Response({'status': 'Amizade recusada'}, status=status.HTTP_200_OK)
-    else:
-        return Response({'error': 'Ação inválida'}, status=status.HTTP_400_BAD_REQUEST)
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listar_solicitacoes_pendentes(request):
     solicitacoes = Amizade.objects.filter(amigo=request.user, aceita=False)
     serializer = AmizadeSerializer(solicitacoes, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listar_solicitacoes_enviadas(request):
+    solicitacoes = Amizade.objects.filter(user=request.user, aceita=False)
+    serializer = AmizadeEnviadaSerializer(solicitacoes, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
 
 @api_view(['GET'])
@@ -118,3 +109,18 @@ def aprovar_solicitacao_amizade(request):
     except Exception as e:
         logger.error(f"Erro ao aprovar solicitação de amizade: {e}")
         return Response({'error': f'Erro ao aprovar solicitação de amizade: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def rejeitar_solicitacao_amizade(request):
+    solicitacao_id = request.data.get('solicitacao_id')
+    try:
+        solicitacao = Amizade.objects.get(id=solicitacao_id, amigo=request.user)
+        solicitacao.delete()
+        return Response({'message': 'Solicitação de amizade rejeitada com sucesso!'}, status=status.HTTP_200_OK)
+    except Amizade.DoesNotExist:
+        return Response({'error': 'Solicitação de amizade não encontrada.'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        logger.error(f"Erro ao rejeitar solicitação de amizade: {e}")
+        return Response({'error': f'Erro ao rejeitar solicitação de amizade: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

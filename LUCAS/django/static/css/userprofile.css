@@ -1,64 +1,39 @@
-.card {
-    background-color: #f8f9fa;
+li {
+    display: flex;
+    align-items: center; /* Alinha os itens na mesma altura */
+    justify-content: space-between; /* Espaça os itens uniformemente */
+    margin-bottom: 10px; /* Espaço entre as linhas */
+    flex-wrap: wrap; /* Permite que os itens se ajustem em várias linhas se necessário */
+}
+
+li span {
+    flex-grow: 1; /* O texto ocupa o espaço disponível */
+    margin-right: 10px; /* Espaço à direita do texto */
+}
+
+.btn {
+    padding: 10px 15px;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    margin-left: 10px; /* Espaço entre os botões */
+    flex-shrink: 0; /* Impede que os botões encolham */
 }
 
-.card-body {
-    padding: 20px;
+.btn-confirmar {
+    background-color: #c0ab66; /* Verde */
+    color: white;
+    border: none;
 }
 
-.section-container {
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 20px;
-    background-color: #fff;
-    height: 100%;
+.btn-excluir {
+    background-color: #dd7e77; /* Vermelho */
+    color: white;
+    border: none;
 }
 
-.section-container h3 {
-    margin-top: 0;
-}
-
-hr {
-    border: 0;
-    border-top: 1px solid #dee2e6;
-    margin: 10px 0;
-}
-
-#user-info img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto 20px auto;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-form label {
-    display: block;
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-form input[type="text"],
-form input[type="email"],
-form input[type="file"],
-form select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-form button {
-    display: block;
-    width: 100%;
-    padding: 10px;
+.btn-confirmar:hover, .btn-excluir:hover {
+    opacity: 0.8;
 }

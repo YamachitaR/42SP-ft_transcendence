@@ -13,7 +13,8 @@ import  renderDashboard  from './views/dashboardView.js';
 import { renderDashUserInfo } from './dom/dashboardDom.js';
 import  renderBuscarAmigos  from './views/renderBuscarAmigos.js';
 import { domBtnBuscarAmigos } from './dom/domBtnBuscarAmigos.js';
-import { carregarSolicitacoesPendentes } from './dom/domBtnBuscarAmigos.js';
+import { carregarSolicitacoesPendentes, carregarSolicitacoesEnviadas,
+	     carregarListaAmigos} from './dom/domBtnBuscarAmigos.js';
 
 const routes = {
     '/login/': {
@@ -64,6 +65,8 @@ const routes = {
         init: () => {
             domBtnBuscarAmigos();
 			carregarSolicitacoesPendentes();
+			carregarSolicitacoesEnviadas();
+			carregarListaAmigos();
         }
     },
     '/': {
