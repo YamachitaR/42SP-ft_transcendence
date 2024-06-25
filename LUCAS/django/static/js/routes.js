@@ -14,6 +14,7 @@ import renderBuscarAmigos from './views/renderBuscarAmigos.js';
 import { domBtnBuscarAmigos, carregarSolicitacoesPendentes, carregarSolicitacoesEnviadas, carregarListaAmigos } from './dom/domBtnBuscarAmigos.js';
 import { connectWebSocket } from './websocket.js';
 import { user } from './crud/user.js';
+import renderProfileFriend from './views/friendProfileViews.js';
 
 const routes = {
     '/login/': {
@@ -67,6 +68,10 @@ const routes = {
 			carregarSolicitacoesEnviadas();
 			carregarListaAmigos();
         }
+    },
+    '/friends-profile/': {
+        template: renderProfileFriend(),
+        init: () => {}
     },
     '/': {
         template: renderDashboard(),
