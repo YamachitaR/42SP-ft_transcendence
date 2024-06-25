@@ -3,10 +3,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from ..models import Amizade, CustomUser
-from ..serializers import AmizadeSerializer, AmizadeEnviadaSerializer
+from ..serializers import AmizadeSerializer, AmizadeEnviadaSerializer, AmigoListSerializer
 from django.db import models
 import logging
-
 
 logger = logging.getLogger(__name__)
 
@@ -47,9 +46,6 @@ def listar_solicitacoes_enviadas(request):
     serializer = AmizadeEnviadaSerializer(solicitacoes, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-
-
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listar_amigos(request):
@@ -70,8 +66,8 @@ def listar_amigos(request):
         # Obter todos os usuários amigos
         amigos = CustomUser.objects.filter(id__in=amigos_ids)
 
-        # Construir a resposta
-        amigos_data = [{'id': amigo.id, 'name': amigo.username, 'email': amigo.email, 'profile_image': amigo.profile_image, 'is_online': amigo.is_online} for amigo in amigos]
+        # Serializar os dados dos amigos
+        amigos_data = AmigoListSerializer(amigos, many=True).data
 
         return Response(amigos_data, status=status.HTTP_200_OK)
     except Exception as e:

@@ -13,64 +13,39 @@ export default function renderBuscarAmigos() {
 
             <!--Friends List-->
             <div class="col-7 bg-dashboard shadow rounded mx-auto text-center">
-                <!--Linhas Com infos dos amigos-->
-                <div class="row p-2 bg-dashboard-2 m-3 shadow rounded d-flex align-items-center justify-content-center">
-                    <div class="col-1  d-flex align-items-center justify-content-center"><img src="static/img/user_default.png" id="profile_photo_friend1" class="icon-friend-dash-size"></div>
-                    <div class="col-8"><h5>el_tigrinho</h5></div>
-                    <div class="col-1 d-flex align-items-center justify-content-center"><img src="static/img/online.png" id="" class="icon-sm"></div>
-                    <div class="col-2 d-flex align-items-center justify-content-center">
-                        <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center">
-                            <img src="static/img/profile.png" id="" class="icon-sm">
-                        </button>
-                        <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center">
-                            <img src="static/img/delete_friend.png" id="" class="icon-sm">
-                        </button>
-                    </div>
-                </div>
-                <!--Linhas Com infos dos amigos-->
-                <div class="row p-2 bg-dashboard-2 m-3 shadow rounded d-flex align-items-center justify-content-center">
-                    <div class="col-1  d-flex align-items-center justify-content-center"><img src="static/img/user_default.png" id="profile_photo_friend1" class="icon-friend-dash-size"></div>
-                    <div class="col-8"><h5>el_tigrinho</h5></div>
-                    <div class="col-1 d-flex align-items-center justify-content-center"><img src="static/img/online.png" id="" class="icon-sm"></div>
-                    <div class="col-2 d-flex align-items-center justify-content-center">
-                        <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center">
-                            <img src="static/img/profile.png" id="" class="icon-sm">
-                        </button>
-                        <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center">
-                            <img src="static/img/delete_friend.png" id="" class="icon-sm">
-                        </button>
-                    </div>
-                </div>
-                <!--Linhas Com infos dos amigos-->
-                <div class="row p-2 bg-dashboard-2 m-3 shadow rounded d-flex align-items-center justify-content-center">
-                    <div class="col-1  d-flex align-items-center justify-content-center"><img src="static/img/user_default.png" id="profile_photo_friend1" class="icon-friend-dash-size"></div>
-                    <div class="col-8"><h5>el_tigrinho</h5></div>
-                    <div class="col-1 d-flex align-items-center justify-content-center"><img src="static/img/online.png" id="" class="icon-sm"></div>
-                    <div class="col-2 d-flex align-items-center justify-content-center">
-                        <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center">
-                            <img src="static/img/profile.png" id="" class="icon-sm">
-                        </button>
-                        <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center">
-                            <img src="static/img/delete_friend.png" id="" class="icon-sm">
-                        </button>
-                    </div>
-                </div>
-                <!--Linhas Com infos dos amigos-->
-                <div class="row p-2 bg-dashboard-2 m-3 shadow rounded d-flex align-items-center justify-content-center">
-                    <div class="col-1  d-flex align-items-center justify-content-center"><img src="static/img/user_default.png" id="profile_photo_friend1" class="icon-friend-dash-size"></div>
-                    <div class="col-8"><h5>el_tigrinho</h5></div>
-                    <div class="col-1 d-flex align-items-center justify-content-center"><img src="static/img/online.png" id="" class="icon-sm"></div>
-                    <div class="col-2 d-flex align-items-center justify-content-center">
-                        <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center">
-                            <img src="static/img/profile.png" id="" class="icon-sm">
-                        </button>
-                        <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center">
-                            <img src="static/img/delete_friend.png" id="" class="icon-sm">
-                        </button>
-                    </div>
-                </div>
-            </div>
 
+            <!--Linhas Com infos dos amigos-->
+			<!-- Container para a lista de amigos -->
+			<div id="lista-amigos">
+			    <!-- Os amigos serão inseridos aqui -->
+			</div>
+			<div id="total-amigos-container">
+			    Total de amigos: <span id="total-amigos">0</span>
+			</div>
+
+			<!-- Template para os amigos -->
+			<template id="friend-template">
+			    <div class="row p-2 bg-dashboard-2 m-3 shadow rounded d-flex align-items-center justify-content-center">
+			        <div class="col-1 d-flex align-items-center justify-content-center">
+			            <img src="static/img/user_default.png" class="icon-friend-dash-size profile-photo">
+			        </div>
+			        <div class="col-8">
+			            <h5 class="friend-username"></h5>
+			        </div>
+			        <div class="col-1 d-flex align-items-center justify-content-center">
+			            <img src="static/img/online.png" class="icon-sm status-icon">
+			        </div>
+			        <div class="col-2 d-flex align-items-center justify-content-center">
+			            <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center profile-btn">
+			                <img src="static/img/profile.png" class="icon-sm">
+			            </button>
+			            <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center delete-btn">
+			                <img src="static/img/delete_friend.png" class="icon-sm">
+			            </button>
+			        </div>
+			    </div>
+			</template>
+			<!--Fim lista de Amigos-->
             <!--Buscar Amigos-->
             <div class="col-4 bg-dashboard shadow rounded mx-auto ">
                 <!--Titulo da caixa-->
@@ -101,11 +76,6 @@ export default function renderBuscarAmigos() {
                 <div class="m-3 p-2 rounded bg-dashboard-2">
                     <h4>Solicitações Enviadas</h4>
                     <ul id="solicitacoes-enviadas"></ul>
-                </div>
-                <!--lista de amigos  Excluir -->
-                <div class="m-3 p-2 rounded bg-dashboard-2">
-                    <h4 >Amigos</h4>
-                    <ul id="lista-amigos"></ul>
                 </div>
                 <br>
             </div>

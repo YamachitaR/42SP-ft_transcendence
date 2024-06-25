@@ -1,4 +1,4 @@
-import { apiBuscarUsuario, apiListarAmigos, apiEnviarSolicitacaoAmizade, apiListarSolicitacoesPendentes, apiAprovarSolicitacaoAmizade, apiListarSolicitacoesEnviadas } from "../apis.js";
+import { apiBuscarUsuario, apiListarAmigos, apiEnviarSolicitacaoAmizade, apiListarSolicitacoesPendentes, apiAprovarSolicitacaoAmizade, apiListarSolicitacoesEnviadas, apiExcluirSolicitacaoAmizade } from "../apis.js";
 const token = localStorage.getItem('token');
 
 export async function carregarSolicitacoesPendentes() {
@@ -107,7 +107,7 @@ export async function carregarListaAmigos() {
     try {
         console.log('Chamando API para listar amigos');
         const amigosData = await apiListarAmigos(token);
-        console.log('Dados recebidos da API:', amigosData);
+        console.log('Dados recebidos da API - Listar Amigos:', amigosData);
 
         const listaAmigos = document.getElementById('lista-amigos');
         listaAmigos.innerHTML = '';
@@ -115,18 +115,43 @@ export async function carregarListaAmigos() {
         if (!Array.isArray(amigosData) || amigosData.length === 0) {
             listaAmigos.innerHTML = '<li>Você ainda não tem amigos</li>';
         } else {
+            const friendTemplate = document.getElementById('friend-template').content;
+
             amigosData.forEach(amigo => {
-                const li = document.createElement('li');
-                li.textContent = `${amigo.profile_image} ${amigo.name} ${amigo.is_online}`;
-                listaAmigos.appendChild(li);
+                const friendClone = document.importNode(friendTemplate, true);
+                friendClone.querySelector('.profile-photo').src = amigo.profile_image || 'static/img/user_default.png';
+                friendClone.querySelector('.friend-username').textContent = amigo.username;
+                friendClone.querySelector('.status-icon').src = amigo.is_online ? 'static/img/online.png' : 'static/img/offline.png';
+
+                friendClone.querySelector('.profile-btn').addEventListener('click', () => {
+                    // Função para ver perfil
+                    viewProfile(amigo.id);
+                });
+                friendClone.querySelector('.delete-btn').addEventListener('click', () => {
+                    // Função para deletar amigo
+                    deleteFriend(amigo.id);
+                });
+
+                listaAmigos.appendChild(friendClone);
             });
-			document.getElementById('total-amigos').textContent = amigosData.length;
+
+            document.getElementById('total-amigos').textContent = amigosData.length;
         }
     } catch (error) {
         console.error('Erro ao listar amigos:', error);
         alert('Erro ao listar amigos');
     }
 }
+
+function viewProfile(friendId) {
+    console.log('Visualizando perfil do amigo ID:', friendId);
+}
+
+function deleteFriend(friendId) {
+    console.log('Deletando amigo ID:', friendId);
+	apiExcluirSolicitacaoAmizade(friendId, token);
+}
+
 
 export function domBtnBuscarAmigos() {
     document.getElementById('buscar-amigos-form').addEventListener('submit', async (event) => {

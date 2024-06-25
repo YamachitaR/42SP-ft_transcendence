@@ -28,10 +28,15 @@ class AmizadeSerializer(serializers.ModelSerializer):
         model = Amizade
         fields = ['id', 'user', 'amigo', 'aceita']
 
-
 class AmizadeEnviadaSerializer(serializers.ModelSerializer):
     amigo = UserSerializer()
 
     class Meta:
         model = Amizade
         fields = ['id', 'amigo', 'aceita', 'criado_em']
+
+
+class AmigoListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'email', 'profile_image', 'is_online']
