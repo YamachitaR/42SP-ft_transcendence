@@ -246,3 +246,21 @@ export async function apiListarSolicitacoesEnviadas(token) {
     });
     return response.json();
 }
+
+
+// curl -X POST http://localhost:8000/excluir_amizade/ \
+// -H "Authorization: Token SEU_TOKEN" \
+// -H "Content-Type: application/json" \
+// -d '{"amigo_id": 123}'
+
+export async function apiExcluirAmizade(amigoId, token) {
+    const response = await fetch('/api/excluir_amizade/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        body: JSON.stringify({ amigo_id: amigoId })
+    });
+    return response.json();
+}
