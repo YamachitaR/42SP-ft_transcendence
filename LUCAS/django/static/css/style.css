@@ -19,14 +19,14 @@
 /* Botões */
 
 .btn-custom-logout {
-    background-color: #570b0b;
+    background-color: #aa3f3f;
     border: none;
     cursor: pointer;
 }
 
 .btn-custom-logout:hover {
-    background-color: #b44c4c;
-    color: black;
+    background-color: #5c0707;
+    color: antiquewhite;
     border: none;
     cursor: pointer;
 }

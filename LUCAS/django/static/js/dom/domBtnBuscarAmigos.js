@@ -113,7 +113,7 @@ export async function carregarListaAmigos() {
         listaAmigos.innerHTML = '';
 
         if (!Array.isArray(amigosData) || amigosData.length === 0) {
-            listaAmigos.innerHTML = '<li>Você ainda não tem amigos</li>';
+            listaAmigos.innerHTML = '<div class="mt-3 mb-3 text-center">Você ainda não tem amigos</div>';
         } else {
             const friendTemplate = document.getElementById('friend-template').content;
 
