@@ -17,6 +17,20 @@
 }
 
 /* Botões */
+
+.btn-custom-logout {
+    background-color: #570b0b;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-custom-logout:hover {
+    background-color: #b44c4c;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
 .btn-custom-menu {
     background-color: #b29642;
     border: none;
