@@ -120,7 +120,7 @@ export async function carregarListaAmigos() {
 
             amigosData.forEach(amigo => {
                 const friendClone = document.importNode(friendTemplate, true);
-                friendClone.querySelector('.profile-photo').src = amigo.profile_image || 'static/img/user_default.png';
+                friendClone.querySelector('.profile-photo').src = amigo.profile_image || 'static/img/pf.jpg';
                 friendClone.querySelector('.friend-username').textContent = amigo.username;
                 friendClone.querySelector('.status-icon').src = amigo.is_online ? 'static/img/online.png' : 'static/img/offline.png';
 

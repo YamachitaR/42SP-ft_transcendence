@@ -17,6 +17,9 @@ def enviar_solicitacao_amizade(request):
         amigo = CustomUser.objects.get(id=amigo_id)
         user = request.user
 
+        if user == amigo:
+            return Response({'message': 'Você não pode enviar uma solicitação de amizade para você mesmo'}, status=status.HTTP_400_BAD_REQUEST)
+
         if Amizade.objects.filter(user=user, amigo=amigo).exists():
             return Response({'message': 'Solicitação de amizade já enviada, aguardando aceitação'}, status=status.HTTP_200_OK)
 

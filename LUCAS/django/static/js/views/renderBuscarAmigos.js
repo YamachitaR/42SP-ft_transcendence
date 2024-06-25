@@ -27,7 +27,7 @@ export default function renderBuscarAmigos() {
 			<template id="friend-template">
 			    <div class="row p-2 bg-dashboard-2 m-3 shadow rounded d-flex align-items-center justify-content-center">
 			        <div class="col-1 d-flex align-items-center justify-content-center">
-			            <img src="static/img/user_default.png" class="icon-friend-dash-size profile-photo">
+			            <img src="static/img/pf.jpg" class="icon-friend-dash-size profile-photo">
 			        </div>
 			        <div class="col-8">
 			            <h5 class="friend-username"></h5>
