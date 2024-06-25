@@ -17,6 +17,9 @@ def enviar_solicitacao_amizade(request):
         amigo = CustomUser.objects.get(id=amigo_id)
         user = request.user
 
+        if user == amigo:
+            return Response({'message': 'Você não pode enviar uma solicitação de amizade para você mesmo'}, status=status.HTTP_400_BAD_REQUEST)
+
         if Amizade.objects.filter(user=user, amigo=amigo).exists():
             return Response({'message': 'Solicitação de amizade já enviada, aguardando aceitação'}, status=status.HTTP_200_OK)
 
@@ -120,3 +123,21 @@ def rejeitar_solicitacao_amizade(request):
     except Exception as e:
         logger.error(f"Erro ao rejeitar solicitação de amizade: {e}")
         return Response({'error': f'Erro ao rejeitar solicitação de amizade: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def excluir_amizade(request):
+    amigo_id = request.data.get('amigo_id')
+    try:
+        # Verificar se a amizade existe onde o usuário atual é o solicitante ou o amigo
+        amizade = Amizade.objects.get(
+            (models.Q(user=request.user) & models.Q(amigo__id=amigo_id)) |
+            (models.Q(amigo=request.user) & models.Q(user__id=amigo_id))
+        )
+        amizade.delete()
+        return Response({'message': 'Amizade excluída com sucesso!'}, status=status.HTTP_200_OK)
+    except Amizade.DoesNotExist:
+        return Response({'error': 'Amizade não encontrada.'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        logger.error(f"Erro ao excluir amizade: {e}")
+        return Response({'error': f'Erro ao excluir amizade: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

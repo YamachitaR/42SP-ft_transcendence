@@ -7,7 +7,8 @@ from .views.crud import get_user_info, update_user, UserPreferencesView, \
 from .views import views
 from .views.friend import enviar_solicitacao_amizade, listar_solicitacoes_pendentes,\
                           listar_amigos, verificar_amizade, aprovar_solicitacao_amizade,\
-						  rejeitar_solicitacao_amizade, listar_solicitacoes_enviadas
+						  rejeitar_solicitacao_amizade, listar_solicitacoes_enviadas,\
+						  excluir_amizade
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -27,6 +28,7 @@ urlpatterns = [
 	path('amizades/verificar/<int:amigo_id>/', verificar_amizade, name='verificar_amizade'),
 	path('amizades/aprovar/', aprovar_solicitacao_amizade, name='aprovar_solicitacao_amizade'),
 	path('amizades/rejeitar/', rejeitar_solicitacao_amizade, name='rejeitar_solicitacao_amizade'),
+	path('excluir_amizade/', excluir_amizade, name='excluir_amizade'),
 	path('usuarios/buscar-id/', buscar_id_pelo_username, name='buscar_id_pelo_username'),
  	path('usuarios/', listar_todos_usuarios, name='listar_todos_usuarios'),
 ]

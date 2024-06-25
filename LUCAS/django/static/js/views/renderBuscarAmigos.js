@@ -60,9 +60,9 @@ export default function renderBuscarAmigos() {
 
                 <!--Formulario-->
                 <div class="bg-dashboard-2 p-2 m-3 shadow rounded d-flex align-items-center justify-content-center">
-                    <form class="w-100" id="buscar-amigos-form">
-                        <div class="mt-2 mb-3">
-                            <label for="nickname" class="form-label">Nickname</label>
+                    <form class="w-100 p-4" id="buscar-amigos-form">
+                        <div class="mt-3 mb-3">
+                            <label id="nickname" for="nickname" class="form-label">Nickname</label>
                             <input type="text" class="form-control" id="nickname" name="nickname" required>
                         </div>
                         <div class="d-flex align-items-center justify-content-center mb-3">
@@ -73,7 +73,11 @@ export default function renderBuscarAmigos() {
 
                 <!--Solicitar amigos-->
                 <div class="m-3 d-flex align-items-center justify-content-center">
-                    <button id="enviar-solicitacao-btn" class="w-100 btn-custom-nocolor bg-dashboard-2 rounded" style="display: none;">Enviar Solicitação de Amizade</button>
+                <!--Solicitações pendentes-->
+                <button id="enviar-solicitacao-btn" class="w-100 btn-custom-nocolor bg-dashboard-2 rounded" style="display: none;">Enviar Solicitação de Amizade</button>
+                <div class="m-3 p-2 rounded bg-dashboard-2">
+                    <h4>Solicitações de Amizade</h4>
+                    <ul id="solicitacoes-pendentes"></ul>
                 </div>
 
                 <!--Solicitações pendentes-->

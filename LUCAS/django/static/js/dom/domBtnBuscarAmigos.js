@@ -1,4 +1,7 @@
-import { apiBuscarUsuario, apiListarAmigos, apiEnviarSolicitacaoAmizade, apiListarSolicitacoesPendentes, apiAprovarSolicitacaoAmizade, apiListarSolicitacoesEnviadas, apiExcluirSolicitacaoAmizade } from "../apis.js";
+import { apiBuscarUsuario, apiListarAmigos, apiEnviarSolicitacaoAmizade,
+	     apiListarSolicitacoesPendentes, apiAprovarSolicitacaoAmizade,
+		 apiListarSolicitacoesEnviadas, apiExcluirSolicitacaoAmizade,
+		 apiExcluirAmizade } from "../apis.js";
 const token = localStorage.getItem('token');
 
 export async function carregarSolicitacoesPendentes() {
@@ -33,8 +36,7 @@ export async function carregarSolicitacoesPendentes() {
                         const approveResponse = await apiAprovarSolicitacaoAmizade(solicitacao.id, token);
                         if (approveResponse.message) {
                             alert(approveResponse.message);
-                            carregarSolicitacoesPendentes(); // Atualiza a lista após aprovar a solicitação
-                            carregarListaAmigos(); // Atualiza a lista de amigos após aprovação
+                            atualizarScreen(); // Atualiza a lista de amigos após aprovação
                         } else {
                             alert('Erro ao aprovar solicitação de amizade');
                         }
@@ -49,11 +51,10 @@ export async function carregarSolicitacoesPendentes() {
                 excluirButton.className = 'btn btn-excluir';
                 excluirButton.onclick = async () => {
                     try {
-                        const excluirResponse = await apiAprovarSolicitacaoAmizade(solicitacao.id, token);
+                        const excluirResponse = await apiExcluirSolicitacaoAmizade(solicitacao.id, token);
                         if (excluirResponse.message) {
                             alert(excluirResponse.message);
-                            carregarSolicitacoesPendentes(); // Atualiza a lista após aprovar a solicitação
-                            carregarListaAmigos(); // Atualiza a lista de amigos após aprovação
+                            atualizarScreen();
                         } else {
                             alert('Erro ao excluir solicitação de amizade');
                         }
@@ -119,7 +120,7 @@ export async function carregarListaAmigos() {
 
             amigosData.forEach(amigo => {
                 const friendClone = document.importNode(friendTemplate, true);
-                friendClone.querySelector('.profile-photo').src = amigo.profile_image || 'static/img/user_default.png';
+                friendClone.querySelector('.profile-photo').src = amigo.profile_image || 'static/img/pf.jpg';
                 friendClone.querySelector('.friend-username').textContent = amigo.username;
                 friendClone.querySelector('.status-icon').src = amigo.is_online ? 'static/img/online.png' : 'static/img/offline.png';
 
@@ -147,9 +148,13 @@ function viewProfile(friendId) {
     console.log('Visualizando perfil do amigo ID:', friendId);
 }
 
-function deleteFriend(friendId) {
+async function deleteFriend(friendId) {
     console.log('Deletando amigo ID:', friendId);
-	apiExcluirSolicitacaoAmizade(friendId, token);
+	const response = await apiExcluirAmizade(friendId, token);
+	if(response){
+		alert('Amigo deletado com sucesso!');
+	}
+	atualizarScreen()
 }
 
 
@@ -176,10 +181,13 @@ export function domBtnBuscarAmigos() {
                         const solicitacaoResponse = await apiEnviarSolicitacaoAmizade(userId, token);
                         console.log('Resposta da API para enviar solicitação de amizade:', solicitacaoResponse);
 
-                        if (solicitacaoResponse.ok) {
-                            const solicitacaoData = await solicitacaoResponse.json();
+                        if (solicitacaoResponse) {
+                            const solicitacaoData = await solicitacaoResponse;
                             alert(solicitacaoData.message);
-                            carregarSolicitacoesPendentes(); // Atualiza a lista após enviar a solicitação
+                            enviarSolicitacaoBtn.style.display = 'none';
+                       
+                            document.getElementById('nickname').value = '';
+                            atualizarScreen(); // Atualiza a lista após enviar a solicitação
                         } else {
                             alert('Erro ao enviar solicitação de amizade');
                         }
@@ -197,4 +205,11 @@ export function domBtnBuscarAmigos() {
             alert('Erro ao buscar usuário');
         }
     });
+}
+
+
+function atualizarScreen(){
+	carregarListaAmigos();
+	carregarSolicitacoesPendentes();
+	carregarSolicitacoesEnviadas();
 }
