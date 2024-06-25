@@ -1,49 +1,25 @@
-class WebSocketManager {
-    constructor(url) {
-        this.url = url;
-        this.socket = null;
-        this.handlers = {};
-    }
+export function connectWebSocket() {
+    const statusSocketUrl = 'ws/status/';
 
-    connect() {
-        this.socket = new WebSocket(this.url);
+    const statusSocket = new WebSocket(statusSocketUrl);
 
-        this.socket.onopen = (event) => {
-            console.log('WebSocket conectado.');
-        };
+    statusSocket.onopen = function() {
+        console.log('WebSocket connection established');
+        statusSocket.send(JSON.stringify({
+            'message': 'Hello, WebSocket!'
+        }));
+    };
 
-        this.socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            this.handleMessage(data);
-        };
+    statusSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        console.log('WebSocket message received:', data);
+    };
 
-        this.socket.onclose = (event) => {
-            console.log('WebSocket desconectado.');
-        };
+    statusSocket.onclose = function(e) {
+        console.log('WebSocket connection closed:', e);
+    };
 
-        this.socket.onerror = (error) => {
-            console.error('WebSocket erro:', error);
-        };
-    }
-
-    addHandler(type, handler) {
-        if (!this.handlers[type]) {
-            this.handlers[type] = [];
-        }
-        this.handlers[type].push(handler);
-    }
-
-    handleMessage(data) {
-        const handlers = this.handlers[data.type];
-        if (handlers) {
-            handlers.forEach(handler => handler(data));
-        }
-    }
-
-    sendMessage(type, message) {
-        const data = JSON.stringify({ type, message });
-        this.socket.send(data);
-    }
+    statusSocket.onerror = function(e) {
+        console.error('WebSocket error:', e);
+    };
 }
-
-export default WebSocketManager;

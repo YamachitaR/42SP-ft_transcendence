@@ -20,7 +20,7 @@ SECRET_KEY = 'django-insecure-%pzo@29cupqur%7vkfkw7-@@q$lr3$%fbpqfmyfkdw4qp=_+j=
 DEBUG = False
 ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
-	'daphne',
+	'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,7 +31,6 @@ INSTALLED_APPS = [
 	'app',
 	'rest_framework',
 	'rest_framework.authtoken',
-	'channels',
 ]
 AUTH_USER_MODEL = 'app.CustomUser'
 LOGIN_URL = 'login'
@@ -40,7 +39,10 @@ LOGOUT_REDIRECT_URL = 'login'
 ASGI_APPLICATION = 'web.asgi.application'
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('redis', 6379)],
+        },
     },
 }
 REST_FRAMEWORK = {
@@ -132,3 +134,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = False

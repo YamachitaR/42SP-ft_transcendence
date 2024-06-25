@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   postgres:
     container_name: c_postgres
@@ -9,6 +11,13 @@ services:
       - ./.env
     ports:
       - "5432:5432"
+    restart: on-failure
+
+  redis:
+    container_name: c_redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
     restart: on-failure
 
   django:
@@ -25,9 +34,10 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
+      - redis
     env_file:
       - ./.env
-    command: ["./waitPostgres.sh", "postgres", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+    command: ["./waitPostgres.sh", "postgres", "uvicorn", "web.asgi:application", "--host", "0.0.0.0", "--port", "8000"]
     restart: on-failure
 
   nginx:

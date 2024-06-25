@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import PermissionsMixin
 from django.conf import settings
 from django.db import models
-from django.utils import timezone
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -29,8 +29,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
-    date_joined = models.DateTimeField(default=timezone.now)
-    last_activity = models.DateTimeField(default=timezone.now)
+    is_online = models.BooleanField(default=False)
+
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'

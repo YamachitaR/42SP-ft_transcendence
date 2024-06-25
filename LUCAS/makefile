@@ -23,6 +23,8 @@ logPostgres:
 	$(DOCKER) logs -f postgres
 logNginx:
 	$(DOCKER) logs -f nginx
+logRedis:
+	$(DOCKER) logs -f nginx
 
 inpostgres:
 	docker exec -it c_postgres psql -U admin -d pong

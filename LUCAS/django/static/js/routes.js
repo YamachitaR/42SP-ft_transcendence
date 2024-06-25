@@ -5,19 +5,15 @@ import renderRegister from './views/registerViews.js';
 import { domBtnLogin, domBtnCad, domBtn42 } from './dom/loginDom.js';
 import { domBtnRegister, domBtnBackHome } from './dom/registerDom.js';
 import { logout } from './dom/logoutDom.js';
-import  renderProfileUser  from './views/userProfileViews.js';
-import { renderUserInfo } from './dom/userProfileDom.js';
-import { sendUpdate } from './dom/userProfileDom.js';
+import renderProfileUser from './views/userProfileViews.js';
+import { renderUserInfo, sendUpdate } from './dom/userProfileDom.js';
 import { fetchUserInfo } from './crud/user.js';
-import  renderDashboard  from './views/dashboardView.js';
+import renderDashboard from './views/dashboardView.js';
 import { renderDashUserInfo } from './dom/dashboardDom.js';
-import  renderBuscarAmigos  from './views/renderBuscarAmigos.js';
-import { domBtnBuscarAmigos } from './dom/domBtnBuscarAmigos.js';
-import { carregarSolicitacoesPendentes, carregarSolicitacoesEnviadas,
-        carregarListaAmigos } from './dom/domBtnBuscarAmigos.js';
-import { initWebSocket } from './websocketManager.js';
-import { initUserStatus } from './updateUserStatus.js';
-
+import renderBuscarAmigos from './views/renderBuscarAmigos.js';
+import { domBtnBuscarAmigos, carregarSolicitacoesPendentes, carregarSolicitacoesEnviadas, carregarListaAmigos } from './dom/domBtnBuscarAmigos.js';
+import { connectWebSocket } from './websocket.js';
+import { user } from './crud/user.js';
 
 const routes = {
     '/login/': {
@@ -76,8 +72,9 @@ const routes = {
         template: renderDashboard(),
         init: () => {
             renderDashUserInfo();
-			initWebSocket();
-			initUserStatus();
+			if (user.id) {
+                connectWebSocket();
+			}
         }
     }
 };

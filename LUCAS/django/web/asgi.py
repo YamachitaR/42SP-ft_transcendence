@@ -1,16 +1,24 @@
 import os
-from django.core.asgi import get_asgi_application
+import django
 from channels.routing import ProtocolTypeRouter, URLRouter
-from app.routing import websocket_urlpatterns
-from app.token_auth_middleware import TokenAuthMiddlewareStack
+from channels.auth import AuthMiddlewareStack
+from django.core.asgi import get_asgi_application
+from django.urls import re_path
+from app.statusConsumer import SimpleConsumer
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
+django.setup()
+
+websocket_urlpatterns = [
+    re_path(r'ws/status/', SimpleConsumer.as_asgi()),
+]
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
-    "websocket": TokenAuthMiddlewareStack(
+    "websocket": AuthMiddlewareStack(
         URLRouter(
             websocket_urlpatterns
         )
     ),
 })
+

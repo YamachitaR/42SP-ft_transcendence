@@ -90,7 +90,6 @@ def listar_todos_usuarios(request):
                 'email': usuario.email,
                 'first_name': usuario.first_name,
                 'last_name': usuario.last_name,
-                'is_online': usuario.is_online(),
             }
             for usuario in usuarios
         ]
