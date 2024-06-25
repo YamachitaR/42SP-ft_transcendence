@@ -1,6 +1,6 @@
 NAME = Transcendence
-DOCKER = docker compose
-#DOCKER = sudo docker-compose
+#DOCKER = docker compose
+DOCKER = sudo docker-compose
 
 
 all: up

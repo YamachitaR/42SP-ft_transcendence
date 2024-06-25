@@ -46,6 +46,7 @@ export default function renderBuscarAmigos() {
 			    </div>
 			</template>
 			<!--Fim lista de Amigos-->
+            </div>
             <!--Buscar Amigos-->
             <div class="col-4 bg-dashboard shadow rounded mx-auto ">
                 <!--Titulo da caixa-->
@@ -66,8 +67,8 @@ export default function renderBuscarAmigos() {
                 </div>
                 <!--Solicitar amigos-->
                 <div class="m-3 d-flex align-items-center justify-content-center">
-                    <button id="enviar-solicitacao-btn" class="w-100 btn-custom-nocolor bg-dashboard-2 rounded" style="display: none;">Enviar Solicitação de Amizade</button>
                 <!--Solicitações pendentes-->
+                <button id="enviar-solicitacao-btn" class="w-100 btn-custom-nocolor bg-dashboard-2 rounded" style="display: none;">Enviar Solicitação de Amizade</button>
                 <div class="m-3 p-2 rounded bg-dashboard-2">
                     <h4>Solicitações de Amizade</h4>
                     <ul id="solicitacoes-pendentes"></ul>

@@ -181,8 +181,8 @@ export function domBtnBuscarAmigos() {
                         const solicitacaoResponse = await apiEnviarSolicitacaoAmizade(userId, token);
                         console.log('Resposta da API para enviar solicitação de amizade:', solicitacaoResponse);
 
-                        if (solicitacaoResponse.ok) {
-                            const solicitacaoData = await solicitacaoResponse.json();
+                        if (solicitacaoResponse) {
+                            const solicitacaoData = await solicitacaoResponse;
                             alert(solicitacaoData.message);
                             atualizarScreen(); // Atualiza a lista após enviar a solicitação
                         } else {
