@@ -5,7 +5,7 @@ from .models import Amizade, CustomUser
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'username', 'password', 'first_name', 'last_name', 'profile_image')
+        fields = ('id', 'email', 'username', 'password', 'first_name', 'last_name', 'profile_image', 'is_online')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):

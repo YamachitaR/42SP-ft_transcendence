@@ -1,8 +1,12 @@
+import { user } from './crud/user.js';
+
 export function connectWebSocket() {
-    const statusSocketUrl = 'ws/status/';
+	const userId = user.id;
+    const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    const host = window.location.host;
+    const statusSocketUrl = `${protocol}${host}/ws/status/${userId}/`;
 
-    const statusSocket = new WebSocket(statusSocketUrl);
-
+	const statusSocket = new WebSocket(statusSocketUrl);
     statusSocket.onopen = function() {
         console.log('WebSocket connection established');
         statusSocket.send(JSON.stringify({

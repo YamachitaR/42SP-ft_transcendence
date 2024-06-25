@@ -117,7 +117,7 @@ export async function carregarListaAmigos() {
         } else {
             amigosData.forEach(amigo => {
                 const li = document.createElement('li');
-                li.textContent = `${amigo.name} (${amigo.email})`;
+                li.textContent = `${amigo.profile_image} ${amigo.name} ${amigo.is_online}`;
                 listaAmigos.appendChild(li);
             });
 			document.getElementById('total-amigos').textContent = amigosData.length;

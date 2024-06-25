@@ -71,7 +71,7 @@ def listar_amigos(request):
         amigos = CustomUser.objects.filter(id__in=amigos_ids)
 
         # Construir a resposta
-        amigos_data = [{'id': amigo.id, 'name': amigo.username, 'email': amigo.email} for amigo in amigos]
+        amigos_data = [{'id': amigo.id, 'name': amigo.username, 'email': amigo.email, 'profile_image': amigo.profile_image, 'is_online': amigo.is_online} for amigo in amigos]
 
         return Response(amigos_data, status=status.HTTP_200_OK)
     except Exception as e:

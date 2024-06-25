@@ -20,17 +20,22 @@ SECRET_KEY = 'django-insecure-%pzo@29cupqur%7vkfkw7-@@q$lr3$%fbpqfmyfkdw4qp=_+j=
 DEBUG = False
 ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
-	'channels',
+    # Django Built-in Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'corsheaders',
-	'app',
-	'rest_framework',
-	'rest_framework.authtoken',
+
+    # Third-party Apps
+    'channels',
+    'corsheaders',
+    'rest_framework',
+    'rest_framework.authtoken',
+
+    # Custom Apps
+    'app',
 ]
 AUTH_USER_MODEL = 'app.CustomUser'
 LOGIN_URL = 'login'

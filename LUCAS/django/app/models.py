@@ -36,9 +36,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    def is_online(self):
-        now = timezone.now()
-        return self.last_activity and (now - self.last_activity).seconds < 60
+    def __str__(self):
+        return self.email
 
 class UserPreferences(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='preferences')
