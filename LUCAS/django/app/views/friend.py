@@ -76,7 +76,34 @@ def listar_amigos(request):
     except Exception as e:
         return Response({'error': f'Erro ao listar amigos: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def listar_amigos_online(request):
+    try:
+        # Obter todas as amizades onde o usuário atual é o solicitante ou o amigo e a amizade foi aceita
+        amizades = Amizade.objects.filter(models.Q(user=request.user) | models.Q(amigo=request.user), aceita=True)
 
+        if not amizades.exists():
+            return Response([], status=status.HTTP_200_OK)
+
+        amigos_ids = set()
+        for amizade in amizades:
+            if amizade.user == request.user:
+                amigos_ids.add(amizade.amigo.id)
+            else:
+                amigos_ids.add(amizade.user.id)
+
+        # Obter todos os usuários amigos que estão online
+        amigos_online = CustomUser.objects.filter(id__in=amigos_ids, is_online=True)
+
+        # Serializar os dados dos amigos online
+        amigos_online_data = AmigoListSerializer(amigos_online, many=True).data
+
+        return Response(amigos_online_data, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'error': f'Erro ao listar amigos online: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+		
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def verificar_amizade(request, amigo_id):

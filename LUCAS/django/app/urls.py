@@ -8,7 +8,7 @@ from .views import views
 from .views.friend import enviar_solicitacao_amizade, listar_solicitacoes_pendentes,\
                           listar_amigos, verificar_amizade, aprovar_solicitacao_amizade,\
 						  rejeitar_solicitacao_amizade, listar_solicitacoes_enviadas,\
-						  excluir_amizade
+						  excluir_amizade, listar_amigos_online
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -25,6 +25,7 @@ urlpatterns = [
 	path('amizades/pendentes/', listar_solicitacoes_pendentes, name='listar_solicitacoes_pendentes'),
     path('amizades/enviadas/', listar_solicitacoes_enviadas, name='listar_solicitacoes_enviadas'),
 	path('amizades/amigos/', listar_amigos, name='listar_amigos'),
+	path('amigos/online/', listar_amigos_online, name='listar_amigos_online'),
 	path('amizades/verificar/<int:amigo_id>/', verificar_amizade, name='verificar_amizade'),
 	path('amizades/aprovar/', aprovar_solicitacao_amizade, name='aprovar_solicitacao_amizade'),
 	path('amizades/rejeitar/', rejeitar_solicitacao_amizade, name='rejeitar_solicitacao_amizade'),

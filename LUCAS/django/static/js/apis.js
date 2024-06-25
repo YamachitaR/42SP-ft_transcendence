@@ -187,6 +187,19 @@ export async function apiListarAmigos(token) {
     return await response.json();
 }
 
+export async function apiListarAmigosOnLine(token) {
+    const response = await fetch('/api/amigos/online/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        }
+    });
+    return await response.json();
+}
+
+
+
 export async function apiEnviarSolicitacaoAmizade(amigoId, token) {
     const response = await fetch('/api/amizades/', {
         method: 'POST',
