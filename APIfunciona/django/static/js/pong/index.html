@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <title>Pong</title>
+      <link rel="stylesheet" type="text/css" href="pong.css">
+      <script src="pong.js"></script>
+      <script src="collision_detector.js"></script>
+      <script src="paddle.js"></script>
+      <script src="player.js"></script>
+      <script src="ball.js"></script>
+    </head>
+    <body>
+      <canvas id="canvas">
+    
+      </canvas>
+      <script type="text/javascript">
+        var canvas = document.getElementById('canvas');
+        var game = new PongGame.Game(canvas, 800, 500);
+        game.play();
+      </script>
+    </body>
+  </html>

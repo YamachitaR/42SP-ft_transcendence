@@ -1,0 +1,9 @@
+Django==4.0
+djangorestframework
+djangorestframework-simplejwt
+psycopg2-binary
+gunicorn
+Pillow
+bcrypt
+requests
+django-cors-headers

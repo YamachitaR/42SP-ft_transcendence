@@ -1,0 +1,39 @@
+li {
+    display: flex;
+    align-items: center; /* Alinha os itens na mesma altura */
+    justify-content: space-between; /* Espaça os itens uniformemente */
+    margin-bottom: 10px; /* Espaço entre as linhas */
+    flex-wrap: wrap; /* Permite que os itens se ajustem em várias linhas se necessário */
+}
+
+li span {
+    flex-grow: 1; /* O texto ocupa o espaço disponível */
+    margin-right: 10px; /* Espaço à direita do texto */
+}
+
+.btn {
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    margin-left: 10px; /* Espaço entre os botões */
+    flex-shrink: 0; /* Impede que os botões encolham */
+}
+
+.btn-confirmar {
+    background-color: #c0ab66; /* Verde */
+    color: white;
+    border: none;
+}
+
+.btn-excluir {
+    background-color: #dd7e77; /* Vermelho */
+    color: white;
+    border: none;
+}
+
+.btn-confirmar:hover, .btn-excluir:hover {
+    opacity: 0.8;
+}
