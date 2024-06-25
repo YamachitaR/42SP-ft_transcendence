@@ -184,6 +184,9 @@ export function domBtnBuscarAmigos() {
                         if (solicitacaoResponse) {
                             const solicitacaoData = await solicitacaoResponse;
                             alert(solicitacaoData.message);
+                            enviarSolicitacaoBtn.style.display = 'none';
+                       
+                            document.getElementById('nickname').value = '';
                             atualizarScreen(); // Atualiza a lista após enviar a solicitação
                         } else {
                             alert('Erro ao enviar solicitação de amizade');

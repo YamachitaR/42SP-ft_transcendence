@@ -57,7 +57,7 @@ export default function renderBuscarAmigos() {
                 <div class="bg-dashboard-2 p-2 m-3 shadow rounded d-flex align-items-center justify-content-center">
                     <form class="w-100 p-4" id="buscar-amigos-form">
                         <div class="mt-3 mb-3">
-                            <label for="nickname" class="form-label">Nickname</label>
+                            <label id="nickname" for="nickname" class="form-label">Nickname</label>
                             <input type="text" class="form-control" id="nickname" name="nickname" required>
                         </div>
                         <div class="d-flex align-items-center justify-content-center mb-3">
