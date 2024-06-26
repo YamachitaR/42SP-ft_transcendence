@@ -36,12 +36,24 @@ class RegisterView(generics.CreateAPIView):
 
 class LoginView(APIView):
     def post(self, request, *args, **kwargs):
-        email = request.data.get('email')
+        email_or_username = request.data.get('email_or_username')
         password = request.data.get('password')
-        user = authenticate(request, username=email, password=password)
+
+        # Tentar autenticar com email
+        user = authenticate(request, username=email_or_username, password=password)
+
+        if not user:
+            # Se falhar, tentar autenticar com username
+            try:
+                user_obj = User.objects.get(email=email_or_username)
+                user = authenticate(request, username=user_obj.username, password=password)
+            except User.DoesNotExist:
+                pass
+
         if user:
             token, created = Token.objects.get_or_create(user=user)
             return Response({'token': token.key})
+
         return Response({'error': 'Invalid Credentials'}, status=400)
 
 class LogoutView(APIView):
@@ -121,16 +133,24 @@ def external_callback(request):
         # Verificar se o usuário já está cadastrado
         User = get_user_model()
         try:
+            # Primeiro, tente encontrar o usuário pelo nome de usuário
             user = User.objects.get(username=user_info['login'])
+            logger.info(f"User found by username: {user_info['login']}")
         except User.DoesNotExist:
-            # Registrar novo usuário
-            user = User.objects.create_user(
-                username=user_info['login'],
-                first_name=user_info['first_name'],
-                last_name=user_info['last_name'],
-                email=user_info['email']
-            )
-            user.save()
+            try:
+                # Se não encontrado pelo nome de usuário, tente encontrar pelo email
+               user = User.objects.get(email=user_info['email'])
+               logger.info(f"User found by email: {user_info['email']}")
+            except User.DoesNotExist:
+                # Se não encontrado pelo email também, crie um novo usuário
+                user = User.objects.create_user(
+                    username=user_info['login'],
+                    first_name=user_info['first_name'],
+                    last_name=user_info['last_name'],
+                    email=user_info['email'],
+                )
+                user.save()
+                logger.info(f"New user created: {user_info['login']}")
 
         # Autenticar e gerar token
         token, created = Token.objects.get_or_create(user=user)
