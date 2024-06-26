@@ -52,7 +52,7 @@ export async function sendUpdateUser() {
         .then(data => {
             console.log('Dados do usuário atualizados:', data);
             alert('Dados atualizados com sucesso!');
-            renderSettingsUser();
+            location.reload(true);
         })
         .catch(error => {
             console.error('Erro ao atualizar os dados do usuário:', error);

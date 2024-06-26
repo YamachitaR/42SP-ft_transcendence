@@ -66,7 +66,7 @@ export async function sendUpdateGame() {
         .then(data => {
             console.log('Preferências do usuário atualizadas:', data);
             alert('Preferências atualizadas com sucesso!');
-            renderSettingsGame();
+            location.reload(true);
         })
         .catch(error => {
             console.error('Erro ao atualizar as preferências do usuário:', error);
