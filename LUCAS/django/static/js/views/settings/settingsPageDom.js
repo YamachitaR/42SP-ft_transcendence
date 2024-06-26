@@ -9,11 +9,9 @@ export function clickSettingPage() {
         let content = '';
         switch (buttonId) {
             case 'settingsUser':
-                alert('su');
                 navigateTo('/settings-user/', {});
                 break;
             case 'settingsGame':
-                alert('sg');
                 navigateTo('/settings-game/', {});
                 break;
             default:
