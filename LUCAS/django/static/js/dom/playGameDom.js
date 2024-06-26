@@ -1,5 +1,6 @@
 //{% load static %}
 import gameClassicViews from "../views/gameClassicViews.js";
+import gameTorneioInitViews from "../views/gameTorneioViews.js";
 
 export function initPlayGame() {
     // Adiciona event listeners para os botões
@@ -33,6 +34,7 @@ export function initPlayGame() {
                 break;
             case 'gameTorneio':
                 content = 'You clicked Option 4!';
+                content = gameTorneioInitViews();
                 document.getElementById('content').innerHTML = content;
                 break;
             default:

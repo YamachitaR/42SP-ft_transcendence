@@ -35,7 +35,7 @@ export default function gameClassicViews() {
     `;
 }
 
-export function gameClassicPlayyViews() {
+export function gameClassicPlayViews() {
     return `
     <div class="conteiner mt-4 mb-4">
             
