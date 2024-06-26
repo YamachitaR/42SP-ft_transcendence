@@ -1,14 +1,27 @@
+
 NAME = Transcendence
-DOCKER = docker compose
-# DOCKER = sudo docker-compose
+
+
+ifeq ($(OS),Windows_NT)
+    DOCKER = docker compose
+    SDOCKER = docker
+else
+    UNAME_S := $(shell uname -s)
+    ifeq ($(UNAME_S),Linux)
+        DOCKER = sudo docker-compose
+        SDOCKER = sudo docker 
+    else ifeq ($(UNAME_S),Darwin)
+        DOCKER = sudo docker-compose
+    endif
+endif
 
 
 all: up
 # message in terminal ************ #
 	@echo "\033[1;32m"
-	@echo "	$(NAME) End Server ✓"
+	@echo "    $(NAME) End Server ✓"
 	@echo "\033[0m"
-	@echo "\033[0;33m	thank you $(NAME) by lucasmar, esilva-s and ryoshio- 42sp \033[0m"
+	@echo "\033[0;33m    thank you $(NAME) by lucasmar, esilva-s and ryoshio- 42sp \033[0m"
 
 build:
 	$(DOCKER) build
@@ -27,25 +40,25 @@ logRedis:
 	$(DOCKER) logs -f nginx
 
 inpostgres:
-	docker exec -it c_postgres psql -U admin -d pong
+	$(SDOCKER) exec -it c_postgres psql -U admin -d pong
 
 indjango:
-	docker exec -it c_django bash
+	$(SDOCKER) exec -it c_django bash
 
 innginx:
-	docker exec -it c_nginx bash
+	$(SDOCKER) exec -it c_nginx bash
 
 down:
 	$(DOCKER) down
 
 clean:
-	docker rm -f $$(docker ps -a -q) || true
+	$(SDOCKER) rm -f $$(docker ps -a -q) || true
 	$(DOCKER) down --volumes --remove-orphans
-	docker volume rm -f $$(docker volume ls -q) || true
-	docker image prune -a -f
-	docker network prune -f
-	docker container prune -f
-	docker system prune --all --force --volumes
+	$(SDOCKER) volume rm -f $$(docker volume ls -q) || true
+	$(SDOCKER) image prune -a -f
+	$(SDOCKER) network prune -f
+	$(SDOCKER) container prune -f
+	$(SDOCKER) system prune --all --force --volumes
 
 stop:
 	$(DOCKER) stop
@@ -54,7 +67,7 @@ collectstatic:
 	$(DOCKER) -f docker-compose.yml exec django python manage.py collectstatic --noinput
 
 atualizar:
-	docker compose up --build
+	$(DOCKER) up --build
 
 fclean: down clean
 
