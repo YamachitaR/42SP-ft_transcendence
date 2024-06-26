@@ -46,7 +46,7 @@ export default function renderLogin() {
 		                            <h5 class="friend-usernameDashboard"></h5>
 		                        </div>
 		                        <div class="col-1 d-flex align-items-center justify-content-center">
-		                            <img src="static/img/online.png" class="icon-sm status-iconDashboard">
+		                            <img src="static/img/online.png" class="icon-sm user-online-status">
 		                        </div>
 		                    </div>
 		                </template>

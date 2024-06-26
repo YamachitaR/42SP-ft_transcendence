@@ -277,3 +277,18 @@ export async function apiExcluirAmizade(amigoId, token) {
     });
     return response.json();
 }
+
+export async function fetchUserProfileById(userId, token) {
+    const response = await fetch(`/api/user-info/${userId}/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        }
+    });
+    if (!response.ok) {
+        console.error('Erro ao buscar o perfil do usuário:', response.statusText);
+        return null;
+    }
+    return response.json();
+}

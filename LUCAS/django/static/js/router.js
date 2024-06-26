@@ -1,10 +1,13 @@
 import routes from './routes.js';
 import { fetchUserInfo } from './crud/user.js';
+
 function getQueryParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(name);
 }
 export let token = null;
+
+
 
 function checkAndStoreToken() {
     token = getQueryParameter('token');
@@ -28,11 +31,11 @@ export async function checkAuth() {
     return response.ok;
 }
 
-function loadPage(route) {
+function loadPage(route, params = {}) {
     const routeConfig = routes[route] || routes['/'];
     document.getElementById('content').innerHTML = routeConfig.template;
     if (routeConfig.init) {
-        routeConfig.init();
+        routeConfig.init(params);
     }
 }
 
@@ -59,3 +62,9 @@ function handleButtonClick(event) {
     const route = event.target.getAttribute('data-route');
     loadPage(route);
 }
+
+function navigateTo(route, params) {
+    loadPage(route, params);
+}
+
+export { navigateTo };

@@ -3,6 +3,8 @@ import { apiBuscarUsuario, apiListarAmigos, apiEnviarSolicitacaoAmizade,
 		 apiListarSolicitacoesEnviadas, apiExcluirSolicitacaoAmizade,
 		 apiExcluirAmizade } from "../apis.js";
 const token = localStorage.getItem('token');
+import  { navigateTo }  from '../router.js';
+
 
 export async function carregarSolicitacoesPendentes() {
     const token = localStorage.getItem('token');
@@ -144,8 +146,8 @@ export async function carregarListaAmigos() {
     }
 }
 
-function viewProfile(friendId) {
-    console.log('Visualizando perfil do amigo ID:', friendId);
+function viewProfile(amigo) {
+    navigateTo('/friends-profile/', { id: amigo }); // Navegar para o perfil do amigo com parâmetros
 }
 
 async function deleteFriend(friendId) {
@@ -185,7 +187,7 @@ export function domBtnBuscarAmigos() {
                             const solicitacaoData = await solicitacaoResponse;
                             alert(solicitacaoData.message);
                             enviarSolicitacaoBtn.style.display = 'none';
-                       
+
                             document.getElementById('nickname').value = '';
                             atualizarScreen(); // Atualiza a lista após enviar a solicitação
                         } else {

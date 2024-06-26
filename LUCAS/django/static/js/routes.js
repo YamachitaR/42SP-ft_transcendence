@@ -16,6 +16,7 @@ import { domBtnBuscarAmigos, carregarSolicitacoesPendentes, carregarSolicitacoes
 import { connectWebSocket } from './websocket.js';
 import { user } from './crud/user.js';
 import renderProfileFriend from './views/friendProfileViews.js';
+import { initProfileUser } from './dom/friendProfileDom.js';
 
 const routes = {
     '/login/': {
@@ -73,7 +74,7 @@ const routes = {
     },
     '/friends-profile/': {
         template: renderProfileFriend(),
-        init: () => {}
+        init: initProfileUser
     },
     '/': {
         template: renderDashboard(),

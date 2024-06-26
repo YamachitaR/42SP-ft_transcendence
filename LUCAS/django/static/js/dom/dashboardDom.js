@@ -17,7 +17,6 @@ export function renderDashUserInfo() {
 }
 
 export async function carregarListaAmigosDashboard() {
-	debugger;
     try {
         console.log('Chamando API para listar amigos');
         const amigosData = await apiListarAmigosOnLine(token);
@@ -27,7 +26,7 @@ export async function carregarListaAmigosDashboard() {
         listaAmigos.innerHTML = '';
 
         if (!Array.isArray(amigosData) || amigosData.length === 0) {
-            listaAmigos.innerHTML = '<div class="mt-3 mb-3 text-center">Você ainda não tem amigos</div>';
+            listaAmigos.innerHTML = '<div class="mt-3 mb-3 text-center">  *_* :{ @¬@¬ </div>';
         } else {
             const friendTemplate = document.getElementById('friend-templateDashboard').content;
 

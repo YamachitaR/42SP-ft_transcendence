@@ -3,7 +3,8 @@ from django.urls import path, include
 from .views.auth import RegisterView, LoginView, LogoutView, CheckAuthView,\
                         external_login, external_callback
 from .views.crud import get_user_info, update_user, UserPreferencesView, \
-                        listar_todos_usuarios, buscar_id_pelo_username
+                        listar_todos_usuarios, buscar_id_pelo_username, \
+						get_user_info_by_id
 from .views import views
 from .views.friend import enviar_solicitacao_amizade, listar_solicitacoes_pendentes,\
                           listar_amigos, verificar_amizade, aprovar_solicitacao_amizade,\
@@ -32,4 +33,5 @@ urlpatterns = [
 	path('excluir_amizade/', excluir_amizade, name='excluir_amizade'),
 	path('usuarios/buscar-id/', buscar_id_pelo_username, name='buscar_id_pelo_username'),
  	path('usuarios/', listar_todos_usuarios, name='listar_todos_usuarios'),
+	path('user-info/<int:user_id>/', get_user_info_by_id, name='get_user_info_by_id'),
 ]

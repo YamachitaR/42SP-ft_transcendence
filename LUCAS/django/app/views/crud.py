@@ -11,8 +11,35 @@ from ..models import UserPreferences
 from ..serializers import UserPreferencesSerializer
 from ..models import CustomUser
 from ..serializers import UserSerializer
+from django.contrib.auth import get_user_model
 import logging
 
+
+logger = logging.getLogger(__name__)
+
+User = get_user_model()  # Usar o modelo de usuário personalizado
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_info_by_id(request, user_id):
+    logger.debug(f"Recebendo solicitação para buscar informações do usuário com ID: {user_id}")
+    try:
+        user = User.objects.get(id=user_id)
+        logger.debug(f"Usuário encontrado: {user}")
+        user_info = {
+            'id': user.id,
+            'nome': user.username,
+            'image': user.profile_image.url if user.profile_image else None,
+            'is_online': user.is_online  # Assumindo que há um campo is_online no perfil do usuário
+        }
+        logger.debug(f"Informações do usuário: {user_info}")
+        return JsonResponse(user_info)
+    except User.DoesNotExist:
+        logger.error(f"User with id {user_id} does not exist.")
+        return JsonResponse({'message': 'User not found'}, status=404)
+    except Exception as e:
+        logger.error(f"An error occurred: {str(e)}")
+        return JsonResponse({'message': 'An error occurred', 'error': str(e)}, status=500)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
