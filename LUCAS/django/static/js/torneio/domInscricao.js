@@ -1,3 +1,5 @@
+import  { navigateTo }  from '../router.js';
+
 // Função para carregar a página de configuração dos nomes dos jogadores
 function initTournamentSetup() {
     const playerCount = parseInt(localStorage.getItem('playerCount'), 10);
@@ -48,6 +50,7 @@ function handleStartTournament() {
 
     // Aqui você pode redirecionar para a próxima etapa ou iniciar o torneio
     alert('Jogadores registrados com sucesso!');
+	navigateTo('/tournament-next/', {});
 }
 
 export { initTournamentSetup };

@@ -21,8 +21,8 @@ import gameTorneioInitViews from './views/gameTorneioViews.js';
 import gameTorneioInscricoesViews  from './views/torneio/inscricoesViews.js';
 import { handlePlayerCount } from './torneio/domTournament.js';
 import { initTournamentSetup} from './torneio/domInscricao.js';
-
-
+import  gameTorneioNextViews from './views/torneio/nextViews.js';
+import { initnextviews } from './torneio/domNextViews.js';
 
 const routes = {
     '/login/': {
@@ -91,6 +91,10 @@ const routes = {
     '/tournament-nicknames/': {
 	    template: gameTorneioInscricoesViews(),
 		init: initTournamentSetup
+	},
+	'/tournament-next/': {
+	    template: gameTorneioNextViews(),
+		init: initnextviews
 	},
     '/': {
         template: renderDashboard(),
