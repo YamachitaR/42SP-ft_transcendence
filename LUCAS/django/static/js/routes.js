@@ -29,12 +29,16 @@ import renderSettingsPage from './views/settings/settingsPageViews.js';
 import renderSettingsUser from './views/settings/settingsUserViews.js';
 import renderSettingsGame from './views/settings/settingsGameViews.js';
 
-//Settings Doms
+// Settings Doms //
 import { clickSettingPage } from './views/settings/settingsPageDom.js';
 import { renderUserInfos, sendUpdateUser } from './views/settings/settingsUserDom.js';
 import { renderPreferencesGame, sendUpdateGame } from './views/settings/settingsGameDom.js';
 
+// Game Vs IA //
+import gameVsIaPage from './views/gameVsIA/gameIAPageViews.js';
+import { clickGameIAPage } from './views/gameVsIA/gameIAPageDom.js';
 
+// Classic Game //
 import gameClassicViews from './views/gameClassicViews.js';
 import { gameClassicDom } from './dom/gameClassicDom.js';
 
@@ -124,24 +128,23 @@ const routes = {
             sendUpdateGame();
         }
     },
-
+    '/game-vs-ia/': {
+        template: gameVsIaPage(),
+        init: () => {
+            clickGameIAPage();
+        }
+    },
     '/gameClassicViews/': {
         template: gameClassicViews(),
         init: () => {
             gameClassicDom();
-           
         }
     },
-
     '/game-classic/': {
         template:startGameClassic(),
         init: () => {
-        
-           
         }
     },
-
-
     '/': {
         template: renderDashboard(),
         init: () => {
@@ -152,7 +155,6 @@ const routes = {
 			}
         }
     }
-
 };
 
 export default routes;

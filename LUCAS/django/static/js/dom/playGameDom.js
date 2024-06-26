@@ -16,9 +16,6 @@ export function initPlayGame() {
         switch (buttonId) {
             case 'gameClassic':
                 navigateTo('/gameClassicViews/', {});
-
-
-              
                 break;
             case 'game3d':
                 content = 'You clicked Option 2!';
@@ -32,7 +29,7 @@ export function initPlayGame() {
 				navigateTo('/tournament/', {});
                 break;
 			case 'vsIa':
-				navigateTo('/tournament/', {});
+				navigateTo('/game-vs-ia/', {});
 				break;
             default:
                 content = 'Unknown button!';
