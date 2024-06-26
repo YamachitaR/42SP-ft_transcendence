@@ -6,7 +6,7 @@ export async function initProfileUser(params) {
 
     const userProfile = await fetchUserProfileById(userId, token);
 
-	debugger;
+	
     if (userProfile) {
 		console.log(userProfile);
         document.getElementById('profile_photo').src = userProfile.image || 'static/img/pf.jpg';
