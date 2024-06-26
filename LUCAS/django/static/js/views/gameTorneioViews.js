@@ -13,7 +13,7 @@ export default function gameTorneioInitViews() {
             </div>
         </div>
 
-        <!--Imputs para os nomes dos jogadores-->
+        <!--Inputs para os nomes dos jogadores-->
         <div class="row mb-4 d-flex align-items-center justify-content-center">
             <div class="col-5 col-xs-5 col-sm-5 col-md-3 col-lg-3 col-xl-3 p-4 text-center bg-dashboard-2 rounded">
                 <br>
@@ -36,7 +36,7 @@ export default function gameTorneioInitViews() {
 }
 
 //Idealmente deve receber o numero de jogadores
-export function gameTorneioInscricoesViews() {
+export default function gamessTorneioInscricoesViews() {
     return `
     <div class="conteiner bg-dashboard shadow m-4 rounded">
 
@@ -108,7 +108,7 @@ export function gameTorneioNextViews() {
 export function gameTorneioPlayViews() {
     return `
     <div class="conteiner mt-4 mb-4">
-            
+
         <div class="row mx-3 mt-4 text-light h-10vh ">
         <!--Titulo da Pagina-->
             <div class="col shadow rounded d-flex align-items-center justify-content-center bg-dashboard text-center">
@@ -140,7 +140,7 @@ export function gameTorneioPlayViews() {
             </div>
         </div>
     </div>
-  
+
     `;
 }
 

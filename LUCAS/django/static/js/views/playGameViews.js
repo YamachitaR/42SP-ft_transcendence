@@ -20,6 +20,11 @@ export function renderPlayGame() {
                         <h4>Modo 3D</h4>
                     </button>
                 </div>
+				<div class="col-xs-10 col-sm-5 col-md-3 col-lg-3 col-xl-3 mx-auto d-flex">
+                    <button type="button" id="game4players" class="flex-fill btn-custom m-4 p-4 shadow rounded">
+                        <h4>4 Players</h4>
+                    </button>
+                </div>
                 <div class="col-xs-10 col-sm-5 col-md-3 col-lg-3 col-xl-3 mx-auto d-flex">
                     <button type="button" id="vsIa" class="btn-custom  flex-fill m-4 p-4 shadow rounded">
                         <h4>JOgador vs IA</h4>

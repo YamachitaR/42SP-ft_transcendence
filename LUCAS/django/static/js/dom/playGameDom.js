@@ -1,6 +1,6 @@
 //{% load static %}
 import gameClassicViews from "../views/gameClassicViews.js";
-import gameTorneioInitViews from "../views/gameTorneioViews.js";
+import  { navigateTo }  from '../router.js';
 
 export function initPlayGame() {
     // Adiciona event listeners para os botões
@@ -8,6 +8,7 @@ export function initPlayGame() {
     document.getElementById('game3d').addEventListener('click', () => handleButtonClick('game3d'));
     document.getElementById('game4players').addEventListener('click', () => handleButtonClick('game4players'));
     document.getElementById('gameTorneio').addEventListener('click', () => handleButtonClick('gameTorneio'));
+	document.getElementById('vsIa').addEventListener('click', () => handleButtonClick('vsIa'));
 
     // Função para lidar com cliques nos botões
     function handleButtonClick(buttonId) {
@@ -16,8 +17,8 @@ export function initPlayGame() {
             case 'gameClassic':
                 content = gameClassicViews();
                 document.getElementById('content').innerHTML = content;
-                
-                
+
+
                 var canvas = document.getElementById('canvas');
                 //var game = new PongGame.Game(canvas, 800, 400, 'red', 'green', 'blue', 'gray', 'ball.png', 'quadra_basquete.jpg');
                 var game = new PongGame.Game(canvas, 800, 400, 'red', 'green', 'blue', 'gray', "{% static 'js/pong/ball.png' %}", "{% static 'js/pong/quadra_basquete.jpg' %}");
@@ -33,15 +34,16 @@ export function initPlayGame() {
                 document.getElementById('content').innerHTML = content;
                 break;
             case 'gameTorneio':
-                content = 'You clicked Option 4!';
-                content = gameTorneioInitViews();
-                document.getElementById('content').innerHTML = content;
+				navigateTo('/tournament/', {});
                 break;
+			case 'vsIa':
+				navigateTo('/tournament/', {});
+				break;
             default:
                 content = 'Unknown button!';
                 document.getElementById('content').innerHTML = content;
         }
-        
+
 
     }
 }

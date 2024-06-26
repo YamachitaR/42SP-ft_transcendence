@@ -17,6 +17,11 @@ import { connectWebSocket } from './websocket.js';
 import { user } from './crud/user.js';
 import renderProfileFriend from './views/friendProfileViews.js';
 import { initProfileUser } from './dom/friendProfileDom.js';
+import gameTorneioInitViews from './views/gameTorneioViews.js';
+import gameTorneioInscricoesViews  from './views/torneio/inscricoesViews.js';
+import { handlePlayerCount } from './torneio/domTournament.js';
+
+
 
 const routes = {
     '/login/': {
@@ -76,6 +81,17 @@ const routes = {
         template: renderProfileFriend(),
         init: initProfileUser
     },
+    '/tournament/': {
+        template: gameTorneioInitViews(),
+        init: () => {
+			handlePlayerCount();
+		}
+    },
+    '/tournament-nicknames/': {
+    template: gameTorneioInscricoesViews(),
+    init: () => {
+	}
+	},
     '/': {
         template: renderDashboard(),
         init: () => {
