@@ -5,9 +5,8 @@ function getQueryParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(name);
 }
+
 export let token = null;
-
-
 
 function checkAndStoreToken() {
     token = getQueryParameter('token');
@@ -39,18 +38,26 @@ function loadPage(route, params = {}) {
     }
 }
 
+function handleHashChange() {
+    const hash = window.location.hash.slice(1); // Remove o caractere #
+    loadPage(hash);
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     checkAndStoreToken();
     const isAuthenticated = await checkAuth();
     if (isAuthenticated) {
         console.log('Usuário está autenticado');
         document.getElementById('nav-buttons').style.display = 'block';
-		await fetchUserInfo();
-        loadPage('/');
+        await fetchUserInfo();
+        handleHashChange();
     } else {
         console.log('Usuário não está autenticado');
-        loadPage('/login/');
+        window.location.hash = '#/login/';
+        handleHashChange();
     }
+
+    window.addEventListener('hashchange', handleHashChange);
 
     document.querySelectorAll('.menu-link').forEach(link => {
         link.addEventListener('click', handleButtonClick);
@@ -60,11 +67,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 function handleButtonClick(event) {
     event.preventDefault();
     const route = event.target.getAttribute('data-route');
-    loadPage(route);
+    navigateTo(route);
 }
 
-function navigateTo(route, params) {
-    loadPage(route, params);
+function navigateTo(route, params = {}) {
+	window.history.pushState(params, '', `#${route}`);
+	loadPage(route, params);
 }
 
 export { navigateTo };
