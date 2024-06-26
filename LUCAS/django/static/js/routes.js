@@ -57,15 +57,7 @@ const routes = {
         init: () => {
             logout();
         }
-    },/*
-	'/profile/': {
-        template: renderProfileUser(),
-        init: () => {
-            renderUserInfo();
-			sendUpdate();
-			fetchUserInfo();
-        }
-    },*/
+    },
 	'/playGame/': {
         template: renderPlayGame(),
         init: () => {
