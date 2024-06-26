@@ -20,6 +20,7 @@ import { initProfileUser } from './dom/friendProfileDom.js';
 import gameTorneioInitViews from './views/gameTorneioViews.js';
 import gameTorneioInscricoesViews  from './views/torneio/inscricoesViews.js';
 import { handlePlayerCount } from './torneio/domTournament.js';
+import { initTournamentSetup} from './torneio/domInscricao.js';
 
 
 
@@ -88,9 +89,8 @@ const routes = {
 		}
     },
     '/tournament-nicknames/': {
-    template: gameTorneioInscricoesViews(),
-    init: () => {
-	}
+	    template: gameTorneioInscricoesViews(),
+		init: initTournamentSetup
 	},
     '/': {
         template: renderDashboard(),

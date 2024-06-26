@@ -36,7 +36,7 @@ export default function gameTorneioInitViews() {
 }
 
 //Idealmente deve receber o numero de jogadores
-export default function gamessTorneioInscricoesViews() {
+export function lucasInscricoesViews() {
     return `
     <div class="conteiner bg-dashboard shadow m-4 rounded">
 
