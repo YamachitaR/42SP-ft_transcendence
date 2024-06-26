@@ -39,6 +39,8 @@ import gameClassicViews from './views/gameClassicViews.js';
 import { gameClassicDom } from './dom/gameClassicDom.js';
 
 
+import {gameClassicPlayViews} from './views/gameClassicViews.js'
+
 
 const routes = {
     '/login/': {
@@ -132,6 +134,15 @@ const routes = {
            
         }
     },
+
+    '/game-classic/': {
+        template:gameClassicPlayViews(),
+        init: () => {
+        
+           
+        }
+    },
+
 
     '/': {
         template: renderDashboard(),

@@ -18,7 +18,7 @@ export default function gameClassicViews() {
             <div class="col-5 col-xs-5 col-sm-5 col-md-3 col-lg-3 col-xl-3 offset-1 p-4 text-center bg-dashboard-2 rounded">
                 <label for="player1" class="form-label" style="color: #fff;">Jogador 2</label>
                 <br>
-                <input type="name" class="form-control" id="player1" name="player1" required/>
+                <input type="name" class="form-control" id="player2" name="player2" required/>
             </div>
         </div>
 
