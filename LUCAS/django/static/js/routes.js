@@ -38,9 +38,7 @@ import { renderPreferencesGame, sendUpdateGame } from './views/settings/settings
 import gameClassicViews from './views/gameClassicViews.js';
 import { gameClassicDom } from './dom/gameClassicDom.js';
 
-
-import {gameClassicPlayViews} from './views/gameClassicViews.js'
-
+import startGameClassic from './views/startGameClassic.js'
 
 const routes = {
     '/login/': {
@@ -136,7 +134,7 @@ const routes = {
     },
 
     '/game-classic/': {
-        template:gameClassicPlayViews(),
+        template:startGameClassic(),
         init: () => {
         
            

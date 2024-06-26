@@ -11,7 +11,7 @@ export function gameClassicDom(){
           // Adiciona um evento de clique ao botão
           startClassicButton.addEventListener('click', () => {
               // Chama a função navigateTo com a URL desejada
-              navigateTo('/game-classic', {});
+              navigateTo('/game-classic/', {});
           });
       }
 
