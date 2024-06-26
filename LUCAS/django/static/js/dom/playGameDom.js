@@ -15,15 +15,10 @@ export function initPlayGame() {
         let content = '';
         switch (buttonId) {
             case 'gameClassic':
-                content = gameClassicViews();
-                document.getElementById('content').innerHTML = content;
+                navigateTo('/gameClassicViews/', {});
 
 
-                var canvas = document.getElementById('canvas');
-                //var game = new PongGame.Game(canvas, 800, 400, 'red', 'green', 'blue', 'gray', 'ball.png', 'quadra_basquete.jpg');
-                var game = new PongGame.Game(canvas, 800, 400, 'red', 'green', 'blue', 'gray', "{% static 'js/pong/ball.png' %}", "{% static 'js/pong/quadra_basquete.jpg' %}");
-                game.play();
-
+              
                 break;
             case 'game3d':
                 content = 'You clicked Option 2!';

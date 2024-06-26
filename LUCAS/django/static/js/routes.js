@@ -34,6 +34,12 @@ import { clickSettingPage } from './views/settings/settingsPageDom.js';
 import { renderUserInfos, sendUpdateUser } from './views/settings/settingsUserDom.js';
 import { renderPreferencesGame, sendUpdateGame } from './views/settings/settingsGameDom.js';
 
+
+import gameClassicViews from './views/gameClassicViews.js';
+import { gameClassicDom } from './dom/gameClassicDom.js';
+
+
+
 const routes = {
     '/login/': {
         template: renderLogin(),
@@ -118,6 +124,15 @@ const routes = {
             sendUpdateGame();
         }
     },
+
+    '/gameClassicViews/': {
+        template: gameClassicViews(),
+        init: () => {
+            gameClassicDom();
+           
+        }
+    },
+
     '/': {
         template: renderDashboard(),
         init: () => {
@@ -128,6 +143,7 @@ const routes = {
 			}
         }
     }
+
 };
 
 export default routes;
