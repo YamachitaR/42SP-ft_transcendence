@@ -24,6 +24,16 @@ import { initTournamentSetup} from './torneio/domInscricao.js';
 import  gameTorneioNextViews from './views/torneio/nextViews.js';
 import { initnextviews } from './torneio/domNextViews.js';
 
+// Settings Views //
+import renderSettingsPage from './views/settings/settingsPageViews.js';
+import renderSettingsUser from './views/settings/settingsUserViews.js';
+import renderSettingsGame from './views/settings/settingsGameViews.js';
+
+//Settings Doms
+import { clickSettingPage } from './views/settings/settingsPageDom.js';
+import { renderUserInfos, sendUpdateUser } from './views/settings/settingsUserDom.js';
+import { renderPreferencesGame, sendUpdateGame } from './views/settings/settingsGameDom.js';
+
 const routes = {
     '/login/': {
         template: renderLogin(),
@@ -47,7 +57,7 @@ const routes = {
         init: () => {
             logout();
         }
-    },
+    },/*
 	'/profile/': {
         template: renderProfileUser(),
         init: () => {
@@ -55,7 +65,7 @@ const routes = {
 			sendUpdate();
 			fetchUserInfo();
         }
-    },
+    },*/
 	'/playGame/': {
         template: renderPlayGame(),
         init: () => {
@@ -96,6 +106,26 @@ const routes = {
 	    template: gameTorneioNextViews(),
 		init: initnextviews
 	},
+    '/settings/': {
+        template: renderSettingsPage(),
+        init: () => {
+            clickSettingPage();
+        }
+    },
+    '/settings-user/': {
+        template: renderSettingsUser(),
+        init: () => {
+            renderUserInfos();
+            sendUpdateUser();
+        }
+    },
+    '/settings-game/': {
+        template: renderSettingsGame(),
+        init: () => {
+            renderPreferencesGame();
+            sendUpdateGame();
+        }
+    },
     '/': {
         template: renderDashboard(),
         init: () => {
