@@ -108,10 +108,6 @@ const routes = {
 	    template: gameTorneioInscricoesViews(),
 		init: initTournamentSetup
 	},
-	'/tournament-next/': {
-	    template: gameTorneioNextViews(),
-		init: initnextviews
-	},
     '/settings/': {
         template: renderSettingsPage(),
         init: () => {
