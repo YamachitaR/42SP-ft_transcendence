@@ -18,8 +18,7 @@ export function initPlayGame() {
                 navigateTo('/gameClassicViews/', {});
                 break;
             case 'game3d':
-                content = 'You clicked Option 2!';
-                document.getElementById('content').innerHTML = content;
+                navigateTo('/game-3d/', {});
                 break;
             case 'game4players':
                 content = 'You clicked Option 3!';
