@@ -71,8 +71,8 @@ function handleButtonClick(event) {
 }
 
 function navigateTo(route, params = {}) {
-    window.history.pushState(params, '', `#${route}`);
-    loadPage(route, params);
+	window.history.pushState(params, '', `#${route}`);
+	loadPage(route, params);
 }
 
 export { navigateTo };

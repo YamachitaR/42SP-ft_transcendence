@@ -149,7 +149,7 @@ export async function carregarListaAmigos() {
 function viewProfile(amigo) {
 	debugger;
 	console.log('Visualizando perfil do amigo ID:', amigo);
-    navigateTo('/chat/');
+    navigateTo('/chat/', { id: amigo });
 	//navigateTo('/friends-profile/', { id: amigo }); // Navegar para o perfil do amigo com parâmetros
 }
 
