@@ -26,7 +26,7 @@ export function gameClassicDom(){
             
 
     var canvas = document.getElementById('canvas');
-    var game = new PongGame.Game(canvas, 800, 500, 'red', 'green', 'blue', 'gray', 'static/img/ball.png', 'static/img/quadra_basquete.jpg');
+    var game = new PongGame.Game(canvas, 800, 500, 3, 'red', 'green', 'blue', 'gray', 'static/img/ball.png', 'static/img/quadra_basquete.jpg');
     game.play();
 
           });

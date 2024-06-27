@@ -4,7 +4,7 @@
   if (typeof window.PongGame === "undefined") {
     window.PongGame = {};
   }
-    var Game = PongGame.Game = function (canvas, width, height, ball_color, ground_color, l_color, r_color, ball_url, ground_url) {
+    var Game = PongGame.Game = function (canvas, width, height, points, ball_color, ground_color, l_color, r_color, ball_url, ground_url) {
       this.canvas = canvas;
       this.context = canvas.getContext('2d');
       //Define o tamanho da tela do game
@@ -19,6 +19,9 @@
       //Cria a detecção de colisão
       this.leftDetector = new PongGame.CollisionDetector(this.playerLeft, this.ball, this.context);
       this.rightDetector = new PongGame.CollisionDetector(this.playerRight, this.ball, this.context);
+
+      this.points = points;
+      this.maxVictories = this.points;
     }
     
     Game.prototype.renderBackground = function () {
@@ -42,6 +45,14 @@
       this.leftDetector.score();
       this.rightDetector.score();
       this.renderScores();
+
+      if (this.playerLeft.points >= this.maxVictories) {
+        this.showWinnerMessage('Jogador Esquerdo');
+        clearInterval(this.gameInterval);
+      } else if (this.playerRight.points >= this.maxVictories) {
+        this.showWinnerMessage('Jogador Direito');
+        clearInterval(this.gameInterval);
+      }
     }
 
     Game.prototype.renderScores = function () {
@@ -49,6 +60,11 @@
       this.context.font = '30px Tahoma';
       this.context.fillText(this.playerLeft.points, this.canvas.width/4 *2 - 40, 40);
       this.context.fillText(this.playerRight.points, this.canvas.width/4 *2 + 25, 40);
+    }
+  
+    // Função para exibir a mensagem de vitória
+    Game.prototype.showWinnerMessage = function (winner) {
+      alert(winner + ' venceu o jogo com 3 vitórias!');
     }
 
     Game.prototype.play = function () {  
