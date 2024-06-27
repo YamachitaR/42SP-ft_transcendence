@@ -6,10 +6,13 @@
   }
 
 
-  var Ball = window.PongGame.Ball = function(context) {
+  var Ball = window.PongGame.Ball = function(context, ball_color, ball_url) {
     this.context = context;
+    this.ball_color = ball_color;
+    this.ball_image = new Image()
+    this.ball_image.src = ball_url;
     this.position = [400, 250];
-    this.radius = 7;
+    this.radius = 15;
     this.direction = [1, 1];
     this.hits = 0;
   };
@@ -68,9 +71,14 @@
   };
 
   Ball.prototype.render = function () {
-    this.context.beginPath();
-    this.context.arc(this.position[0], this.position[1], this.radius, 0, 2 * Math.PI);
-    this.context.fillStyle = "#fff"
-    this.context.fill();
+    if (this.ball_image.complete) {
+      this.context.drawImage(this.ball_image, this.position[0] - this.radius, this.position[1] - this.radius, this.radius * 2, this.radius * 2);
+    }
+    else {
+      this.context.beginPath();
+      this.context.arc(this.position[0], this.position[1], this.radius, 0, 2 * Math.PI);
+      this.context.fillStyle = this.ball_color;
+      this.context.fill();
+    }
   }
 })();

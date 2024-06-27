@@ -5,9 +5,10 @@
     window.PongGame = {};
   }
 
-  var Paddle = window.PongGame.Paddle = function (context, position) {
+  var Paddle = window.PongGame.Paddle = function (context, position, player_color) {
     this.context = context;
     this.position = position;
+    this.player_color = player_color;
     this.width = 10;
     this.height = 70;
   }
@@ -15,7 +16,7 @@
   Paddle.prototype.render = function () {
     this.context.beginPath();
     this.context.rect(this.position[0], this.position[1], this.width, this.height);
-    this.context.fillStyle = "white"
+    this.context.fillStyle = this.player_color;
     this.context.fill();
   }
 
