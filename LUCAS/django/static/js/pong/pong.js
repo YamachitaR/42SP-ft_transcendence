@@ -22,6 +22,7 @@
 
       this.points = points;
       this.maxVictories = this.points;
+      this.gameInterval = null;
     }
     
     Game.prototype.renderBackground = function () {
@@ -48,7 +49,9 @@
 
       if (this.playerLeft.points >= this.maxVictories) {
         this.showWinnerMessage('Jogador Esquerdo');
+        this.playerLeft.points = 0;
         clearInterval(this.gameInterval);
+        return {};
       } else if (this.playerRight.points >= this.maxVictories) {
         this.showWinnerMessage('Jogador Direito');
         clearInterval(this.gameInterval);
@@ -68,6 +71,8 @@
     }
 
     Game.prototype.play = function () {  
-        setInterval(this.render.bind(this), 7);
+      if (!this.gameInterval) {
+        this.gameInterval = setInterval(this.render.bind(this), 7);
+      }
     }
   })();
