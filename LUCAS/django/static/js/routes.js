@@ -48,6 +48,14 @@ import { gameClassicDom } from './dom/gameClassicDom.js';
 
 import startGameClassic from './views/startGameClassic.js'
 
+
+import renderChat from './views/renderChat.js';
+import initializeChat from './dom/domChat.js';
+
+
+
+
+
 const routes = {
     '/login/': {
         template: renderLogin(),
@@ -151,6 +159,10 @@ const routes = {
         template:startGameClassic(),
         init: () => {
         }
+    },
+	'/chat/': {
+        template: renderChat(),
+        init: initializeChat
     },
     '/': {
         template: renderDashboard(),

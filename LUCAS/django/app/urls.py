@@ -37,4 +37,5 @@ urlpatterns = [
 	path('user-info/<int:user_id>/', get_user_info_by_id, name='get_user_info_by_id'),
 	path('game-history/', GameHistoryCreateView, name='game-history-create'),
 	path('game-history-list/<int:user_id>/', listGameHistory, name='list-Game-History'),
+	path('chat/<str:room_name>/', views.chat, name='chat'),
 ]

@@ -4,6 +4,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
 from django.urls import re_path
 from app.statusConsumer import SimpleConsumer
+from app.chatConsumer import ChatConsumer
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'web.settings')
 django.setup()
@@ -11,6 +12,7 @@ django.setup()
 # Definindo o roteamento WebSocket
 websocket_urlpatterns = [
     re_path(r'ws/status/(?P<user_id>\d+)/$', SimpleConsumer.as_asgi()),
+	re_path(r'ws/chat/(?P<room_name>\w+)/$', ChatConsumer.as_asgi()),
 ]
 
 # Configurando a aplicação ASGI
