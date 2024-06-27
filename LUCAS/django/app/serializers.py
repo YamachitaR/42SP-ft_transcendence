@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import UserPreferences
 from .models import Amizade, CustomUser
+from .models import GameHistory
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,3 +41,8 @@ class AmigoListSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['id', 'username', 'email', 'profile_image', 'is_online']
+
+class GameHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GameHistory
+        fields = ['id', 'user', 'game', 'description', 'score', 'result', 'date']

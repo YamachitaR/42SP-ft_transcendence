@@ -64,3 +64,22 @@ class Amizade(models.Model):
 
     def __str__(self):
         return f"{self.user} é amigo de {self.amigo}"
+
+
+
+class GameHistory(models.Model):
+    RESULT_CHOICES = [
+        ('win', 'Win'),
+        ('loss', 'Loss'),
+        ('draw', 'Draw'),
+    ]
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    game = models.CharField(max_length=100)
+    description = models.TextField()
+    score = models.CharField(max_length=50)
+    result = models.CharField(max_length=10, choices=RESULT_CHOICES)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.game} on {self.date} - {self.result}"

@@ -1,11 +1,11 @@
 
-import { navigateTo } from "../router.js";
+import { navigateTo } from "../main.js";
 
 export function startGameClassic(){
 
       // Seleciona o elemento com o ID 'startClassic'
       const startClassicButton = document.getElementById('startClassic');
-    
+
       // Verifica se o elemento existe
       if (startClassicButton) {
           // Adiciona um evento de clique ao botão
