@@ -27,7 +27,7 @@ export function renderPlayGame() {
                 </div>
                 <div class="col-xs-10 col-sm-5 col-md-3 col-lg-3 col-xl-3 mx-auto d-flex">
                     <button type="button" id="vsIa" class="btn-custom  flex-fill m-4 p-4 shadow rounded">
-                        <h4>JOgador vs IA</h4>
+                        <h4>Jogador vs IA</h4>
                     </button>
                 </div>
                 <div class="col-xs-10 col-sm-5 col-md-3 col-lg-3 col-xl-3 mx-auto d-flex">
