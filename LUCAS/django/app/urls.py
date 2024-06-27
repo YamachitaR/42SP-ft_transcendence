@@ -10,6 +10,7 @@ from .views.friend import enviar_solicitacao_amizade, listar_solicitacoes_penden
                           listar_amigos, verificar_amizade, aprovar_solicitacao_amizade,\
 						  rejeitar_solicitacao_amizade, listar_solicitacoes_enviadas,\
 						  excluir_amizade, listar_amigos_online
+from .views.game_history import GameHistoryCreateView, listGameHistory
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -34,4 +35,6 @@ urlpatterns = [
 	path('usuarios/buscar-id/', buscar_id_pelo_username, name='buscar_id_pelo_username'),
  	path('usuarios/', listar_todos_usuarios, name='listar_todos_usuarios'),
 	path('user-info/<int:user_id>/', get_user_info_by_id, name='get_user_info_by_id'),
+	path('game-history/', GameHistoryCreateView, name='game-history-create'),
+	path('game-history-list/<int:user_id>/', listGameHistory, name='list-Game-History'),
 ]

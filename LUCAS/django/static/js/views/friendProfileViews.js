@@ -14,20 +14,31 @@ export default function renderProfileUser() {
                     <h4 class="bg-dashboard-2 rounded shadow" id="nickname_user">nickname</h4>
 						<img id= "status_icon" src="static/img/online.png" class="icon-sm">
                     <br><br>
-                    <p class="bg-dashboard-2 rounded shadow" id="games_play">Jogos: 00</p>
-                    <p class="bg-dashboard-2 rounded shadow" id="games_win">Vitorias: 00</p>
-                    <p class="bg-dashboard-2 rounded shadow" id="games_loss">Derrotas: 00</p> <!-- Corrigir ID duplicado -->
-                    <br><br>
+					<p class="bg-dashboard-2 rounded shadow" id="games_play">Jogos: 00</p>
+					<p class="bg-dashboard-2 rounded shadow" id="games_win">Vitórias: 00</p>
+					<p class="bg-dashboard-2 rounded shadow" id="games_loss">Derrotas: 00</p>
+					<br><br>
                 </div>
-                <!--Historico-->
-                <div class="col-xs-7 col-sm-7 col-md-8 col-lg-7 mt-3 offset-md-1 offset-lg-1 bg-dashboard shadow rounded text-center">
-                    <div class="bg-dashboard-2 mb-4 mt-3 mx-2 rounded shadow p-2"><h5>Historico de Jogos</h5></div>
-                    <div class="bg-dashboard-2 m-2 shadow rounded"><p>Fulano x Ciclano: 10-1</p></div>
-                    <div class="bg-dashboard-2 m-2 shadow rounded"><p>Fulano x Ciclano: 10-1</p></div>
-                    <div class="bg-dashboard-2 m-2 shadow rounded"><p>Fulano x Ciclano: 10-1</p></div>
-                    <div class="bg-dashboard-2 m-2 shadow rounded"><p>Fulano x Ciclano: 10-1</p></div>
-                    <div class="bg-dashboard-2 m-2 shadow rounded"><p>Fulano x Ciclano: 10-1</p></div>
-                </div>
+				<!-- Historico -->
+				<div class="order-2 col-xs-7 col-sm-8 col-md-7 col-lg-5 offset-lg-1 mt-3 bg-dashboard shadow rounded text-center">
+
+				    <!-- Container para a lista de histórico -->
+				    <div id="lista-historicoDashboard">
+				        <div class="bg-dashboard-2 mt-3 mx-2 p-2 rounded shadow">
+				            <h5>Histórico de Jogos</h5>
+				        </div>
+				        <br>
+				        <!-- Os históricos serão inseridos aqui -->
+				    </div>
+
+				    <!-- Template para o histórico -->
+				    <template id="historico-templateDashboard">
+				        <div class="bg-dashboard-2 m-2 shadow rounded">
+				            <p class="historico-item"></p>
+				        </div>
+				    </template>
+
+				</div>
             </div>
         </div>
     `;

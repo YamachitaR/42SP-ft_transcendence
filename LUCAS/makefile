@@ -28,7 +28,7 @@ build:
 
 up:
 	$(DOCKER) up --build -d
-	$(DOCKER) logs -f nginx
+	$(DOCKER) logs -f django
 
 logDjango:
 	$(DOCKER) logs -f django

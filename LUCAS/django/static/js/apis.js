@@ -292,3 +292,79 @@ export async function fetchUserProfileById(userId, token) {
     }
     return response.json();
 }
+
+
+
+// % curl -X POST http://127.0.0.1:8000/api/game-history/ \
+// -H "Authorization: Token 0e9f8323a37b6d87fd10c765370fdc94e6e3fc4a" \
+// -H "Content-Type: application/json" \
+// -d '{
+// 	"game": "classic",
+// 	"description": "Lucasmar x Ricardo",
+// 	"score": "5-2",
+// 	 "result": "win"
+// }'
+// {"id":2,"user":2,"game":"classic","description":"Lucasmar x Ricardo","score":"5-2","result":"win","date":"2024-06-26T23:28:56.210115-03:00"}%
+
+
+// const jogo = 'classic';
+// const descricao = 'lucasmar x ricado';
+// const placar = '2-1';
+// const resultado = 'win'; // ou 'loss', 'draw'
+// const token = 'seu_token_aqui';
+
+// apiCriarHistoricoJogo(jogo, descricao, placar, resultado, token)
+//     .then(data => {
+//         console.log('Histórico de jogo criado com sucesso:', data);
+//     })
+//     .catch(error => {
+//         console.error('Erro ao criar histórico de jogo:', error);
+//     });
+
+
+export async function apiCriarHistoricoJogo(jogo, descricao, placar, resultado, token) {
+    const response = await fetch('/api/game-history/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        body: JSON.stringify({
+            game: jogo,
+            description: descricao,
+            score: placar,
+            result: resultado
+        })
+    });
+
+    return response.json();
+}
+
+
+
+// curl -X GET http://127.0.0.1:8000/game-history/user/1/ \
+//     -H "Authorization: Token seu_token_aqui"
+
+// const userId = 1;  // Substitua pelo ID do usuário real
+// const token = 'seu_token_aqui';
+
+// apiListarHistoricoJogoPorUsuario(userId, token)
+//     .then(data => {
+//         console.log('Histórico de jogo do usuário:', data);
+//     })
+//     .catch(error => {
+//         console.error('Erro ao listar histórico de jogo:', error);
+//     });
+
+
+export async function apiListarHistoricoJogo(userId, token) {
+    const response = await fetch(`/api/game-history-list/${userId}/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        }
+    });
+
+    return response.json();
+}

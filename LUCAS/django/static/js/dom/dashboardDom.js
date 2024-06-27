@@ -1,6 +1,6 @@
 import { user } from '../crud/user.js';
 import { token } from '../main.js';
-import { apiListarAmigosOnLine } from '../apis.js';
+import { apiListarAmigosOnLine, apiListarHistoricoJogo } from '../apis.js';
 
 export function renderDashUserInfo() {
     document.getElementById('user-username').innerText = user.username;
@@ -43,3 +43,51 @@ export async function carregarListaAmigosDashboard() {
         alert('Erro ao listar amigos');
     }
 }
+
+export async function carregarHistoricoJogosDashboard() {
+    try {
+        console.log('Chamando API para listar histórico de jogos');
+        const historicoJogos = await apiListarHistoricoJogo(user.id, token);
+        console.log('Dados recebidos da API - Histórico de Jogos:', historicoJogos);
+
+        const listaHistorico = document.getElementById('lista-historicoDashboard');
+        listaHistorico.innerHTML = `
+            <div class="bg-dashboard-2 mt-3 mx-2 p-2 rounded shadow">
+                <h5>Histórico de Jogos</h5>
+            </div>
+            <br>
+        `;
+
+        if (!Array.isArray(historicoJogos) || historicoJogos.length === 0) {
+            listaHistorico.innerHTML += '<div class="mt-3 mb-3 text-center">Nenhum histórico de jogos encontrado</div>';
+        } else {
+            const historicoTemplate = document.getElementById('historico-templateDashboard').content;
+
+            let totalJogos = 0;
+            let totalVitorias = 0;
+            let totalDerrotas = 0;
+
+            historicoJogos.forEach(jogo => {
+                totalJogos++;
+                if (jogo.result === 'win') {
+                    totalVitorias++;
+                } else if (jogo.result === 'loss') {
+                    totalDerrotas++;
+                }
+
+                const historicoClone = document.importNode(historicoTemplate, true);
+                historicoClone.querySelector('.historico-item').textContent = `(${jogo.result})    ${jogo.description}    ${jogo.score}    ${jogo.game}`;
+                listaHistorico.appendChild(historicoClone);
+            });
+
+            // Atualiza os campos de resumo
+            document.getElementById('games_play').innerText = `Jogos: ${totalJogos}`;
+            document.getElementById('games_win').innerText = `Vitórias: ${totalVitorias}`;
+            document.getElementById('games_loss').innerText = `Derrotas: ${totalDerrotas}`;
+        }
+    } catch (error) {
+        console.error('Erro ao listar histórico de jogos:', error);
+        alert('Erro ao listar histórico de jogos');
+    }
+}
+

@@ -9,7 +9,7 @@ import renderProfileUser from './views/userProfileViews.js';
 import { renderUserInfo, sendUpdate } from './dom/userProfileDom.js';
 import { fetchUserInfo } from './crud/user.js';
 import renderDashboard from './views/dashboardView.js';
-import { renderDashUserInfo } from './dom/dashboardDom.js';
+import { renderDashUserInfo, carregarHistoricoJogosDashboard} from './dom/dashboardDom.js';
 import { carregarListaAmigosDashboard } from './dom/dashboardDom.js';
 import renderBuscarAmigos from './views/renderBuscarAmigos.js';
 import { domBtnBuscarAmigos, carregarSolicitacoesPendentes, carregarSolicitacoesEnviadas, carregarListaAmigos } from './dom/domBtnBuscarAmigos.js';
@@ -23,7 +23,7 @@ import { handlePlayerCount } from './torneio/domTournament.js';
 import { initTournamentSetup} from './torneio/domInscricao.js';
 
 
-// Settings Views //
+// Settings Views //""
 import renderSettingsPage from './views/settings/settingsPageViews.js';
 import renderSettingsUser from './views/settings/settingsUserViews.js';
 import renderSettingsGame from './views/settings/settingsGameViews.js';
@@ -83,6 +83,7 @@ const routes = {
         init: () => {
             renderDashUserInfo();
 			carregarListaAmigosDashboard();
+			carregarHistoricoJogosDashboard();
         }
     },
 	'/friends/': {
@@ -157,7 +158,8 @@ const routes = {
             renderDashUserInfo();
 			if (user.id) {
                 connectWebSocket();
-				carregarListaAmigosDashboard();
+			carregarHistoricoJogosDashboard();
+
 			}
         }
     }
