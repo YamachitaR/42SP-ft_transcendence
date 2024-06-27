@@ -15,7 +15,7 @@ export default function startGameClassic() {
             <!--Caixa Lateral do Jogador 1-->
             <div class="col-2">
                 <div class="rounded bg-dashboard p-4 text-light text-center">
-                    <h5>Player x</h5>
+                    <h5 id="p1">Player x</h5>
                     <br>
                 </div>
             </div>
@@ -28,7 +28,7 @@ export default function startGameClassic() {
             <!--Caixa Lateral do Jogador 2-->
             <div class="col-2">
                 <div class="rounded bg-dashboard p-4 text-light text-center">
-                    <h5>Player y</h5>
+                    <h5 id="p2">Player y</h5>
                     <br>
                 </div>
             </div>
