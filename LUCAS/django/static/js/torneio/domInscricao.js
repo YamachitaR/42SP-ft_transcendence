@@ -1,4 +1,4 @@
-import  { navigateTo }  from '../router.js';
+import  { navigateTo }  from '../main.js';
 
 // Função para carregar a página de configuração dos nomes dos jogadores
 function initTournamentSetup() {

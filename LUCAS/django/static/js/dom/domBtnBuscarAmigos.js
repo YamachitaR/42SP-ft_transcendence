@@ -3,7 +3,7 @@ import { apiBuscarUsuario, apiListarAmigos, apiEnviarSolicitacaoAmizade,
 		 apiListarSolicitacoesEnviadas, apiExcluirSolicitacaoAmizade,
 		 apiExcluirAmizade } from "../apis.js";
 const token = localStorage.getItem('token');
-import  { navigateTo }  from '../router.js';
+import  { navigateTo }  from '../main.js';
 
 
 export async function carregarSolicitacoesPendentes() {

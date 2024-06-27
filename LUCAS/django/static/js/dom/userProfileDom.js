@@ -1,5 +1,5 @@
 import { user } from '../crud/user.js';
-import { token } from '../router.js';
+import { token } from '../main.js';
 import renderProfileUser from '../views/userProfileViews.js';
 
 export function renderUserInfo() {

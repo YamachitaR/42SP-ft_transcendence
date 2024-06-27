@@ -1,6 +1,6 @@
 //{% load static %}
 import gameClassicViews from "../views/gameClassicViews.js";
-import  { navigateTo }  from '../router.js';
+import  { navigateTo }  from '../main.js';
 
 export function initPlayGame() {
     // Adiciona event listeners para os botões
