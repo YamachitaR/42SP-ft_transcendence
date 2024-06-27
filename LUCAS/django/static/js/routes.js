@@ -13,7 +13,7 @@ import { renderDashUserInfo, carregarHistoricoJogosDashboard} from './dom/dashbo
 import { carregarListaAmigosDashboard } from './dom/dashboardDom.js';
 import renderBuscarAmigos from './views/renderBuscarAmigos.js';
 import { domBtnBuscarAmigos, carregarSolicitacoesPendentes, carregarSolicitacoesEnviadas, carregarListaAmigos } from './dom/domBtnBuscarAmigos.js';
-import { connectWebSocket } from './websocket.js';
+import { initializeStatusSocket } from './statusWebSocket.js';
 import { user } from './crud/user.js';
 import renderProfileFriend from './views/friendProfileViews.js';
 import { initProfileUser } from './dom/friendProfileDom.js';
@@ -50,7 +50,7 @@ import startGameClassic from './views/startGameClassic.js'
 
 
 import renderChat from './views/renderChat.js';
-import initializeChat from './dom/domChat.js';
+import {initializeChat} from './dom/chatWebSocket.js';
 
 
 
@@ -169,7 +169,7 @@ const routes = {
         init: () => {
             renderDashUserInfo();
 			if (user.id) {
-                connectWebSocket();
+                initializeStatusSocket();
 			carregarHistoricoJogosDashboard();
 
 			}
