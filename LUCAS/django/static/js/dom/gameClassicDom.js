@@ -1,5 +1,3 @@
-
-
 import startGameClassic from "../views/startGameClassic.js";
 
 export function gameClassicDom(){
@@ -28,7 +26,7 @@ export function gameClassicDom(){
             
 
     var canvas = document.getElementById('canvas');
-    var game = new PongGame.Game(canvas, 800, 500);
+    var game = new PongGame.Game(canvas, 800, 500, 'red', 'green', 'blue', 'gray', 'static/img/ball.png', 'static/img/quadra_basquete.jpg');
     game.play();
 
           });

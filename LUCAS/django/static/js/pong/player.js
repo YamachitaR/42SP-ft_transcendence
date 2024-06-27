@@ -4,11 +4,11 @@
   if (typeof window.PongGame === "undefined") {
     window.PongGame = {};
   }
-
-  var Player = window.PongGame.Player = function (context, side, ball) {
+//var Player = window.PongGame.Player = function (context, side, ball) {
+  var Player = window.PongGame.Player = function (context, side, player_color) {
     this.context = context;
     var paddleStartPosition = side == "left" ? [20, 215] : [780, 215];
-    this.paddle = new PongGame.Paddle(this.context, paddleStartPosition);
+    this.paddle = new PongGame.Paddle(this.context, paddleStartPosition, player_color);
     this.side = side;
     this.setListeners();
     this.paddleDirection = 0;
