@@ -18,7 +18,7 @@ function createDefines(){
         ball_color: 'white',
         ground_color: 'black',
         init_v: 1,
-        paddle_v: 1,
+        paddle_v: 2,
         ball_url: '/static/img/ball.png',
         ground_url: '/static/img/quadra_basquete.jpg',
         name_left: "Player1",
@@ -26,7 +26,7 @@ function createDefines(){
     };
 }
 
-//velocidade inical
+//velocidade inical da bolinha
 function setPreference1(dataPreference) {
     var preference = 'default';
     
@@ -56,10 +56,10 @@ function setPreference2(dataPreference) {
     
     switch (dataPreference) {
         case 'Padrao':
-            preference = 1;
+            preference = 2;
             break;
         case 'Lenta':
-            preference = 0.5;
+            preference = 1;
           break;
         case 'Rapida':
             preference = 2;
@@ -68,7 +68,7 @@ function setPreference2(dataPreference) {
             preference = 4;
           break;
         default:
-            preference = 1;
+            preference = 2;
     }
 
     return preference;
