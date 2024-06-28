@@ -59,12 +59,14 @@
       console.log('Evento visibilitychange disparado');
       if (document.hidden) {
         console.log('Saiu da pag do jogo');
+        clearInterval(this.gameInterval);
+        this.gameInterval = null;
         this.isPaused = true;
         clearInterval(this.gameInterval); // Pausar o jogo quando a página for escondida
       } else {
         console.log('Retornou para a pag do jogo');
-        this.isPaused = false;
         if (!this.gameInterval && !this.isFinish) {
+          this.isPaused = false;
           this.play(); // Retomar o jogo se não estiver finalizado
         }
       }
@@ -139,6 +141,15 @@
     Game.prototype.play = function () {  
       if (!this.gameInterval) {
         this.gameInterval = setInterval(this.render.bind(this), 7);
+      }
+    }
+
+    Game.prototype.placar = function () {
+      if (this.gameFinish) {
+        return[this.playerLeft.points, this.playerRight.points];
+      }
+      else {
+        return null;
       }
     }
 
