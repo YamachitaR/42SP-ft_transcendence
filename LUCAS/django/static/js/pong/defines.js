@@ -1,10 +1,10 @@
 export default function setDefines(data) {
     var defines = createDefines();
-    defines.init_v = setPreference1(data.setPreference1);
-    defines.paddle_v = setPreference2(data.setPreference2);
-    defines.ball_url = setPreference3(data.setPreference3);
-    defines.ground_url = setPreference4(data.setPreference4);
-    defines.MaxPoints = setPreference5(data.setPreference5);
+    defines.init_v = setPreference1(data.preference1);
+    defines.paddle_v = setPreference2(data.preference2);
+    defines.ball_url = setPreference3(data.preference3);
+    defines.ground_url = setPreference4(data.preference4);
+    defines.MaxPoints = setPreference5(data.preference5);
     return defines;
 }
 
@@ -113,7 +113,7 @@ function setPreference4(dataPreference) {
             preference = '/static/img/pong/quadra_baseball.png';
           break;
         case 'Basquete':
-            preference = '/static/img/pong/quadra_basquete.png';
+            preference = '/static/img/pong/quadra_basquete.jpg';
           break;
         default:
             preference = 'none';
