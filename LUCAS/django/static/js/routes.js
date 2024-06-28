@@ -55,7 +55,7 @@ import renderChat from './views/renderChat.js';
 import {initializeChat} from './dom/chatWebSocket.js';
 
 
-
+import { cleanupResources } from './dom/clean.js';
 
 
 const routes = {
@@ -86,6 +86,7 @@ const routes = {
         template: renderPlayGame(),
         init: () => {
             initPlayGame();
+			cleanupResources();
         }
     },
     '/dashboard/': {
@@ -94,6 +95,7 @@ const routes = {
             renderDashUserInfo();
 			carregarListaAmigosDashboard();
 			carregarHistoricoJogosDashboard();
+			cleanupResources();
         }
     },
 	'/friends/': {
@@ -103,6 +105,7 @@ const routes = {
 			carregarSolicitacoesPendentes();
 			carregarSolicitacoesEnviadas();
 			carregarListaAmigos();
+			cleanupResources();
         }
     },
     '/friends-profile/': {
@@ -124,6 +127,7 @@ const routes = {
         init: () => {
             getGamePreferences();
             clickSettingPage();
+			cleanupResources();
         }
     },
     '/settings-user/': {
