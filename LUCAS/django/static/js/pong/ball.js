@@ -6,7 +6,7 @@
   }
 
 
-  var Ball = window.PongGame.Ball = function(context, ball_color, ball_url) {
+  var Ball = window.PongGame.Ball = function(context, ball_color, ball_url, init_v) {
     this.context = context;
     this.ball_color = ball_color;
     if (ball_url !== 'none'){
@@ -20,8 +20,10 @@
     this.ball_url = ball_url;
     this.position = [400, 250];
     this.radius = 15;
-    this.direction = [1, 1];
+    this.speed = [init_v, init_v];
+    this.init_v = init_v;
     this.hits = 0;
+    this.newHit = 0;
   };
 
   Ball.prototype.isTop = function() {
@@ -33,11 +35,11 @@
   } 
 
   Ball.prototype.isLeft = function() {
-    return (this.position[0] + this.radius) < 0 && this.direction[0] < 0;
+    return (this.position[0] + this.radius) < 0 && this.speed[0] < 0;
   }
 
   Ball.prototype.isRight = function() {
-    return (this.position[0] + this.radius) > this.context.canvas.width && this.direction[0] > 0;
+    return (this.position[0] + this.radius) > this.context.canvas.width && this.speed[0] > 0;
   }
 
   Ball.prototype.moreLeft = function(x1, x2) {
@@ -54,27 +56,36 @@
 
   Ball.prototype.move = function () {
     if (this.isTop() || this.isBottom()) {
-      this.direction[1] = -this.direction[1];
+      this.speed[1] = -this.speed[1];
     } 
-    this.position[0] += this.direction[0];
-    this.position[1] += this.direction[1];
+    this.position[0] += this.speed[0];
+    this.position[1] += this.speed[1];
   };
 
   Ball.prototype.changeBallDirection = function() {
-    this.direction[0] = -this.direction[0];
+    this.speed[0] = -this.speed[0];
   }
+
+  Ball.prototype.resetIncrement = function () {
+    this.speed[0] = this.init_v;
+    this.speed[1] = this.init_v;
+    this.hits = 0;
+    this.newHit = 0;
+  };
 
   Ball.prototype.checkHits = function () {
     console.log("ball hits: " + this.hits);
-    return (this.hits % 5 === 0 && this.hits > 0)
+    return (this.newHit > 0)
   };
 
   Ball.prototype.increaseBallSpeed = function () {
     if (this.checkHits()) {
-      this.direction[0] += (this.direction[0] < 0) ? -0.1 : 0.1;
-      this.direction[1] += (this.direction[1] < 0) ? -0.1 : 0.1;
-      this.hits = 0;
+      console.log('velocidade aumentou, hit: ' + this.hits);
+      this.speed[0] += (this.speed[0] < 0) ? -0.5 : 0.5;
+      this.speed[1] += (this.speed[1] < 0) ? -0.5 : 0.5;
+      this.newHit = 0;
     }
+
   };
 
   Ball.prototype.render = function () {
