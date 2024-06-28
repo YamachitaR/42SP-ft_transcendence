@@ -85,11 +85,11 @@ def UserPreferencesView(request):
     except UserPreferences.DoesNotExist:
         preferences = UserPreferences.objects.create(
             user=request.user,
-            preference1='Padrão',
-            preference2='Padrão',
-            preference3='Branca (Padrão)',
-            preference4='Preta (Padrão)',
-            preference5='11 Pontos (Padrão)'
+            preference1='Padrao',
+            preference2='Padrao',
+            preference3='Branca_(Padrao)',
+            preference4='Preta_(Padrao)',
+            preference5='11_Pontos_(Padrao)'
         )
 
     if request.method == 'GET':

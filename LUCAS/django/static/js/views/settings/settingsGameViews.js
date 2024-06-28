@@ -21,46 +21,46 @@ export default function renderSettingsGame() {
                 <div class="mb-3">
                     <label for="preference1" class="form-label text-light">Velocidade Inicial do Jogo</label>
                     <select class="form-control" id="preference1" name="preference1">
-                        <option value="option1">Padrão</option>
-                        <option value="option2">Lenta</option>
-                        <option value="option3">Rapida</option>
-                        <option value="option4">Super Rapida</option>
+                        <option value="Padrao">Padrao</option>
+                        <option value="Lenta">Lenta</option>
+                        <option value="Rapida">Rapida</option>
+                        <option value="Super_Rapida">Super_Rapida</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="preference2" class="form-label text-light">Velocidade das Raquetes</label>
                     <select class="form-control" id="preference2" name="preference2">
-                        <option value="option1">Padrão</option>
-                        <option value="option2">Lenta</option>
-                        <option value="option3">Rapida</option>
-                        <option value="option4">Super Rapida</option>
+                        <option value="Padrao">Padrao</option>
+                        <option value="Lenta">Lenta</option>
+                        <option value="Rapida">Rapida</option>
+                        <option value="Super_Rapida">Super_Rapida</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="preference3" class="form-label text-light">Skin da Bola</label>
                     <select class="form-control" id="preference3" name="preference3">
-                        <option value="option1">Branca (Padrão)</option>
-                        <option value="option2">Tenis</option>
-                        <option value="option3">Baseball</option>
-                        <option value="option4">Basquete</option>
+                        <option value="Branca_(Padrao)">Branca_(Padrao)</option>
+                        <option value="Tenis">Tenis</option>
+                        <option value="Baseball">Baseball</option>
+                        <option value="Basquete">Basquete</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="preference4" class="form-label text-light">Skin da Quadra</label>
                     <select class="form-control" id="preference4" name="preference4">
-                        <option value="option1">Preta (Padrão)</option>
-                        <option value="option2">Tenis</option>
-                        <option value="option3">Baseball</option>
-                        <option value="option4">Basquete</option>
+                        <option value="Preta_(Padrao)">Preta_(Padrao)</option>
+                        <option value="Tenis">Tenis</option>
+                        <option value="Baseball">Baseball</option>
+                        <option value="Basquete">Basquete</option>
                     </select>
                 </div>
                 <div class="mb-5">
                     <label for="preference5" class="form-label text-light">Quantidade de Pontos para o fim do Jogo</label>
                     <select class="form-control" id="preference5" name="preference5">
-                        <option value="option1">11 Pontos (Padrão)</option>
-                        <option value="option2">1 Pontos</option>
-                        <option value="option3">3 Pontos</option>
-                        <option value="option4">20 Pontos</option>
+                        <option value="11_Pontos_(Padrao)">11_Pontos_(Padrao)</option>
+                        <option value="1_Pontos">1_Pontos</option>
+                        <option value="3_Pontos">3_Pontos</option>
+                        <option value="20_Pontos">20_Pontos</option>
                     </select>
                 </div>
                 <div class="d-grid gap-2 mb-4">

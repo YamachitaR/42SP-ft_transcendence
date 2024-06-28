@@ -9,8 +9,15 @@
   var Ball = window.PongGame.Ball = function(context, ball_color, ball_url) {
     this.context = context;
     this.ball_color = ball_color;
-    this.ball_image = new Image()
-    this.ball_image.src = ball_url;
+    if (ball_url !== 'none'){
+      this.ball_image = new Image()
+      this.ball_image.src = ball_url;
+    }
+    else
+    {
+      this.ball_image = null
+    }
+    this.ball_url = ball_url;
     this.position = [400, 250];
     this.radius = 15;
     this.direction = [1, 1];
@@ -71,7 +78,7 @@
   };
 
   Ball.prototype.render = function () {
-    if (this.ball_image.complete) {
+    if ((this.ball_url !== 'none') && this.ball_image.complete) {
       this.context.drawImage(this.ball_image, this.position[0] - this.radius, this.position[1] - this.radius, this.radius * 2, this.radius * 2);
     }
     else {

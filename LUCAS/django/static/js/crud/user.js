@@ -32,17 +32,21 @@ export async function getGamePreferences() {
         return;
     }
 
-    await fetch('/api/user-preferences/', {
-        method: 'GET',
-        headers: {
-            'Authorization': `Token ${token}`
+    try {
+        const response = await fetch('/api/user-preferences/', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro ao carregar as preferências do usuário: ' + response.statusText);
         }
-    })
-    .then(response => response.json())
-    .then(data => {
+
+        const data = await response.json();
         userPreferences = data;
-    })
-    .catch(error => {
-        console.error('Erro ao carregar as preferências do usuário:', error);
-    });
+    } catch (error) {
+        console.error(error.message);
+    }
 }
