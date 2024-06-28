@@ -140,7 +140,6 @@ const routes = {
     '/settings-game/': {
         template: renderSettingsGame(),
         init: () => {
-            getGamePreferences();
             renderPreferencesGame();
             sendUpdateGame();
         }
@@ -174,9 +173,8 @@ const routes = {
     },
     '/': {
         template: renderDashboard(),
-        init: () => {
+        init: async () => {
             renderDashUserInfo();
-            getGamePreferences();
 			if (user.id) {
                 initializeStatusSocket();
 			carregarHistoricoJogosDashboard();

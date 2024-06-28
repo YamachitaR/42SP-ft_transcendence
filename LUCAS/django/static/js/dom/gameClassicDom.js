@@ -1,4 +1,4 @@
-import { userPreferences } from '../crud/user.js';
+import { userPreferences, getGamePreferences } from '../crud/user.js';
 import startGameClassic from "../views/startGameClassic.js";
 import { navigateTo } from "../main.js";
 import setDefines from "../pong/defines.js";
@@ -15,17 +15,13 @@ export async function gameClassicDom() {
         startClassicButton.addEventListener('click', async (event) => {
             // Chama a função navigateTo com a URL desejada
                             // Pega os valores dos inputs
+            await getGamePreferences();
             var defines = setDefines(userPreferences);
             
             defines.name_left = document.getElementById('player1').value;
             defines.name_right = document.getElementById('player2').value;
                 
             var content = startGameClassic();
-            alert('gm-p1: ' + userPreferences.preference1);
-            alert('gm-p2: ' + userPreferences.preference2);
-            alert('gm-p3: ' + userPreferences.preference3);
-            alert('gm-p4: ' + userPreferences.preference4);
-            alert('gm-p5: ' + userPreferences.preference5);
             
             document.getElementById('content').innerHTML = content;
             document.getElementById('p1').innerHTML = defines.name_left; 

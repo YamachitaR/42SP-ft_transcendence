@@ -12,7 +12,7 @@
       this.canvas.width = defines.width;
       this.canvas.height = defines.height;
       //Define a bolinha e a quadra
-      this.ball = new PongGame.Ball(this.context, defines.ball_color, defines.ball_url);
+      this.ball = new PongGame.Ball(this.context, defines.ball_color, defines.ball_url, defines.init_v);
       this.groud = new PongGame.Ground(this.context, defines.width, defines.height, defines.ground_color, defines.ground_url);
       //cria os players
       this.playerLeft = new PongGame.Player(this.context, "left", defines.l_color);

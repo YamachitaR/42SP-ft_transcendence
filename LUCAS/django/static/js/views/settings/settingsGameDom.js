@@ -1,23 +1,18 @@
-import { userPreferences } from '../../crud/user.js';
+import { userPreferences, getGamePreferences } from '../../crud/user.js';
 import { token } from '../../main.js';
 import renderSettingsGame from './settingsGameViews.js';
 
-export function renderPreferencesGame() {
+export async function renderPreferencesGame() {
+    await getGamePreferences();
     loadUserPreferences();
-    console.log('UserPreferences1: ' + userPreferences.preference1);
-    console.log('UserPreferences2: ' + userPreferences.preference2);
-    console.log('UserPreferences3: ' + userPreferences.preference3);
-    console.log('UserPreferences4: ' + userPreferences.preference4);
-    console.log('UserPreferences5: ' + userPreferences.preference5);
 }
 
 export function loadUserPreferences() {
-
-        setSingleOption('preference1', userPreferences.preference1);
-        setSingleOption('preference2', userPreferences.preference2);
-        setSingleOption('preference3', userPreferences.preference3);
-        setSingleOption('preference4', userPreferences.preference4);
-        setSingleOption('preference5', userPreferences.preference5);
+    setSingleOption('preference1', userPreferences.preference1);
+    setSingleOption('preference2', userPreferences.preference2);
+    setSingleOption('preference3', userPreferences.preference3);
+    setSingleOption('preference4', userPreferences.preference4);
+    setSingleOption('preference5', userPreferences.preference5);
 
 }
 

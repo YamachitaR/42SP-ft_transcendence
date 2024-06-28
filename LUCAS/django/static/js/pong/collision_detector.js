@@ -25,20 +25,28 @@
     if (this.player.side == "left" && this.hitLeft()) {
       this.ball.changeBallDirection()
       this.ball.hits += 1;
+      this.ball.newHit += 1;
     } else if (this.player.side == "right" && this.hitRight()) {
       this.ball.changeBallDirection()
       this.ball.hits += 1;
+      this.ball.newHit += 1;
     }
   };
 
   CollisionDetector.prototype.score = function () {
     if (this.player.side == "right" && this.ball.isLeft()) {
         this.player.points += 1;
-        this.ball.position[0] = this.context.canvas.width;
+        this.ball.resetIncrement();
+        this.ball.changeBallDirection();
+        this.ball.position[0] = this.context.canvas.width / 2;
+        this.ball.position[1] = this.context.canvas.height / 2;
         
     } else if (this.player.side == "left" && this.ball.isRight()) {
               this.player.points +=1;
-              this.ball.position[0] = 0;
+              this.ball.resetIncrement();
+              //this.ball.changeBallDirection();
+              this.ball.position[0] = this.context.canvas.width / 2;
+              this.ball.position[1] = this.context.canvas.height / 2;
     }
   };
 })();
