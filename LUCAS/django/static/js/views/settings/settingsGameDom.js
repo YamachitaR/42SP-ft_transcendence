@@ -1,6 +1,6 @@
-import { userPreferences, getGamePreferences } from '../../crud/user.js';
+import { userPreferences } from '../../crud/user.js';
+import { getGamePreferences } from '../../crud/user.js';
 import { token } from '../../main.js';
-import renderSettingsGame from './settingsGameViews.js';
 
 export async function renderPreferencesGame() {
     await getGamePreferences();

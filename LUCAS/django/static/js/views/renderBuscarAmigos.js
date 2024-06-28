@@ -23,31 +23,40 @@ export default function renderBuscarAmigos() {
                     Total de amigos: <span id="total-amigos">0</span>
                 </div>
 
-                <!-- Template para os amigos -->
-                <template id="friend-template">
-                    <div class="row p-2 bg-dashboard-2 m-3 shadow rounded d-flex align-items-center justify-content-center">
-                        <div class="col-1 d-flex align-items-center justify-content-center">
-                            <img src="static/img/user_default.png" class="icon-friend-dash-size profile-photo">
-                        </div>
-                        <div class="col-8">
-                            <h5 class="friend-username"></h5>
-                        </div>
-                        <div class="col-1 d-flex align-items-center justify-content-center">
-                            <img src="static/img/online.png" class="icon-sm status-icon">
-                        </div>
-                        <div class="col-1 d-flex align-items-center justify-content-center">
-                            <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center profile-btn">
-                                <img src="static/img/profile.png" class="icon-sm">
-                            </button>
-                        </div>
-                        <div class="col-1 d-flex align-items-center justify-content-center">
-                            <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center delete-btn">
-                                <img src="static/img/delete_friend.png" class="icon-sm">
-                            </button>
-                        </div>
-                    </div>
-                </template>
-                
+<template id="friend-template">
+    <div class="row p-2 bg-dashboard-2 m-3 shadow rounded d-flex align-items-center">
+        <div class="col-1 d-flex align-items-center justify-content-start">
+            <img src="static/img/user_default.png" class="icon-friend-dash-size profile-photo">
+        </div>
+        <div class="col-6 d-flex align-items-center justify-content-center">
+            <h5 class="friend-username mb-0"></h5>
+        </div>
+        <div class="col-5 d-flex align-items-center justify-content-end">
+            <div class="d-flex align-items-center justify-content-center me-3">
+                <img src="static/img/online.png" class="icon-sm status-icon">
+            </div>
+            <div class="d-flex align-items-center justify-content-center me-3">
+                <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center chat-btn">
+                    <img src="static/img/chat.png" class="icon-sm">
+                </button>
+            </div>
+            <div class="d-flex align-items-center justify-content-center me-3">
+                <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center profile-btn">
+                    <img src="static/img/profile.png" class="icon-sm">
+                </button>
+            </div>
+            <div class="d-flex align-items-center justify-content-center">
+                <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center delete-btn">
+                    <img src="static/img/delete_friend.png" class="icon-sm">
+                </button>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+
+
                 <!--Fim lista de Amigos-->
             </div>
 

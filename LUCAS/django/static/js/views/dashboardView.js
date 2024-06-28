@@ -61,18 +61,20 @@ export default function renderLogin() {
 					<!-- Template para os amigos -->
 					<template id="friend-templateDashboard">
 						<div class="row p-2 bg-dashboard-2 m-3 shadow rounded d-flex align-items-center justify-content-center">
-
-							<div class="col-1 d-flex align-items-center justify-content-center">
-								<img src="static/img/user_default.png" class="icon-friend-dash-size profile-photoDashboard">
-							</div>
-
-							<div class="col-8">
-								<h5 class="friend-usernameDashboard"></h5>
-							</div>
-
-							<div class="col-1 d-flex align-items-center justify-content-center">
-								<img src="static/img/online.png" class="icon-sm status-iconDashboard">
-							</div>
+						    <div class="col-1 d-flex align-items-center justify-content-center">
+						        <img src="static/img/user_default.png" class="icon-friend-dash-size profile-photoDashboard">
+						    </div>
+						    <div class="col-8">
+						        <h5 class="friend-usernameDashboard"></h5>
+						    </div> <!-- Fechando a div col-8 corretamente -->
+						    <div class="col-1 d-flex align-items-center justify-content-center">
+						        <button class="btn-custom rounded shadow d-flex align-items-center justify-content-center chat-iconDashboard">
+						            <img src="static/img/chat.png" class="icon-sm">
+						        </button>
+						    </div>
+						    <div class="col-1 d-flex align-items-center justify-content-center">
+						        <img src="static/img/online.png" class="icon-sm status-iconDashboard">
+						    </div>
 						</div>
 					</template>
 

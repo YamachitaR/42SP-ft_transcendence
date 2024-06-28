@@ -126,6 +126,10 @@ export async function carregarListaAmigos() {
                 friendClone.querySelector('.friend-username').textContent = amigo.username;
                 friendClone.querySelector('.status-icon').src = amigo.is_online ? 'static/img/online.png' : 'static/img/offline.png';
 
+				friendClone.querySelector('.chat-btn').addEventListener('click', () => {
+                    // Função para ver chat
+                    viewChat(amigo.id);
+                });
                 friendClone.querySelector('.profile-btn').addEventListener('click', () => {
                     // Função para ver perfil
                     viewProfile(amigo.id);
@@ -146,11 +150,14 @@ export async function carregarListaAmigos() {
     }
 }
 
-function viewProfile(amigo) {
-	debugger;
-	console.log('Visualizando perfil do amigo ID:', amigo);
+function viewChat(amigo) {
+	console.log('Visualizando chat amigo id:', amigo);
     navigateTo('/chat/', { id: amigo });
-	//navigateTo('/friends-profile/', { id: amigo }); // Navegar para o perfil do amigo com parâmetros
+}
+
+function viewProfile(amigo) {
+	console.log('Visualizando perfil do amigo ID:', amigo);
+	navigateTo('/friends-profile/', { id: amigo }); // Navegar para o perfil do amigo com parâmetros
 }
 
 async function deleteFriend(friendId) {

@@ -1,4 +1,7 @@
 import { user } from '../crud/user.js';
+import { token } from '../main.js';
+import { fetchUserProfileById } from '../apis.js';
+import { navigateTo } from '../main.js';
 
 let chatSocket = null;
 
@@ -43,7 +46,8 @@ function saveMessage(roomId, message) {
     localStorage.setItem(roomId, JSON.stringify(messages));
 }
 
-function initializeChat(params) {
+async function initializeChat(params) {
+    const friend = await initProfileUser(params.id);
     const roomId = generateRoomId(params.id);
     const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
     const host = window.location.host;
@@ -113,7 +117,7 @@ function initializeChat(params) {
         };
     }
 
-    document.getElementById('chat-message-submit').onclick = function() {
+    function sendMessage() {
         const messageInputDom = document.getElementById('chat-message-input');
         const message = messageInputDom.value.trim();
         if (message) {
@@ -134,7 +138,43 @@ function initializeChat(params) {
         } else {
             console.warn('Cannot send empty message');
         }
+    }
+
+    document.getElementById('chat-message-submit').onclick = sendMessage;
+
+    document.getElementById('chat-message-input').onkeypress = function(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
     };
+
+    document.getElementById('view-profile-button').onclick = function() {
+        // Lógica para visualizar o perfil do amigo
+        alert('View profile clicked');
+        viewProfile(friend.id);
+    };
+
+    document.getElementById('block-friend-button').onclick = function() {
+        // Lógica para bloquear o amigo
+       alert('Block friend clicked');
+        // Adicione aqui a lógica para bloquear o amigo
+    };
+
+	debugger;
+	console.log('friend', friend.name);
+    // Adicione aqui a lógica para carregar as informações do amigo
+    document.querySelector('.friend-name').innerText = friend.nome;
+    document.querySelector('.friend-image').src = friend.image || 'static/img/pf.jpg';
+}
+
+async function initProfileUser(userId) {
+	debugger;
+	const userProfile = await fetchUserProfileById(userId, token);
+	console.log('<<<___>>> userProfile', userProfile);
+    return userProfile;
+}
+function viewProfile(amigo) {
+	navigateTo('/friends-profile/', { id: amigo }); // Navegar para o perfil do amigo com parâmetros
 }
 
 function closeChatSocket() {

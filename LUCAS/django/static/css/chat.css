@@ -1,3 +1,46 @@
+.bg-dashboard {
+    background-color: #6c757d; /* Mantém o cinza antigo */
+    color: #ffffff;
+}
+
+.chat-wrapper {
+    background-color: #6c757d; /* Mantém o cinza antigo */
+    border-radius: 0.25rem; /* Adiciona borda arredondada */
+    padding: 10px; /* Adiciona espaço interno */
+}
+
+.chat-log-container {
+    height: 300px;
+    overflow-y: scroll;
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 0.25rem; /* Adiciona borda arredondada */
+    padding: 10px; /* Adiciona espaço interno */
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    display: flex;
+    margin-top: 10px;
+}
+
+#chat-message-input {
+    flex: 1;
+    color: black;
+    background-color: white;
+}
+
+#chat-message-submit {
+    margin-left: 5px;
+}
+
+#join-game-button {
+    width: 100%;
+    padding: 20px;
+    font-size: 1.5em;
+}
+
 .message {
     display: flex;
     flex-direction: column;
@@ -33,7 +76,24 @@
     color: black;
 }
 
-.chat-log-container {
+.friend-info {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+}
+
+.friend-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.friend-name {
+    margin: 0;
+    color: #fff;
+}
+
+#view-profile-button,
+#block-friend-button {
+    width: 100%;
+    margin-top: 5px;
 }
