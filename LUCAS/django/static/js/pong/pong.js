@@ -15,8 +15,8 @@
       this.ball = new PongGame.Ball(this.context, defines.ball_color, defines.ball_url, defines.init_v);
       this.groud = new PongGame.Ground(this.context, defines.width, defines.height, defines.ground_color, defines.ground_url);
       //cria os players
-      this.playerLeft = new PongGame.Player(this.context, "left", defines.l_color);
-      this.playerRight = new PongGame.Player(this.context, "right", defines.r_color);
+      this.playerLeft = new PongGame.Player(this.context, "left", defines.l_color, defines.paddle_v);
+      this.playerRight = new PongGame.Player(this.context, "right", defines.r_color, defines.paddle_v);
       //Cria a detecção de colisão
       this.leftDetector = new PongGame.CollisionDetector(this.playerLeft, this.ball, this.context);
       this.rightDetector = new PongGame.CollisionDetector(this.playerRight, this.ball, this.context);

@@ -4,15 +4,15 @@
   if (typeof window.PongGame === "undefined") {
     window.PongGame = {};
   }
-//var Player = window.PongGame.Player = function (context, side, ball) {
-  var Player = window.PongGame.Player = function (context, side, player_color) {
+  var Player = window.PongGame.Player = function (context, side, player_color, paddle_v) {
     this.context = context;
     var paddleStartPosition = side == "left" ? [20, 215] : [780, 215];
     this.paddle = new PongGame.Paddle(this.context, paddleStartPosition, player_color);
     this.side = side;
-    this.setListeners();
+    this.paddle_v = paddle_v;
     this.paddleDirection = 0;
     this.points = 0;
+    this.setListeners();
   }
 
   Player.prototype.render = function () {
@@ -34,9 +34,9 @@
     var downCode = this.side == "left" ? 115 : 108; 
     window.addEventListener("keypress", function (event) {
       if (event.keyCode == upCode) {
-        player.paddleDirection = -1.5;
+        player.paddleDirection = -1 * player.paddle_v;
       } else if (event.keyCode == downCode) {
-        player.paddleDirection = 1.5;
+        player.paddleDirection = player.paddle_v;
       }
 
     });
