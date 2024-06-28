@@ -7,14 +7,12 @@ import { domBtnRegister, domBtnBackHome } from './dom/registerDom.js';
 import { logout } from './dom/logoutDom.js';
 import renderProfileUser from './views/userProfileViews.js';
 import { renderUserInfo, sendUpdate } from './dom/userProfileDom.js';
-import { fetchUserInfo } from './crud/user.js';
 import renderDashboard from './views/dashboardView.js';
 import { renderDashUserInfo, carregarHistoricoJogosDashboard} from './dom/dashboardDom.js';
 import { carregarListaAmigosDashboard } from './dom/dashboardDom.js';
 import renderBuscarAmigos from './views/renderBuscarAmigos.js';
 import { domBtnBuscarAmigos, carregarSolicitacoesPendentes, carregarSolicitacoesEnviadas, carregarListaAmigos } from './dom/domBtnBuscarAmigos.js';
 import { initializeStatusSocket } from './statusWebSocket.js';
-import { user } from './crud/user.js';
 import renderProfileFriend from './views/friendProfileViews.js';
 import { initProfileUser } from './dom/friendProfileDom.js';
 import gameTorneioInitViews from './views/gameTorneioViews.js';
@@ -22,6 +20,10 @@ import gameTorneioInscricoesViews  from './views/torneio/inscricoesViews.js';
 import { handlePlayerCount } from './torneio/domTournament.js';
 import { initTournamentSetup} from './torneio/domInscricao.js';
 
+// Crud //
+import { fetchUserInfo } from './crud/user.js';
+import { getGamePreferences } from './crud/user.js';
+import { user } from './crud/user.js';
 
 // Settings Views //""
 import renderSettingsPage from './views/settings/settingsPageViews.js';
@@ -120,6 +122,7 @@ const routes = {
     '/settings/': {
         template: renderSettingsPage(),
         init: () => {
+            getGamePreferences();
             clickSettingPage();
         }
     },
@@ -133,6 +136,7 @@ const routes = {
     '/settings-game/': {
         template: renderSettingsGame(),
         init: () => {
+            getGamePreferences();
             renderPreferencesGame();
             sendUpdateGame();
         }
@@ -168,6 +172,7 @@ const routes = {
         template: renderDashboard(),
         init: () => {
             renderDashUserInfo();
+            getGamePreferences();
 			if (user.id) {
                 initializeStatusSocket();
 			carregarHistoricoJogosDashboard();

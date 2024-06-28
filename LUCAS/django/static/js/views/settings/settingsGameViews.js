@@ -19,46 +19,48 @@ export default function renderSettingsGame() {
             </div>
             <form id="user-preference-form" enctype="multipart/form-data">
                 <div class="mb-3">
-                    <label for="preference1" class="form-label text-light">Preferência 1</label>
+                    <label for="preference1" class="form-label text-light">Velocidade Inicial do Jogo</label>
                     <select class="form-control" id="preference1" name="preference1">
-                        <option value="option1">Opção 1</option>
-                        <option value="option2">Opção 2</option>
-                        <option value="option3">Opção 3</option>
-                        <option value="option4">Opção 4</option>
+                        <option value="Padrao">Padrao</option>
+                        <option value="Lenta">Lenta</option>
+                        <option value="Rapida">Rapida</option>
+                        <option value="Super_Rapida">Super_Rapida</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="preference2" class="form-label text-light">Preferência 2</label>
+                    <label for="preference2" class="form-label text-light">Velocidade das Raquetes</label>
                     <select class="form-control" id="preference2" name="preference2">
-                        <option value="option1">Opção 1</option>
-                        <option value="option2">Opção 2</option>
-                        <option value="option3">Opção 3</option>
-                        <option value="option4">Opção 4</option>
+                        <option value="Padrao">Padrao</option>
+                        <option value="Lenta">Lenta</option>
+                        <option value="Rapida">Rapida</option>
+                        <option value="Super_Rapida">Super_Rapida</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="preference3" class="form-label text-light">Preferência 3</label>
+                    <label for="preference3" class="form-label text-light">Skin da Bola</label>
                     <select class="form-control" id="preference3" name="preference3">
-                        <option value="option1">Opção 1</option>
-                        <option value="option2">Opção 2</option>
-                        <option value="option3">Opção 3</option>
-                        <option value="option4">Opção 4</option>
+                        <option value="Branca_(Padrao)">Branca_(Padrao)</option>
+                        <option value="Tenis">Tenis</option>
+                        <option value="Baseball">Baseball</option>
+                        <option value="Basquete">Basquete</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="preference4" class="form-label text-light">Preferência 4</label>
+                    <label for="preference4" class="form-label text-light">Skin da Quadra</label>
                     <select class="form-control" id="preference4" name="preference4">
-                        <option value="option1">Opção 1</option>
-                        <option value="option2">Opção 2</option>
-                        <option value="option3">Opção 3</option>
-                        <option value="option4">Opção 4</option>
+                        <option value="Preta_(Padrao)">Preta_(Padrao)</option>
+                        <option value="Tenis">Tenis</option>
+                        <option value="Baseball">Baseball</option>
+                        <option value="Basquete">Basquete</option>
                     </select>
                 </div>
                 <div class="mb-5">
-                    <label for="preference5" class="form-label text-light">Preferência 5</label>
+                    <label for="preference5" class="form-label text-light">Quantidade de Pontos para o fim do Jogo</label>
                     <select class="form-control" id="preference5" name="preference5">
-                        <option value="true">True</option>
-                        <option value="false">False</option>
+                        <option value="11_Pontos_(Padrao)">11_Pontos_(Padrao)</option>
+                        <option value="1_Pontos">1_Pontos</option>
+                        <option value="3_Pontos">3_Pontos</option>
+                        <option value="20_Pontos">20_Pontos</option>
                     </select>
                 </div>
                 <div class="d-grid gap-2 mb-4">

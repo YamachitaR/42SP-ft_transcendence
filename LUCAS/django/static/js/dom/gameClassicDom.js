@@ -1,36 +1,46 @@
+import { userPreferences } from '../crud/user.js';
 import startGameClassic from "../views/startGameClassic.js";
+import { navigateTo } from "../main.js";
+import setDefines from "../pong/defines.js";
 
-export function gameClassicDom(){
 
-      // Seleciona o elemento com o ID 'startClassic'
-      const startClassicButton = document.getElementById('startClassic');
+export async function gameClassicDom() {
     
-      // Verifica se o elemento existe
-      if (startClassicButton) {
-          // Adiciona um evento de clique ao botão
-          startClassicButton.addEventListener('click', () => {
-    
-              // Chama a função navigateTo com a URL desejada
-                         // Pega os valores dos inputs
-            const player1Name = document.getElementById('player1').value;
-            const player2Name = document.getElementById('player2').value;
-             
-            const content =  startGameClassic();
+    // Seleciona o elemento com o ID 'startClassic'
+    const startClassicButton = document.getElementById('startClassic');
+
+    // Verifica se o elemento existe
+    if (startClassicButton) {
+        // Adiciona um evento de clique ao botão
+        startClassicButton.addEventListener('click', async (event) => {
+            // Chama a função navigateTo com a URL desejada
+                            // Pega os valores dos inputs
+            var defines = setDefines(userPreferences);
+            
+            defines.name_left = document.getElementById('player1').value;
+            defines.name_right = document.getElementById('player2').value;
+                
+            var content = startGameClassic();
+            alert('gm-p1: ' + userPreferences.preference1);
+            alert('gm-p2: ' + userPreferences.preference2);
+            alert('gm-p3: ' + userPreferences.preference3);
+            alert('gm-p4: ' + userPreferences.preference4);
+            alert('gm-p5: ' + userPreferences.preference5);
             
             document.getElementById('content').innerHTML = content;
-            document.getElementById('p1').innerHTML = player1Name; 
-            document.getElementById('p2').innerHTML = player2Name; 
+            document.getElementById('p1').innerHTML = defines.name_left; 
+            document.getElementById('p2').innerHTML = defines.name_right; 
 
-            console.log(player1Name);
-            //navigateTo('/game-classic/', {player1Name, player2Name });
-            
+            var canvas = document.getElementById('canvas');
+            var game = new PongGame.Game(canvas, defines);
+            game.play();
 
-    var canvas = document.getElementById('canvas');
-    var game = new PongGame.Game(canvas, 800, 500, 3, 'red', 'green', 'blue', 'gray', 'static/img/ball.png', 'static/img/quadra_basquete.jpg');
-    game.play();
-
-          });
-      }
-
-
+            var finishGame = false;
+            while (finishGame === false) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                finishGame = game.gameFinish();
+            }
+            navigateTo('/', {});
+        });
+    }
 }

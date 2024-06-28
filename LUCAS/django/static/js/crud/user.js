@@ -1,7 +1,7 @@
 import { apiUserInfo } from "../apis.js";
 
 export let user = null;
-// export let user-preferences = null;
+export let userPreferences = null;
 
 export async function fetchUserInfo() {
     const token = localStorage.getItem('token');
@@ -22,5 +22,31 @@ export async function fetchUserInfo() {
         }
     } else {
         console.warn('No token found in localStorage');
+    }
+}
+
+export async function getGamePreferences() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('Token de autenticação não encontrado.');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/user-preferences/', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Erro ao carregar as preferências do usuário: ' + response.statusText);
+        }
+
+        const data = await response.json();
+        userPreferences = data;
+    } catch (error) {
+        console.error(error.message);
     }
 }

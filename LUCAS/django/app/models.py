@@ -47,7 +47,7 @@ class UserPreferences(models.Model):
     preference2 = models.CharField(max_length=100, blank=True, null=True)
     preference3 = models.CharField(max_length=100, blank=True, null=True)
     preference4 = models.CharField(max_length=100, blank=True, null=True)
-    preference5 = models.BooleanField(default=False)
+    preference5 = models.CharField(max_length=100, blank=True, null=True)
     # Outros campos de preferência
 
     def __str__(self):

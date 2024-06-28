@@ -4,25 +4,32 @@
   if (typeof window.PongGame === "undefined") {
     window.PongGame = {};
   }
-    var Game = PongGame.Game = function (canvas, width, height, points, ball_color, ground_color, l_color, r_color, ball_url, ground_url) {
+    var Game = PongGame.Game = function (canvas, defines) {
+      //width, height, points, ball_color, ground_color, l_color, r_color, ball_url, ground_url
       this.canvas = canvas;
       this.context = canvas.getContext('2d');
       //Define o tamanho da tela do game
-      this.canvas.width = width;
-      this.canvas.height = height;
+      this.canvas.width = defines.width;
+      this.canvas.height = defines.height;
       //Define a bolinha e a quadra
-      this.ball = new PongGame.Ball(this.context, ball_color, ball_url);
-      this.groud = new PongGame.Ground(this.context, width, height, ground_color, ground_url);
+      this.ball = new PongGame.Ball(this.context, defines.ball_color, defines.ball_url);
+      this.groud = new PongGame.Ground(this.context, defines.width, defines.height, defines.ground_color, defines.ground_url);
       //cria os players
-      this.playerLeft = new PongGame.Player(this.context, "left", l_color);
-      this.playerRight = new PongGame.Player(this.context, "right", r_color);
+      this.playerLeft = new PongGame.Player(this.context, "left", defines.l_color);
+      this.playerRight = new PongGame.Player(this.context, "right", defines.r_color);
       //Cria a detecção de colisão
       this.leftDetector = new PongGame.CollisionDetector(this.playerLeft, this.ball, this.context);
       this.rightDetector = new PongGame.CollisionDetector(this.playerRight, this.ball, this.context);
-
-      this.points = points;
-      this.maxVictories = this.points;
+      //Define quantos pontos para ganhar
+      this.maxPoints = defines.MaxPoints;
+      //Define o Nome dos Jogadores
+      this.playerLeftName = defines.name_left;
+      this.playerRightName = defines.name_right;
+      // Seta como Null o game interval (faz parte da mecanica do loop principal)
       this.gameInterval = null;
+      this.isFinish = false;
+      //Seta como null o ganhador
+      this.winner = null;
     }
     
     Game.prototype.renderBackground = function () {
@@ -47,14 +54,18 @@
       this.rightDetector.score();
       this.renderScores();
 
-      if (this.playerLeft.points >= this.maxVictories) {
-        this.showWinnerMessage('Jogador Esquerdo');
-        this.playerLeft.points = 0;
+      if (this.playerLeft.points >= this.maxPoints) {
+        this.showWinnerMessage(this.playerLeftName);
+        this.winner = this.playerLeftName;
         clearInterval(this.gameInterval);
-        return {};
-      } else if (this.playerRight.points >= this.maxVictories) {
-        this.showWinnerMessage('Jogador Direito');
+        this.isFinish = true;
+        return this.winner;
+      } else if (this.playerRight.points >= this.maxPoints) {
+        this.showWinnerMessage(this.playerRightName);
+        this.winner = this.playerRightName;
         clearInterval(this.gameInterval);
+        this.isFinish = true;
+        return this.winner;
       }
     }
 
@@ -67,12 +78,21 @@
   
     // Função para exibir a mensagem de vitória
     Game.prototype.showWinnerMessage = function (winner) {
-      alert(winner + ' venceu o jogo com 3 vitórias!');
+      alert(winner + ' venceu o jogo com ' + this.maxPoints + ' pontos');
     }
 
     Game.prototype.play = function () {  
       if (!this.gameInterval) {
         this.gameInterval = setInterval(this.render.bind(this), 7);
       }
+    }
+
+    Game.prototype.gameFinish = function () {
+      return this.isFinish;
+    }
+  
+    // Função para obter o vencedor
+    Game.prototype.getWinner = function () {
+      return this.winner;
     }
   })();
