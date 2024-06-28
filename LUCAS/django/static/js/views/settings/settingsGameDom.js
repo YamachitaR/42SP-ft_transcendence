@@ -1,35 +1,24 @@
-import { user } from '../../crud/user.js';
+import { userPreferences } from '../../crud/user.js';
 import { token } from '../../main.js';
 import renderSettingsGame from './settingsGameViews.js';
 
 export function renderPreferencesGame() {
     loadUserPreferences();
+    console.log('UserPreferences1: ' + userPreferences.preference1);
+    console.log('UserPreferences2: ' + userPreferences.preference2);
+    console.log('UserPreferences3: ' + userPreferences.preference3);
+    console.log('UserPreferences4: ' + userPreferences.preference4);
+    console.log('UserPreferences5: ' + userPreferences.preference5);
 }
 
-async function loadUserPreferences() {
-    if (!token) {
-        console.error('Token de autenticação não encontrado.');
-        return;
-    }
+export function loadUserPreferences() {
 
-    await fetch('/api/user-preferences/', {
-        method: 'GET',
-        headers: {
-            'Authorization': `Token ${token}`
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        const preferences = data;
-        setSingleOption('preference1', preferences.preference1);
-        setSingleOption('preference2', preferences.preference2);
-        setSingleOption('preference3', preferences.preference3);
-        setSingleOption('preference4', preferences.preference4);
-        setSingleOption('preference5', preferences.preference5);
-    })
-    .catch(error => {
-        console.error('Erro ao carregar as preferências do usuário:', error);
-    });
+        setSingleOption('preference1', userPreferences.preference1);
+        setSingleOption('preference2', userPreferences.preference2);
+        setSingleOption('preference3', userPreferences.preference3);
+        setSingleOption('preference4', userPreferences.preference4);
+        setSingleOption('preference5', userPreferences.preference5);
+
 }
 
 function setSingleOption(selectId, value) {
