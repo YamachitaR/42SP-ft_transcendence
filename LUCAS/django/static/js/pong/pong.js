@@ -27,6 +27,9 @@
       this.playerRightName = defines.name_right;
       // Seta como Null o game interval (faz parte da mecanica do loop principal)
       this.gameInterval = null;
+      this.isFinish = false;
+      //Seta como null o ganhador
+      this.winner = null;
     }
     
     Game.prototype.renderBackground = function () {
@@ -53,11 +56,16 @@
 
       if (this.playerLeft.points >= this.maxPoints) {
         this.showWinnerMessage(this.playerLeftName);
+        this.winner = this.playerLeftName;
         clearInterval(this.gameInterval);
-        return {};
+        this.isFinish = true;
+        return this.winner;
       } else if (this.playerRight.points >= this.maxPoints) {
         this.showWinnerMessage(this.playerRightName);
+        this.winner = this.playerRightName;
         clearInterval(this.gameInterval);
+        this.isFinish = true;
+        return this.winner;
       }
     }
 
@@ -77,5 +85,14 @@
       if (!this.gameInterval) {
         this.gameInterval = setInterval(this.render.bind(this), 7);
       }
+    }
+
+    Game.prototype.gameFinish = function () {
+      return this.isFinish;
+    }
+  
+    // Função para obter o vencedor
+    Game.prototype.getWinner = function () {
+      return this.winner;
     }
   })();

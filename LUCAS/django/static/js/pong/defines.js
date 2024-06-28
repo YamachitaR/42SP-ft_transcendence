@@ -3,7 +3,7 @@ export default function createDefines(){
         //width, height, points, ball_color, ground_color, l_color, r_color, ball_url, ground_url
         width: 800,
         height: 500,
-        MaxPoints: 10,
+        MaxPoints: 1,
         l_color: 'red',
         r_color: 'blue',
         ball_color: 'orange',
