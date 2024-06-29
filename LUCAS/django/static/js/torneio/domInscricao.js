@@ -1,7 +1,7 @@
 //importa o redirecionamento de rotas
 import  { navigateTo }  from '../main.js';
 // Para puxar a preferencia do usuario
-import  { userPreferences, getGamePreferences } from '../crud/user.js';
+import  { getGamePreferencesData, getGamePreferences, userPreferences } from '../crud/user.js';
 // defines do pong
 import setDefines from "../pong/defines.js";
 // View da tela onde o pong sera renderizado
@@ -156,7 +156,7 @@ async function criarRodadas(jogadoresVivos, qtCompetidores) {
 
         //inicia a partida e recebe o jogador que ganhou
         alert('Inicio da proxima partida, ' + jogador1 + ' vs ' + jogador2);
-        debugger;
+
         vencedorTemp = await chamarJogo(jogador1, jogador2);
 
         //inclue o vencedor na lista dos que vão para o proximo round
@@ -175,11 +175,9 @@ async function criarRodadas(jogadoresVivos, qtCompetidores) {
 }
 
 async function chamarJogo(jogador1, jogador2) {
-
     debugger;
-    await getGamePreferences();
-
-    var defines = setDefines(userPreferences);
+    const data = userPreferences;
+    var defines = setDefines(data);
     var content = startGameClassic();
     
     defines.name_left = jogador1;
@@ -188,9 +186,9 @@ async function chamarJogo(jogador1, jogador2) {
     document.getElementById('content').innerHTML = content;
     document.getElementById('p1').innerHTML = defines.name_left; 
     document.getElementById('p2').innerHTML = defines.name_right; 
-
+    
     var canvas = document.getElementById('canvas');
-    var game = new PongGame.Game(canvas, defines);
+    var game = new PongGame.Game(canvas, defines);    
     game.play();
 
     var finishGame = false;

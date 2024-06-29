@@ -24,45 +24,13 @@ export async function fetchUserInfo() {
         console.warn('No token found in localStorage');
     }
 }
-/*
-export async function getGamePreferences() {
-    return new Promise((resolve, reject) => {
-        // Simula uma operação assíncrona com setTimeout
-        setTimeout(() => {
-            const sucesso = true; // Pode mudar para false para simular um erro
-            const token = localStorage.getItem('token');
-            if (!token) {
-                console.error('Token de autenticação não encontrado.');
-                reject('Operação falhou.');
-            }
-            try {
-                const response = await fetch('/api/user-preferences/', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Token ${token}`
-                    }
-                });
-        
-                if (!response.ok) {
-                    throw new Error('Erro ao carregar as preferências do usuário: ' + response.statusText);
-                }
-        
-                const data = await response.json();
-                userPreferences = data;
-                resolve('Operação concluída com sucesso!');
-            } catch (error) {
-                console.error(error.message);
-                reject('Operação falhou.');
-            }
-        }, 2000); // Atraso de 2 segundos
-    });
-}*/
 
-export async function getGamePreferences() {
+export async function getGamePreferencesData() {
+
     const token = localStorage.getItem('token');
     if (!token) {
         console.error('Token de autenticação não encontrado.');
-        return;
+        return Promise.reject(new Error('Token de autenticação não encontrado.'));
     }
 
     try {
@@ -78,7 +46,32 @@ export async function getGamePreferences() {
         }
 
         const data = await response.json();
-        userPreferences = data;
+        return data; // Retorna os dados das preferências do usuário
+    } catch (error) {
+        console.error(error.message);
+        return Promise.reject(error); // Rejeita a Promise com o erro
+    }
+}
+
+export async function getGamePreferences() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error('Token de autenticação não encontrado.');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/user-preferences/', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Token ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error('Erro ao carregar as preferências do usuário: ' + response.statusText);
+        }
+        let data = userPreferences;
+        data = await response.json();
     } catch (error) {
         console.error(error.message);
     }
