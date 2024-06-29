@@ -368,3 +368,49 @@ export async function apiListarHistoricoJogo(userId, token) {
 
     return response.json();
 }
+
+export async function apiVerificarBloqueio(userId, token) {
+    const response = await fetch(`/api/verificar_bloqueio/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+		body: JSON.stringify({ amigo_id: userId })
+    });
+    return response.json();
+}
+
+export async function apiBloquearAmigo(amigoId, token) {
+    const response = await fetch('/api/bloquear_amigo/', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ amigo_id: amigoId })
+    });
+
+    if (!response.ok) {
+        throw new Error('Erro ao bloquear amigo');
+    }
+
+    return await response.json();
+}
+
+export async function apiDesbloquearAmigo(amigoId, token) {
+    const response = await fetch('/api/desbloquear_amigo/', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ amigo_id: amigoId })
+    });
+
+    if (!response.ok) {
+        throw new Error('Erro ao desbloquear amigo');
+    }
+
+    return await response.json();
+}

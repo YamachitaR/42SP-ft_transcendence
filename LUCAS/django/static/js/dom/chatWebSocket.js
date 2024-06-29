@@ -1,6 +1,7 @@
 import { user } from '../crud/user.js';
 import { token } from '../main.js';
 import { fetchUserProfileById } from '../apis.js';
+import { apiVerificarBloqueio, apiBloquearAmigo, apiDesbloquearAmigo } from '../apis.js';
 import { navigateTo } from '../main.js';
 
 let chatSocket = null;
@@ -48,74 +49,80 @@ function saveMessage(roomId, message) {
 
 async function initializeChat(params) {
     const friend = await initProfileUser(params.id);
+    const bloqueado = await apiVerificarBloqueio(params.id, token);
+
+    const blockButton = document.getElementById('block-friend-button');
+    if (bloqueado.bloqueado) {
+        blockButton.style.backgroundColor = 'green';
+        blockButton.innerText = 'Desbloquear Amigo';
+        alert('Este amigo está bloqueado.');
+        clearChatHistory(generateRoomId(params.id));
+        return;
+    } else {
+        blockButton.style.backgroundColor = 'red';
+        blockButton.innerText = 'Bloquear Amigo';
+    }
+
     const roomId = generateRoomId(params.id);
     const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
     const host = window.location.host;
     const chatSocketUrl = `${protocol}${host}/ws/chat/${roomId}/`;
 
-    loadChatHistory(roomId);
+    // Evitar duplicação de mensagens
+    if (chatSocket) {
+        chatSocket.onclose = function() {};
+        chatSocket.close();
+    }
 
-    if (chatSocket && (chatSocket.readyState === WebSocket.OPEN || chatSocket.readyState === WebSocket.CONNECTING)) {
-        console.log('WebSocket is already connected or in the process of connecting');
-    } else {
-        if (chatSocket) {
-            chatSocket.onclose = function() {};
-            chatSocket.close();
+    chatSocket = new WebSocket(chatSocketUrl);
+
+    chatSocket.onopen = function() {
+        console.log('WebSocket connection established to room:', roomId);
+        const chatLog = document.getElementById('chat-log');
+        chatLog.innerHTML = '<div class="loading">Loading chat history...</div>';
+        loadChatHistory(roomId);
+    };
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const chatLog = document.getElementById('chat-log');
+        const loadingElement = chatLog.querySelector('.loading');
+
+        if (loadingElement) {
+            loadingElement.remove();
         }
 
-        chatSocket = new WebSocket(chatSocketUrl);
+        const messageClass = data.username === user.username ? 'message sent' : 'message received';
+        const timestamp = data.timestamp;
 
-        chatSocket.onopen = function() {
-            console.log('WebSocket connection established to room:', roomId);
-            const chatLog = document.getElementById('chat-log');
-            chatLog.innerHTML = '<div class="loading">Loading chat history...</div>';
-            loadChatHistory(roomId);
+        const message = {
+            username: data.username,
+            message: data.message,
+            timestamp: timestamp
         };
 
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            const chatLog = document.getElementById('chat-log');
-            const loadingElement = chatLog.querySelector('.loading');
+        chatLog.innerHTML += `
+            <div class="${messageClass}">
+                <div class="header">
+                    <strong>${data.username}</strong> <span>${timestamp}</span>
+                </div>
+                <div class="content">
+                    ${data.message}
+                </div>
+            </div>`;
+        chatLog.scrollTop = chatLog.scrollHeight;
 
-            if (loadingElement) {
-                loadingElement.remove();
-            }
+        saveMessage(roomId, message);
+    };
 
-            const messageClass = data.username === user.username ? 'message sent' : 'message received';
-            const timestamp = data.timestamp;
+    chatSocket.onclose = function(e) {
+        console.log('WebSocket connection closed:', e);
+        chatSocket = null; // Redefinir a variável chatSocket
+    };
 
-            const message = {
-                username: data.username,
-                message: data.message,
-                timestamp: timestamp
-            };
-
-            chatLog.innerHTML += `
-                <div class="${messageClass}">
-                    <div class="header">
-                        <strong>${data.username}</strong> <span>${timestamp}</span>
-                    </div>
-                    <div class="content">
-                        ${data.message}
-                    </div>
-                </div>`;
-            chatLog.scrollTop = chatLog.scrollHeight;
-
-            saveMessage(roomId, message);
-        };
-
-        chatSocket.onclose = function(e) {
-            console.log('WebSocket connection closed:', e);
-            // Attempt to reconnect
-            setTimeout(() => {
-                initializeChat(params);
-            }, 1000); // Try to reconnect after 1 second
-        };
-
-        chatSocket.onerror = function(e) {
-            console.error('WebSocket error:', e);
-        };
-    }
+    chatSocket.onerror = function(e) {
+        console.error('WebSocket error:', e);
+    };
 
     function sendMessage() {
         const messageInputDom = document.getElementById('chat-message-input');
@@ -149,32 +156,58 @@ async function initializeChat(params) {
     };
 
     document.getElementById('view-profile-button').onclick = function() {
-        // Lógica para visualizar o perfil do amigo
-        alert('View profile clicked');
         viewProfile(friend.id);
     };
 
     document.getElementById('block-friend-button').onclick = function() {
-        // Lógica para bloquear o amigo
-       alert('Block friend clicked');
-        // Adicione aqui a lógica para bloquear o amigo
+        toggleBlockFriend(params.id);
     };
 
-	debugger;
-	console.log('friend', friend.name);
-    // Adicione aqui a lógica para carregar as informações do amigo
+	document.getElementById('join-game-button').onclick = function() {
+        joinGame(params.id);
+    };
+
     document.querySelector('.friend-name').innerText = friend.nome;
     document.querySelector('.friend-image').src = friend.image || 'static/img/pf.jpg';
 }
 
 async function initProfileUser(userId) {
-	debugger;
-	const userProfile = await fetchUserProfileById(userId, token);
-	console.log('<<<___>>> userProfile', userProfile);
+    const userProfile = await fetchUserProfileById(userId, token);
     return userProfile;
 }
+
 function viewProfile(amigo) {
-	navigateTo('/friends-profile/', { id: amigo }); // Navegar para o perfil do amigo com parâmetros
+    navigateTo('/friends-profile/', { id: amigo }); // Navegar para o perfil do amigo com parâmetros
+}
+
+function joinGame() {
+    navigateTo('/gameClassicViews/', {}); // Navegar para o perfil do amigo com parâmetros
+}
+
+
+async function toggleBlockFriend(friendId) {
+    const bloqueado = await apiVerificarBloqueio(friendId, token);
+    const blockButton = document.getElementById('block-friend-button');
+    if (bloqueado.bloqueado) {
+        await apiDesbloquearAmigo(friendId, token);
+        alert('Amigo desbloqueado.');
+        blockButton.style.backgroundColor = 'red';
+        blockButton.innerText = 'Bloquear Amigo';
+        initializeChat({ id: friendId }); // Recarregar o chat
+    } else {
+        await apiBloquearAmigo(friendId, token);
+        alert('Amigo bloqueado.');
+        blockButton.style.backgroundColor = 'green';
+        blockButton.innerText = 'Desbloquear Amigo';
+        clearChatHistory(generateRoomId(friendId)); // Limpar o histórico
+        closeChatSocket(); // Fechar o WebSocket
+    }
+}
+
+function clearChatHistory(roomId) {
+    localStorage.removeItem(roomId);
+    const chatLog = document.getElementById('chat-log');
+    chatLog.innerHTML = '';
 }
 
 function closeChatSocket() {

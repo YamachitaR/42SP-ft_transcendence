@@ -49,12 +49,19 @@ def listar_solicitacoes_enviadas(request):
     serializer = AmizadeEnviadaSerializer(solicitacoes, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+
+
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listar_amigos(request):
     try:
         # Obter todas as amizades onde o usuário atual é o solicitante ou o amigo e a amizade foi aceita
-        amizades = Amizade.objects.filter(models.Q(user=request.user) | models.Q(amigo=request.user), aceita=True)
+        amizades = Amizade.objects.filter(
+            models.Q(user=request.user) | models.Q(amigo=request.user), aceita=True
+        )
 
         if not amizades.exists():
             return Response([], status=status.HTTP_200_OK)
@@ -69,21 +76,38 @@ def listar_amigos(request):
         # Obter todos os usuários amigos
         amigos = CustomUser.objects.filter(id__in=amigos_ids)
 
-        # Serializar os dados dos amigos
-        amigos_data = AmigoListSerializer(amigos, many=True).data
+        # Serializar os dados dos amigos com o campo 'bloqueado'
+        serializer_context = {'request': request}
+        amigos_data = AmigoListSerializer(amigos, many=True, context=serializer_context).data
 
         return Response(amigos_data, status=status.HTTP_200_OK)
     except Exception as e:
+        logger.error(f"Erro ao listar amigos: {e}")
         return Response({'error': f'Erro ao listar amigos: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+
+
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def listar_amigos_online(request):
     try:
+        # Adicionar log de depuração
+        logger.debug("Iniciando a listagem de amigos online para o usuário: %s", request.user)
+
         # Obter todas as amizades onde o usuário atual é o solicitante ou o amigo e a amizade foi aceita
-        amizades = Amizade.objects.filter(models.Q(user=request.user) | models.Q(amigo=request.user), aceita=True)
+        amizades = Amizade.objects.filter(
+            models.Q(user=request.user) | models.Q(amigo=request.user), aceita=True
+        )
+
+        logger.debug("Amizades encontradas: %s", amizades)
 
         if not amizades.exists():
+            logger.debug("Nenhuma amizade encontrada.")
             return Response([], status=status.HTTP_200_OK)
 
         amigos_ids = set()
@@ -93,17 +117,31 @@ def listar_amigos_online(request):
             else:
                 amigos_ids.add(amizade.user.id)
 
+        logger.debug("IDs dos amigos: %s", amigos_ids)
+
         # Obter todos os usuários amigos que estão online
         amigos_online = CustomUser.objects.filter(id__in=amigos_ids, is_online=True)
+        logger.debug("Amigos online encontrados: %s", amigos_online)
 
         # Serializar os dados dos amigos online
         amigos_online_data = AmigoListSerializer(amigos_online, many=True).data
+        logger.debug("Dados dos amigos online serializados: %s", amigos_online_data)
 
         return Response(amigos_online_data, status=status.HTTP_200_OK)
     except Exception as e:
+        logger.error("Erro ao listar amigos online: %s", e)
         return Response({'error': f'Erro ao listar amigos online: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-		
+
+
+
+
+
+
+
+
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def verificar_amizade(request, amigo_id):
@@ -168,3 +206,59 @@ def excluir_amizade(request):
     except Exception as e:
         logger.error(f"Erro ao excluir amizade: {e}")
         return Response({'error': f'Erro ao excluir amizade: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def verificar_bloqueio(request):
+    amigo_id = request.data.get('amigo_id')
+    try:
+        # Verificar se a amizade existe onde o usuário atual é o solicitante ou o amigo
+        amizade = Amizade.objects.get(
+            (models.Q(user=request.user) & models.Q(amigo__id=amigo_id)) |
+            (models.Q(amigo=request.user) & models.Q(user__id=amigo_id))
+        )
+        return Response({'bloqueado': amizade.bloqueado}, status=status.HTTP_200_OK)
+    except Amizade.DoesNotExist:
+        return Response({'error': 'Amizade não encontrada.'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        logger.error(f"Erro ao verificar bloqueio: {e}")
+        return Response({'error': f'Erro ao verificar bloqueio: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def bloquear_amigo(request):
+    amigo_id = request.data.get('amigo_id')
+    try:
+        # Obter a amizade onde o usuário atual é o solicitante ou o amigo
+        amizade = Amizade.objects.get(
+            (models.Q(user=request.user) & models.Q(amigo__id=amigo_id)) |
+            (models.Q(amigo=request.user) & models.Q(user__id=amigo_id))
+        )
+        amizade.bloqueado = True
+        amizade.save()
+        return Response({'message': 'Amigo bloqueado com sucesso!'}, status=status.HTTP_200_OK)
+    except Amizade.DoesNotExist:
+        return Response({'error': 'Amizade não encontrada.'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        logger.error(f"Erro ao bloquear amigo: {e}")
+        return Response({'error': f'Erro ao bloquear amigo: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def desbloquear_amigo(request):
+    amigo_id = request.data.get('amigo_id')
+    try:
+        # Obter a amizade onde o usuário atual é o solicitante ou o amigo
+        amizade = Amizade.objects.get(
+            (models.Q(user=request.user) & models.Q(amigo__id=amigo_id)) |
+            (models.Q(amigo=request.user) & models.Q(user__id=amigo_id))
+        )
+        amizade.bloqueado = False
+        amizade.save()
+        return Response({'message': 'Amigo desbloqueado com sucesso!'}, status=status.HTTP_200_OK)
+    except Amizade.DoesNotExist:
+        return Response({'error': 'Amizade não encontrada.'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        logger.error(f"Erro ao desbloquear amigo: {e}")
+        return Response({'error': f'Erro ao desbloquear amigo: {e}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

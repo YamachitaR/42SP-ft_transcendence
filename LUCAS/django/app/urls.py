@@ -9,7 +9,8 @@ from .views import views
 from .views.friend import enviar_solicitacao_amizade, listar_solicitacoes_pendentes,\
                           listar_amigos, verificar_amizade, aprovar_solicitacao_amizade,\
 						  rejeitar_solicitacao_amizade, listar_solicitacoes_enviadas,\
-						  excluir_amizade, listar_amigos_online
+						  excluir_amizade, listar_amigos_online, verificar_bloqueio,\
+						  desbloquear_amigo, bloquear_amigo
 from .views.game_history import GameHistoryCreateView, listGameHistory
 
 urlpatterns = [
@@ -38,4 +39,7 @@ urlpatterns = [
 	path('game-history/', GameHistoryCreateView, name='game-history-create'),
 	path('game-history-list/<int:user_id>/', listGameHistory, name='list-Game-History'),
 	path('chat/<str:room_name>/', views.chat, name='chat'),
+	path('verificar_bloqueio/', verificar_bloqueio, name='verificar_bloqueio'),
+	path('bloquear_amigo/', bloquear_amigo, name='bloquear_amigo'),
+    path('desbloquear_amigo/', desbloquear_amigo, name='desbloquear_amigo'),
 ]

@@ -53,11 +53,14 @@ class UserPreferences(models.Model):
     def __str__(self):
         return f"{self.user.username}'s Preferences"
 
+from django.db import models
+from django.conf import settings
 
 class Amizade(models.Model):
-    user = models.ForeignKey(CustomUser, related_name='amigos', on_delete=models.CASCADE)
-    amigo = models.ForeignKey(CustomUser, related_name='amigos_de', on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='amigos', on_delete=models.CASCADE)
+    amigo = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='amigos_de', on_delete=models.CASCADE)
     aceita = models.BooleanField(default=False)
+    bloqueado = models.BooleanField(default=False)  # Novo campo para bloqueio
     criado_em = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -65,8 +68,6 @@ class Amizade(models.Model):
 
     def __str__(self):
         return f"{self.user} é amigo de {self.amigo}"
-
-
 
 class GameHistory(models.Model):
     RESULT_CHOICES = [
