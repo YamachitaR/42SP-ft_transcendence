@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Ping Pong</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: url('quadra_basquete.jpg') no-repeat center center;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="500"></canvas>
+    <script src="pong.js"></script>
+    <script>
+        
+
+
+        // Configura o intervalo para simular o pressionamento da tecla "O" a cada 10 segundos (10000 milissegundos)
+    
+        var canvas = document.getElementById('canvas');
+        var game = new PongGame.Game(canvas, 800, 500, 3, 'red', 'green', 'blue', 'red', 'ball.png', 'quadra_basquete.jpg');
+     
+
+            //simularTecla('o', 79);
+        }, 100);
+        
+        game.play();
+    </script>
+</body>
+</html>

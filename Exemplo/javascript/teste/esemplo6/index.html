@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Ping Pong com Power-Up de Raquete e Efeito de Bola com Fogo</title>
+    <style>
+        #jogo {
+            width: 600px;
+            height: 400px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            margin: 20px auto;
+            position: relative;
+        }
+        #raquete {
+            width: 10px;
+            height: 80px;
+            background-color: #333;
+            position: absolute;
+            left: 10px;
+            top: 160px;
+            transition: height 0.2s;
+        }
+        #bola {
+            width: 20px;
+            height: 20px;
+            background-color: #f00;
+            border-radius: 50%;
+            position: absolute;
+            left: 290px;
+            top: 190px;
+            animation: ballFire 0.5s infinite alternate;
+        }
+        @keyframes ballFire {
+            0% {
+                background-color: #f00;
+                box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.5);
+            }
+            50% {
+                background-color: #ff8c00;
+                box-shadow: 0 0 20px 5px rgba(255, 140, 0, 0.5);
+            }
+            100% {
+                background-color: #f00;
+                box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="jogo">
+    <div id="raquete"></div>
+    <div id="bola"></div>
+</div>
+
+<button onclick="ativarPowerUp()">Ativar Power-Up de Raquete</button>
+
+<script>
+    const jogo = document.getElementById('jogo');
+    const raquete = document.getElementById('raquete');
+    const bola = document.getElementById('bola');
+
+    let bolaX = 290;
+    let bolaY = 190;
+    let velocidadeX = 2;
+    let velocidadeY = 1;
+    let raqueteY = 160;
+    let raqueteAltura = 80;
+
+    function moverBola() {
+        bolaX += velocidadeX;
+        bolaY += velocidadeY;
+
+        // Verifica colisão com a raquete
+        if (bolaX <= 20 && bolaY >= raqueteY && bolaY <= raqueteY + raqueteAltura) {
+            velocidadeX = -velocidadeX; // Rebate a bola
+        }
+
+        // Verifica colisão com as paredes superior e inferior
+        if (bolaY <= 0 || bolaY >= 380) {
+            velocidadeY = -velocidadeY; // Rebate a bola
+        }
+
+        // Verifica se a bola passou da raquete (fim do jogo)
+        if (bolaX <= 0) {
+            alert('Você perdeu!');
+            reiniciarJogo();
+        }
+
+        // Atualiza a posição da bola
+        bola.style.left = bolaX + 'px';
+        bola.style.top = bolaY + 'px';
+    }
+
+    function reiniciarJogo() {
+        bolaX = 290;
+        bolaY = 190;
+        velocidadeX = 2;
+        velocidadeY = 1;
+        raquete.style.height = raqueteAltura + 'px';
+        bola.style.left = bolaX + 'px';
+        bola.style.top = bolaY + 'px';
+    }
+
+    function ativarPowerUp() {
+        // Aumenta temporariamente a altura da raquete
+        raquete.style.height = (raqueteAltura * 1.5) + 'px';
+
+        // Desativa o power-up após 5 segundos
+        setTimeout(() => {
+            raquete.style.height = raqueteAltura + 'px';
+        }, 5000); // 5000 milissegundos = 5 segundos
+    }
+
+    // Loop do jogo (atualiza a posição da bola a cada 20 milissegundos)
+    setInterval(moverBola, 20);
+</script>
+
+</body>
+</html>

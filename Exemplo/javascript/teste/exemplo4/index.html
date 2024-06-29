@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Ping Pong</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: url('quadra_basquete.jpg') no-repeat center center;
+            background-size: cover;
+        }
+        #message {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="500"></canvas>
+    <div id="message"></div>
+    <script src="pong.js"></script>
+    <script>
+        var canvas = document.getElementById('canvas');
+        var game = new PongGame.Game(canvas, 800, 500, 3, 'red', 'green', 'blue', 'red', 'ball.png', 'quadra_basquete.jpg', 5);
+        game.play();
+    </script>
+</body>
+</html>
