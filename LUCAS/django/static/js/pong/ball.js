@@ -99,4 +99,21 @@
       this.context.fill();
     }
   }
+
+  Ball.prototype.cleanup = function() {
+    // Removendo referências a objetos
+    this.context = null;
+    this.ball_color = null;
+    if (this.ball_image) {
+      this.ball_image.src = '';
+      this.ball_image = null;
+    }
+    this.ball_url = null;
+    this.position = null;
+    this.speed = null;
+    this.init_v = null;
+    this.hits = null;
+    this.newHit = null;
+    console.log('Recursos de Ball limpos');
+  };
 })();

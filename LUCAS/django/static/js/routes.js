@@ -125,7 +125,6 @@ const routes = {
     '/settings/': {
         template: renderSettingsPage(),
         init: () => {
-            getGamePreferences();
             clickSettingPage();
 			cleanupResources();
         }
@@ -177,8 +176,7 @@ const routes = {
             renderDashUserInfo();
 			if (user.id) {
                 initializeStatusSocket();
-			carregarHistoricoJogosDashboard();
-
+			    carregarHistoricoJogosDashboard();
 			}
         }
     }

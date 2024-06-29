@@ -28,5 +28,15 @@
       this.context.fillRect(0, 0, this.size[0], this.size[1]);
     }
   }
-    
+
+  Ground.prototype.cleanup = function() {
+    this.context = null;
+    this.ground_color = null;
+    this.ground_url = null;
+    if (this.ground_image) {
+      this.ground_image = null;
+    }
+    this.size = null;
+    console.log('Recursos de Ground limpos');
+  };
 })();

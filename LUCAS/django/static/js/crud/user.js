@@ -1,4 +1,4 @@
-import { apiUserInfo } from "../apis.js";
+import { apiUserInfo, apiPreferencesInfo } from "../apis.js";
 
 export let user = null;
 export let userPreferences = null;
@@ -16,6 +16,28 @@ export async function fetchUserInfo() {
                 const errorData = await response.json();
                 console.error('Failed to load user info', errorData);
                 alert('Failed to load user info');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    } else {
+        console.warn('No token found in localStorage');
+    }
+}
+
+export async function fetchPreferencesInfo() {
+    const token = localStorage.getItem('token');
+    if (token) {
+        try {
+            let response = await apiPreferencesInfo(token);
+            if (response.ok) {
+                const data = await response.json();
+                userPreferences = data;
+                console.log("User info loaded", user);
+            } else {
+                const errorData = await response.json();
+                console.error('Failed to load games preferences', errorData);
+                alert('Failed to load games preferences');
             }
         } catch (error) {
             console.error('Error:', error);

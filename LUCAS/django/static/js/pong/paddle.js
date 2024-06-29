@@ -37,4 +37,13 @@
     return (this.position[1] + this.height >= this.context.canvas.height)
   }
 
+  Paddle.prototype.cleanup = function() {
+    this.context = null;
+    this.position = null;
+    this.player_color = null;
+    this.width = null;
+    this.height = null;
+    console.log('Recursos de Paddle limpos');
+  };
+
 })();

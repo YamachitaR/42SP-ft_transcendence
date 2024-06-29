@@ -44,4 +44,17 @@
       player.paddleDirection = 0;
     });
   }
+
+  Player.prototype.cleanup = function() {
+    window.removeEventListener("keypress", this.keypressListener);
+    window.removeEventListener("keyup", this.keyupListener);
+    this.paddle.cleanup();  // Certifique-se de que a classe Paddle também tenha um método cleanup
+    this.context = null;
+    this.paddle = null;
+    this.side = null;
+    this.paddle_v = null;
+    this.paddleDirection = null;
+    this.points = null;
+    console.log('Recursos de Player limpos');
+  };
 })();

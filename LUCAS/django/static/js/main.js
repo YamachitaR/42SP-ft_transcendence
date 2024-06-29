@@ -1,5 +1,5 @@
 import routes from './routes.js';
-import { fetchUserInfo } from './crud/user.js';
+import { fetchUserInfo, fetchPreferencesInfo } from './crud/user.js';
 
 function getQueryParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('Usuário está autenticado');
         document.getElementById('nav-buttons').style.display = 'block';
         await fetchUserInfo();
+        await fetchPreferencesInfo();
         handleHashChange();
     } else {
         console.log('Usuário não está autenticado');

@@ -81,6 +81,17 @@ export async function apiUserInfo(token) {
     return fetch(url, options);
 }
 
+export async function apiPreferencesInfo(token) {
+    const url = '/api/user-preferences/';
+    const options = {
+        method: 'GET',
+        headers: {
+            'Authorization': `Token ${token}`
+        }
+    };
+
+    return fetch(url, options);
+}
 
 // % curl -X PUT http://localhost:8000/api/update-user/ \
 // -H "Authorization: Token 420b23dcc80960c9ee6920dff59a86b2ba6da8c5" \

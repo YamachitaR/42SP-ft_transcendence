@@ -157,6 +157,16 @@ async function criarRodadas(jogadoresVivos, qtCompetidores) {
         //inicia a partida e recebe o jogador que ganhou
         alert('Inicio da proxima partida, ' + jogador1 + ' vs ' + jogador2);
 
+        /*
+        chamarJogo(jogador1, jogador2)
+        .then(resultado => {
+            vencedorTemp = resultado;
+            console.log('funcionou caralho! o ' + resultado + ' ganhou');
+        })
+        .catch(erro => {
+            console.error('fudeu foi tudo ' + erro); 
+        });
+        */
         vencedorTemp = await chamarJogo(jogador1, jogador2);
 
         //inclue o vencedor na lista dos que vão para o proximo round
@@ -174,8 +184,37 @@ async function criarRodadas(jogadoresVivos, qtCompetidores) {
     return jogadoresVencedores;
 }
 
+function myDelay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
 async function chamarJogo(jogador1, jogador2) {
-    debugger;
+    var defines = setDefines(userPreferences);
+    var content = startGameClassic();
+    
+    defines.name_left = jogador1;
+    defines.name_right = jogador2;
+
+    document.getElementById('content').innerHTML = content;
+    document.getElementById('p1').innerHTML = defines.name_left; 
+    document.getElementById('p2').innerHTML = defines.name_right; 
+    debugger;    
+    var canvas = document.getElementById('canvas');
+    var game = new PongGame.Game(canvas, defines);    
+    game.play();
+
+    var finishGame = false;
+    while (finishGame === false) {
+        await myDelay(2000);
+        finishGame = game.gameFinish();//
+    }
+    let winner = game.getWinner();
+    return winner;
+}
+
+/*
+async function chamarJogo(jogador1, jogador2) {
     const data = userPreferences;
     var defines = setDefines(data);
     var content = startGameClassic();
@@ -186,18 +225,28 @@ async function chamarJogo(jogador1, jogador2) {
     document.getElementById('content').innerHTML = content;
     document.getElementById('p1').innerHTML = defines.name_left; 
     document.getElementById('p2').innerHTML = defines.name_right; 
-    
+    debugger;    
     var canvas = document.getElementById('canvas');
     var game = new PongGame.Game(canvas, defines);    
-    game.play();
 
-    var finishGame = false;
-    while (finishGame === false) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        finishGame = game.gameFinish();
-    }
-    let winner = game.getWinner();
-    return winner;
+    return new Promise((resolve, reject) => {
+        game.play();
+        var finishGame = false;
+        while (finishGame === false) {
+            finishGame = game.gameFinish();
+            setTimeout(2000);
+        }
+        let winner = game.getWinner();
+        if (finishGame) {
+          resolve(winner); // Chama resolve() quando a operação é bem-sucedida
+        } else {
+          reject('Ocorreu um erro.'); // Chama reject() quando ocorre um erro
+        }
+    });
 }
+*/
+
+//resolve('Operação bem-sucedida!'); // Chama resolve() quando a operação é bem-sucedida
+//reject('Ocorreu um erro.'); // Chama reject() quando ocorre um erro
 
 export { initTournamentSetup };

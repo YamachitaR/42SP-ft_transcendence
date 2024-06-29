@@ -5,34 +5,29 @@
     window.PongGame = {};
   }
     var Game = PongGame.Game = function (canvas, defines) {
-      //width, height, points, ball_color, ground_color, l_color, r_color, ball_url, ground_url
       this.canvas = canvas;
       this.context = canvas.getContext('2d');
-      //Define o tamanho da tela do game
       this.canvas.width = defines.width;
       this.canvas.height = defines.height;
-      //Define a bolinha e a quadra
       this.ball = new PongGame.Ball(this.context, defines.ball_color, defines.ball_url, defines.init_v);
       this.groud = new PongGame.Ground(this.context, defines.width, defines.height, defines.ground_color, defines.ground_url);
-      //cria os players
+
       this.playerLeft = new PongGame.Player(this.context, "left", defines.l_color, defines.paddle_v);
       this.playerRight = new PongGame.Player(this.context, "right", defines.r_color, defines.paddle_v);
-      //Cria a detecção de colisão
+  
       this.leftDetector = new PongGame.CollisionDetector(this.playerLeft, this.ball, this.context);
       this.rightDetector = new PongGame.CollisionDetector(this.playerRight, this.ball, this.context);
-      //Define quantos pontos para ganhar
+    
       this.maxPoints = defines.MaxPoints;
-      //Define o Nome dos Jogadores
+    
       this.playerLeftName = defines.name_left;
       this.playerRightName = defines.name_right;
-      // Seta como Null o game interval (faz parte da mecanica do loop principal)
+    
       this.gameInterval = null;
       this.isFinish = false;
       this.isPaused = false;
-      //Seta como null o ganhador
       this.winner = null;
-
-      // Adiciona eventos de visibilidade e mudanças de rota
+    
       document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
       window.addEventListener('popstate', this.handleRouteChange.bind(this));
       window.history.pushState = (f => function pushState(){
@@ -62,12 +57,12 @@
         clearInterval(this.gameInterval);
         this.gameInterval = null;
         this.isPaused = true;
-        clearInterval(this.gameInterval); // Pausar o jogo quando a página for escondida
+        clearInterval(this.gameInterval);
       } else {
         console.log('Retornou para a pag do jogo');
         if (!this.gameInterval && !this.isFinish) {
           this.isPaused = false;
-          this.play(); // Retomar o jogo se não estiver finalizado
+          this.play();
         }
       }
     }
@@ -75,7 +70,6 @@
     Game.prototype.handleRouteChange = function () {
       console.log('Evento de mudança de rota disparado');
       if (window.location.pathname !== '/caminho-do-jogo') {
-        // Saiu da página do jogo
         console.log('Saiu da página do jogo - Roteamento SPA');
         if (this.gameInterval) {
           clearInterval(this.gameInterval);
@@ -133,7 +127,7 @@
       this.context.fillText(this.playerRight.points, this.canvas.width/4 *2 + 25, 40);
     }
   
-    // Função para exibir a mensagem de vitória
+  
     Game.prototype.showWinnerMessage = function (winner) {
       alert(winner + ' venceu o jogo com ' + this.maxPoints + ' pontos');
     }
@@ -157,7 +151,7 @@
       return this.isFinish;
     }
   
-    // Função para obter o vencedor
+  
     Game.prototype.getWinner = function () {
       if (this.isFinish) {
         return this.winner;
@@ -166,4 +160,57 @@
         return 'none';
       }
     }
+
+    Game.prototype.cleanup = function() {
+    
+      document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+      window.removeEventListener('popstate', this.handleRouteChange);
+      window.history.pushState = null;
+      window.history.replaceState = null;
+      window.removeEventListener('locationchange', this.handleRouteChange);
+
+    
+      if (this.gameInterval) {
+        clearInterval(this.gameInterval);
+        this.gameInterval = null;
+      }
+
+    
+      if (this.ball) {
+        this.ball.cleanup();
+        this.ball = null;
+      }
+      if (this.ground) {
+        this.ground.cleanup();
+        this.ground = null;
+      }
+      if (this.playerLeft) {
+        this.playerLeft.cleanup();
+        this.playerLeft = null;
+      }
+      if (this.playerRight) {
+        this.playerRight.cleanup();
+        this.playerRight = null;
+      }
+      if (this.leftDetector) {
+        this.leftDetector.cleanup();
+        this.leftDetector = null;
+      }
+      if (this.rightDetector) {
+        this.rightDetector.cleanup();
+        this.rightDetector = null;
+      }
+
+      this.canvas = null;
+      this.context = null;
+      this.maxPoints = null;
+      this.playerLeftName = null;
+      this.playerRightName = null;
+      this.isFinish = null;
+      this.isPaused = null;
+      this.winner = null;
+
+      console.log('Jogo limpo e recursos liberados');
+    }
+
   })();

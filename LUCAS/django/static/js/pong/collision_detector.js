@@ -49,4 +49,13 @@
               this.ball.position[1] = this.context.canvas.height / 2;
     }
   };
+
+  CollisionDetector.prototype.cleanup = function() {
+    // Removendo referências a objetos
+    this.player = null;
+    this.ball = null;
+    this.context = null;
+    this.hits = null;
+    console.log('Recursos de CollisionDetector limpos');
+  };
 })();
