@@ -12,7 +12,7 @@
         this.keyDown = false;
     };
 
-    
+    /*
     Ia.prototype.pressionarTecla = function (tecla, keyCode) {
         let eventoTecla = new KeyboardEvent('keydown', {
             key: tecla,
@@ -36,31 +36,48 @@
         });
         document.dispatchEvent(eventoTecla);
     };
+    */
+
+    Ia.prototype.pressionarTecla = function (codigoTecla) {
+        let eventoTecla = new KeyboardEvent('keydown', {
+            code: codigoTecla,
+            bubbles: true,
+            cancelable: true
+        });
+        document.dispatchEvent(eventoTecla);
+    };
+    
+    Ia.prototype.soltarTecla = function (codigoTecla) {
+        let eventoTecla = new KeyboardEvent('keyup', {
+            code: codigoTecla,
+            bubbles: true,
+            cancelable: true
+        });
+        document.dispatchEvent(eventoTecla);
+    };
 
     Ia.prototype.updateAI = function () {
-        if( this.ball.position[0] > 0){
-            if (this.ball.position[1] < this.player.paddle.position[1] +35){
-                    //this.player.paddle.position[1] -= this.paddle_v;
-                    if (this.keyDown){
-                        //this.soltarTecla('l', 108);
-                        this.keyDown = false;
-                    }
-                    if (this.keyUP === false){
-                        //this.pressionarTecla('o', 111);
-                        this.keyUP = true;
-                    }
-            }else if(this.ball.position[1] > this.player.paddle.position[1] +35){
-                    this.player.paddle.position[1] += this.paddle_v;
-                    if (this.keyUP){
-                    //    this.soltarTecla('o', 111);
-                        this.keyUP = false;
-                    }
-                    if (this.keyDown === false){
-                      //  this.pressionarTecla('l', 108);
-                        this.keyDown = true;
-                    }
+    if (this.ball.position[0] > 0) {
+        if (this.ball.position[1] < this.player.paddle.position[1] + 35){
+            if (this.keyDown) {
+                this.soltarTecla('KeyL'); // Solta a tecla 'l'
+                this.keyDown = false;
+            }
+            if (!this.keyUP) {
+                this.pressionarTecla('KeyO'); // Pressiona a tecla 'o'
+                this.keyUP = true;
+            }
+        }else if(this.ball.position[1] > this.player.paddle.position[1] - 35){
+            if (this.keyUP) {
+                this.soltarTecla('KeyO'); // Solta a tecla 'o'
+                this.keyUP = false;
+            }
+            if (!this.keyDown) {
+                this.pressionarTecla('KeyL'); // Pressiona a tecla 'l'
+                this.keyDown = true;
             }
         }
+    }
     };
 
     Ia.prototype.cleanup = function () {

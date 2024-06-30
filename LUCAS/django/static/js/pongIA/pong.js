@@ -18,7 +18,7 @@
       this.leftDetector = new PongGameIA.CollisionDetector(this.playerLeft, this.ball, this.context);
       this.rightDetector = new PongGameIA.CollisionDetector(this.playerRight, this.ball, this.context);
     
-      this.ia = new PongGameIA.Ia(this.playerRight, this.ball, defines.paddle_v);
+      this.ia = new PongGameIA.Ia(this.playerRight, this.ball, defines.paddle_v, defines.height);
 
       this.maxPoints = defines.MaxPoints;
     
@@ -68,14 +68,16 @@
       if (document.hidden) {
         console.log('Saiu da pag do jogo');
         clearInterval(this.gameInterval);
+        clearInterval(this.iaInterval);
         this.gameInterval = null;
+        this.iaInterval = null;
         this.jogoRodando = false;
-        clearInterval(this.gameInterval);
       } else {
         console.log('Retornou para a pag do jogo');
         if (!this.gameInterval && (this.jogoVivo === true)) {
           this.jogoRodando = true;
           this.play();
+          this.playIA();
         }
       }
     };
@@ -85,7 +87,9 @@
       if (window.location.pathname !== '/caminho-do-jogo') {
         console.log('Saiu da página do jogo - Roteamento SPA');
           clearInterval(this.gameInterval);
+          clearInterval(this.iaInterval);
           this.gameInterval = null;
+          this.iaInterval = null;
           this.jogoVivo = false;
       }
     };
@@ -155,7 +159,7 @@
       if ((this.jogoVivo !== true) || (this.jogoRodando !== true)) return;
       console.log('Ia is started');
       if (!this.iaInterval && this.ia) {
-          this.iaInterval = setInterval(this.ia.updateAI.bind(this.ia), 1000);
+          this.iaInterval = setInterval(this.ia.updateAI.bind(this.ia), 7);
       }
     };
 
