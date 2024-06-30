@@ -18,7 +18,7 @@
       this.leftDetector = new PongGameIA.CollisionDetector(this.playerLeft, this.ball, this.context);
       this.rightDetector = new PongGameIA.CollisionDetector(this.playerRight, this.ball, this.context);
     
-      this.ia = new PongGameIA.Ia(this.playerRight, this.ball);
+      this.ia = new PongGameIA.Ia(this.playerRight, this.ball, defines.paddle_v);
 
       this.maxPoints = defines.MaxPoints;
     

@@ -1,24 +1,13 @@
-// No template
-/*
-		<script   src="{% static 'js/pongIA/pong.js' %}"></script>
-        <script   src="{% static 'js/pongIA/collision_detector.js' %}"></script>
-        <script   src="{% static 'js/pongIA/paddle.js' %}"></script>
-		<script   src="{% static 'js/pongIA/ground.js' %}"></script>
-        <script   src="{% static 'js/pongIA/player.js' %}"></script>
-        <script   src="{% static 'js/pongIA/ball.js' %}"></script>
-		<script   src="{% static 'js/pongIA/ia.js' %}"></script>
-}
-*/
-
 (function () {
     'use strict';
 
     if (typeof window.PongGameIA === "undefined") {
         window.PongGameIA = {};
     }
-    var Ia = window.PongGameIA.Ia = function (player, ball) {
+    var Ia = window.PongGameIA.Ia = function (player, ball, paddle_v) {
         this.ball = ball;
         this.player = player;
+        this.paddle_v = paddle_v;
     };
 
     Ia.prototype.simularTecla = function (tecla, keyCode) {
@@ -34,13 +23,12 @@
     };
 
     Ia.prototype.updateAI = function () {
-        if( this.ball.position[0] > 400){
-            var aiSpeed = 1;
-            if (this.ball.position[1] < this.player.paddle.position[1] +3){
-                    this.player.paddle.position[1] -= aiSpeed;
+        if( this.ball.position[0] > 0){
+            if (this.ball.position[1] < this.player.paddle.position[1] +35){
+                    this.player.paddle.position[1] -= this.paddle_v;
                     //this.simularTecla('l', 108);
-            }else if(this.ball.position[1] > this.player.paddle.position[1] +3){
-                    this.player.paddle.position[1] += aiSpeed;
+            }else if(this.ball.position[1] > this.player.paddle.position[1] +35){
+                    this.player.paddle.position[1] += this.paddle_v;
                     // this.simularTecla('o', 111);
             }
         }
@@ -50,5 +38,6 @@
         // Limpar referências para o player e ball
         this.player = null;
         this.ball = null;
+        this.paddle_v = null;
     };
 })();

@@ -36,8 +36,8 @@ import { renderUserInfos, sendUpdateUser } from './views/settings/settingsUserDo
 import { renderPreferencesGame, sendUpdateGame } from './views/settings/settingsGameDom.js';
 
 // Game Vs IA //
-import gameVsIaPage from './views/gameVsIA/gameIAPageViews.js';
-import { clickGameIAPage } from './views/gameVsIA/gameIAPageDom.js';
+import { gameIADom } from './dom/gameIADom.js';
+import gameIAViews from './views/gameIAViews.js';
 
 // Game 3D //
 import game3dPage from './views/game3d/game3dPageViews.js';
@@ -144,9 +144,9 @@ const routes = {
         }
     },
     '/game-vs-ia/': {
-        template: gameVsIaPage(),
+        template: gameIAViews(),
         init: () => {
-            clickGameIAPage();
+            gameIADom();
         }
     },
     '/game-3d/': {
