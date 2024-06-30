@@ -39,10 +39,9 @@ import { renderPreferencesGame, sendUpdateGame } from './views/settings/settings
 import { gameIADom } from './dom/gameIADom.js';
 import gameIAViews from './views/gameIAViews.js';
 
-// Game 3D //
-import game3dPage from './views/game3d/game3dPageViews.js';
-import { clickGame3dPage } from './views/game3d/game3dPageDom.js';
-
+// Game Vs IA //
+import { game4Dom } from './dom/game4Dom.js';
+import game4Views from './views/game4Views.js';
 
 // Classic Game //
 import gameClassicViews from './views/gameClassicViews.js';
@@ -50,13 +49,10 @@ import { gameClassicDom } from './dom/gameClassicDom.js';
 
 import startGameClassic from './views/startGameClassic.js'
 
-
 import renderChat from './views/renderChat.js';
 import {initializeChat} from './dom/chatWebSocket.js';
 
-
 import { cleanupResources } from './dom/clean.js';
-
 
 const routes = {
     '/login/': {
@@ -149,10 +145,10 @@ const routes = {
             gameIADom();
         }
     },
-    '/game-3d/': {
-        template: game3dPage(),
+    '/game4/': {
+        template: game4Views(),
         init: () => {
-            clickGame3dPage();
+            game4Dom();
         }
     },
     '/gameClassicViews/': {

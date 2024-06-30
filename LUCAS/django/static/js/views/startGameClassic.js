@@ -13,24 +13,24 @@ export default function startGameClassic() {
         <div class="row mt-3 mx-auto">
 
             <!--Caixa Lateral do Jogador 1-->
-            <div class="col-2">
+            <div class="col mx-auto">
                 <div class="rounded bg-dashboard p-4 text-light text-center">
                     <h5 id="p1">Player x</h5>
-                    <br>
+                    <p>Up: W  | Down: S<p>
                 </div>
             </div>
-
+            <!--Caixa Lateral do Jogador 2-->
+            <div class="col mx-auto">
+                <div class="rounded bg-dashboard p-4 text-light text-center">
+                    <h5 id="p2">Player y</h5>
+                    <p>Up: O  | Down: L<p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3 mx-auto">
             <!--Canvas do Jogo-->
             <div class="col-8 bg-dashboard rounded mx-auto d-flex align-items-center justify-content-center">
                 <canvas id="canvas"></canvas>
-            </div>
-
-            <!--Caixa Lateral do Jogador 2-->
-            <div class="col-2">
-                <div class="rounded bg-dashboard p-4 text-light text-center">
-                    <h5 id="p2">Player y</h5>
-                    <br>
-                </div>
             </div>
         </div>
     </div>

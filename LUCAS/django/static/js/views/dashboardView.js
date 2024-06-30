@@ -72,7 +72,7 @@ export default function renderLogin() {
 						            <img src="static/img/chat.png" class="icon-sm">
 						        </button>
 						    </div>
-						    <div class="col-1 d-flex align-items-center justify-content-center">
+						    <div class="col-1 mx-auto d-flex align-items-center justify-content-center">
 						        <img src="static/img/online.png" class="icon-sm status-iconDashboard">
 						    </div>
 						</div>

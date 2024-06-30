@@ -224,7 +224,7 @@ async function chamarJogo(jogador1, jogador2) {
     const winner = game.getWinner();
     console.log('Winner:', winner);
 
-    if (!winner || winner === 'none') {
+    if (!winner || winner === null) {
         game.cleanup();
         return null;
     }

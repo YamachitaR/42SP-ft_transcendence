@@ -41,7 +41,7 @@ export default function renderSettingsGame() {
                     <select class="form-control" id="preference3" name="preference3">
                         <option value="Branca_(Padrao)">Branca_(Padrao)</option>
                         <option value="Tenis">Tenis</option>
-                        <option value="Baseball">Baseball</option>
+                        <option value="Baseball">Volei</option>
                         <option value="Basquete">Basquete</option>
                     </select>
                 </div>
@@ -50,7 +50,7 @@ export default function renderSettingsGame() {
                     <select class="form-control" id="preference4" name="preference4">
                         <option value="Preta_(Padrao)">Preta_(Padrao)</option>
                         <option value="Tenis">Tenis</option>
-                        <option value="Baseball">Baseball</option>
+                        <option value="Baseball">Volei</option>
                         <option value="Basquete">Basquete</option>
                     </select>
                 </div>

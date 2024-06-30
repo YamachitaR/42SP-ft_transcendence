@@ -30,20 +30,21 @@
 
   Player.prototype.setListeners = function () {
     var player = this;
-    var upCode = this.side == "left" ? 119 : 111;
-    var downCode = this.side == "left" ? 115 : 108; 
-    window.addEventListener("keypress", function (event) {
-      if (event.keyCode == upCode) {
-        player.paddleDirection = -1 * player.paddle_v;
-      } else if (event.keyCode == downCode) {
-        player.paddleDirection = player.paddle_v;
-      }
-
+    var upKey = this.side == "left" ? 'KeyW' : 'KeyO';
+    var downKey = this.side == "left" ? 'KeyS' : 'KeyL';
+    window.addEventListener("keydown", function (event) {
+        if (event.code == upKey) {
+            player.paddleDirection = -1 * player.paddle_v;
+        } else if (event.code == downKey) {
+            player.paddleDirection = player.paddle_v;
+        }
     });
     window.addEventListener("keyup", function (event) {
-      player.paddleDirection = 0;
+        if (event.code == upKey || event.code == downKey) {
+            player.paddleDirection = 0;
+        }
     });
-  }
+}
 
   Player.prototype.cleanup = function() {
     window.removeEventListener("keypress", this.keypressListener);

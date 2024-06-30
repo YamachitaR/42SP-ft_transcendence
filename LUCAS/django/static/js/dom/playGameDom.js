@@ -16,8 +16,7 @@ export function initPlayGame() {
                 navigateTo('/gameClassicViews/', {});
                 break;
             case 'game4players':
-                content = 'You clicked Option 3!';
-                document.getElementById('content').innerHTML = content;
+                navigateTo('/game4/', {});
                 break;
             case 'gameTorneio':
 				navigateTo('/tournament/', {});

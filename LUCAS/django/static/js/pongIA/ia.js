@@ -10,6 +10,7 @@
         this.paddle_v = paddle_v;
         this.keyUP = false;
         this.keyDown = false;
+        this.ballPositionMemory = [0, 0];
     };
 
     /*
@@ -55,10 +56,13 @@
         });
         document.dispatchEvent(eventoTecla);
     };
-
-    Ia.prototype.updateAI = function () {
-    if (this.ball.position[0] > 0) {
-        if (this.ball.position[1] < this.player.paddle.position[1] + 35){
+    Ia.prototype.updateAIvision = function () {
+        this.ballPositionMemory = this.ball.position;
+    };
+    
+    Ia.prototype.updateAIkeys = function () {
+    if (this.ballPositionMemory[0] > 0) {
+        if (this.ballPositionMemory[1] < this.player.paddle.position[1] + 35){
             if (this.keyDown) {
                 this.soltarTecla('KeyL'); // Solta a tecla 'l'
                 this.keyDown = false;
@@ -67,7 +71,7 @@
                 this.pressionarTecla('KeyO'); // Pressiona a tecla 'o'
                 this.keyUP = true;
             }
-        }else if(this.ball.position[1] > this.player.paddle.position[1] - 35){
+        }else if(this.ballPositionMemory[1] > this.player.paddle.position[1] - 35){
             if (this.keyUP) {
                 this.soltarTecla('KeyO'); // Solta a tecla 'o'
                 this.keyUP = false;

@@ -55,6 +55,21 @@ function Chat(amigoId) {
     navigateTo('/chat/', { id: amigoId });
 }
 
+function formatDate(originalDateStr) {
+    // Parse da string para um objeto Date
+    let date = new Date(originalDateStr);
+
+    // Extração das partes necessárias
+    let hours = date.getHours().toString().padStart(2, '0');  // 14
+    let minutes = date.getMinutes().toString().padStart(2, '0');  // 49
+    let day = date.getDate().toString().padStart(2, '0');  // 30
+    let month = (date.getMonth() + 1).toString().padStart(2, '0');  // 06
+    let year = date.getFullYear();  // 2024
+
+    // Construção da string no formato desejado
+    return `${hours}:${minutes} ${day}-${month}-${year}`;
+}
+
 export async function carregarHistoricoJogosDashboard() {
     try {
         console.log('Chamando API para listar histórico de jogos');
@@ -87,13 +102,16 @@ export async function carregarHistoricoJogosDashboard() {
                 }
 
                 const historicoClone = document.importNode(historicoTemplate, true);
-                historicoClone.querySelector('.historico-item').textContent = `(${jogo.result}) ${jogo.description} ${jogo.score} ${jogo.game}`;
+                const dataRaw = jogo.date;
+                const dataCorreta = formatDate(dataRaw);
+                historicoClone.querySelector('.historico-item').textContent = `(${jogo.result}) ${jogo.description} ${jogo.score} ${jogo.game} ${dataCorreta}`;
                 listaHistorico.appendChild(historicoClone);
             });
 
             // Atualiza os campos de resumo
             document.getElementById('games_play').innerText = `Jogos: ${totalJogos}`;
             document.getElementById('games_win').innerText = `Vitórias: ${totalVitorias}`;
+            document.getElementById('games_loss').innerText = `Derrotas: ${totalDerrotas}`;
             document.getElementById('games_loss').innerText = `Derrotas: ${totalDerrotas}`;
         }
     } catch (error) {

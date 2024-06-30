@@ -1,24 +1,26 @@
 (function () {
   'use strict';
 
-  if (typeof window.PongGameIA === "undefined") {
-    window.PongGameIA = {};
+  if (typeof window.PongGameFour === "undefined") {
+    window.PongGameFour = {};
   }
-    var Game = PongGameIA.Game = function (canvas, defines) {
+    var Game = PongGameFour.Game = function (canvas, defines) {
       this.canvas = canvas;
       this.context = canvas.getContext('2d');
       this.canvas.width = defines.width;
       this.canvas.height = defines.height;
-      this.ball = new PongGameIA.Ball(this.context, defines.ball_color, defines.ball_url, defines.init_v);
-      this.groud = new PongGameIA.Ground(this.context, defines.width, defines.height, defines.ground_color, defines.ground_url);
+      this.ball = new PongGameFour.Ball(this.context, defines.ball_color, defines.ball_url, defines.init_v);
+      this.groud = new PongGameFour.Ground(this.context, defines.width, defines.height, defines.ground_color, defines.ground_url);
 
-      this.playerLeft = new PongGameIA.Player(this.context, "left", defines.l_color, defines.paddle_v);
-      this.playerRight = new PongGameIA.Player(this.context, "right", defines.r_color, defines.paddle_v);
-  
-      this.leftDetector = new PongGameIA.CollisionDetector(this.playerLeft, this.ball, this.context);
-      this.rightDetector = new PongGameIA.CollisionDetector(this.playerRight, this.ball, this.context);
-    
-      this.ia = new PongGameIA.Ia(this.playerRight, this.ball, defines.paddle_v, defines.height);
+      this.playerLeft = new PongGameFour.Player(this.context, "left", defines.l_color, defines.paddle_v);
+      this.playerRight = new PongGameFour.Player(this.context, "right", defines.r_color, defines.paddle_v);
+      this.playerLeft1 = new PongGameFour.Player(this.context, "left1", defines.l_color, defines.paddle_v);
+      this.playerRight1 = new PongGameFour.Player(this.context, "right1", defines.r_color, defines.paddle_v);
+
+      this.leftDetector = new PongGameFour.CollisionDetector(this.playerLeft, this.ball, this.context);
+      this.rightDetector = new PongGameFour.CollisionDetector(this.playerRight, this.ball, this.context);
+      this.leftDetector1 = new PongGameFour.CollisionDetector(this.playerLeft1, this.ball, this.context);
+      this.rightDetector1 = new PongGameFour.CollisionDetector(this.playerRight1, this.ball, this.context);
 
       this.maxPoints = defines.MaxPoints;
     
@@ -26,8 +28,6 @@
       this.playerRightName = defines.name_right;
     
       this.gameInterval = null;
-      this.iaInterval = null;
-      this.iaIntervalvision = null;
       this.jogoVivo = true;
       this.jogoRodando = true;
       this.winner = null;
@@ -69,19 +69,13 @@
       if (document.hidden) {
         console.log('Saiu da pag do jogo');
         clearInterval(this.gameInterval);
-        clearInterval(this.iaInterval);
-        clearInterval(this.iaIntervalVision);
         this.gameInterval = null;
-        this.iaInterval = null;
-        this.iaIntervalVision = null;
         this.jogoRodando = false;
       } else {
         console.log('Retornou para a pag do jogo');
-        if (!this.gameInterval && !this.gameIntervalVision && (this.jogoVivo === true)) {
+        if (!this.gameInterval && (this.jogoVivo === true)) {
           this.jogoRodando = true;
           this.play();
-          this.playIAVision();
-          this.playIA();
         }
       }
     };
@@ -91,11 +85,7 @@
       if (window.location.pathname !== '/caminho-do-jogo') {
         console.log('Saiu da página do jogo - Roteamento SPA');
           clearInterval(this.gameInterval);
-          clearInterval(this.iaInterval);
-          clearInterval(this.iaIntervalVision);
           this.gameInterval = null;
-          this.iaInterval = null;
-          this.iaIntervalVision = null;
           this.jogoVivo = false;
       }
     };
@@ -116,15 +106,26 @@
         this.ball.render();
         this.ball.increaseBallSpeed();
       }
-      if (this.playerLeft && this.playerRight) {
+
+      if (this.playerLeft && this.playerLeft1 && this.playerRight && this.playerRight1) {
+     
         this.playerLeft.render();
         this.playerRight.render();
+        this.playerLeft1.render();
+        this.playerRight1.render();
+  
         this.playerLeft.checkPaddlePosition();
         this.playerRight.checkPaddlePosition();
+        this.playerLeft1.checkPaddlePosition();
+        this.playerRight1.checkPaddlePosition();
       }
-      if (this.leftDetector && this.rightDetector) {
+
+      if (this.leftDetector && this.rightDetector && this.leftDetector1 && this.rightDetector1) {
         this.leftDetector.checkCollision();
         this.rightDetector.checkCollision();
+        this.leftDetector1.checkCollision();
+        this.rightDetector1.checkCollision();
+
         this.leftDetector.score();
         this.rightDetector.score();
       }
@@ -137,16 +138,12 @@
         this.showWinnerMessage(this.playerLeftName);
         this.winner = this.playerLeftName;
         clearInterval(this.gameInterval);
-        clearInterval(this.iaInterval);
-        clearInterval(this.iaIntervalVision);
         return this.winner;
       } else if (this.playerRight.points >= this.maxPoints) {
         this.jogoVivo = false;
         this.showWinnerMessage(this.playerRightName);
         this.winner = this.playerRightName;
         clearInterval(this.gameInterval);
-        clearInterval(this.iaInterval);
-        clearInterval(this.iaIntervalVision);
         return this.winner;
       }
     };
@@ -161,21 +158,6 @@
   
     Game.prototype.showWinnerMessage = function (winner) {
       alert(winner + ' venceu o jogo com ' + this.maxPoints + ' pontos');
-    };
-
-    Game.prototype.playIAVision = function() {
-      if ((this.jogoVivo !== true) || (this.jogoRodando !== true)) return;
-      console.log('Ia is started');
-      if (!this.iaIntervalvision && this.ia) {
-          this.iaIntervalvision = setInterval(this.ia.updateAIvision.bind(this.ia), 1000);
-      }
-    };
-    Game.prototype.playIA = function() {
-      if ((this.jogoVivo !== true) || (this.jogoRodando !== true)) return;
-      console.log('Ia is started');
-      if (!this.iaInterval && this.ia) {
-          this.iaInterval = setInterval(this.ia.updateAIkeys.bind(this.ia), 7);
-      }
     };
 
     Game.prototype.play = function() {
@@ -206,7 +188,7 @@
           return this.winner;
       } else {
           console.log('No winner yet');
-          return 'none';
+          return null;
       }
     };
   
@@ -230,17 +212,8 @@
 
       if (this.gameInterval) {
         clearInterval(this.gameInterval);
+        this.gameInterval = null;
       }
-      
-      this.gameInterval = null;
-      if (this.iaInterval) {
-        clearInterval(this.iaInterval);
-      }
-      this.iaInterval = null;
-      if (this.iaIntervalVision) {
-        clearInterval(this.iaIntervalVision);
-      }
-      this.iaIntervalVision = null;
     
       if (this.ball) {
         this.ball.cleanup();
@@ -265,6 +238,23 @@
       if (this.rightDetector) {
         this.rightDetector.cleanup();
         this.rightDetector = null;
+      }
+
+      if (this.playerLeft1) {
+        this.playerLeft1.cleanup();
+        this.playerLeft1 = null;
+      }
+      if (this.playerRight1) {
+        this.playerRight1.cleanup();
+        this.playerRight1 = null;
+      }
+      if (this.leftDetector1) {
+        this.leftDetector1.cleanup();
+        this.leftDetector1 = null;
+      }
+      if (this.rightDetector1) {
+        this.rightDetector1.cleanup();
+        this.rightDetector1 = null;
       }
 
       this.canvas = null;
