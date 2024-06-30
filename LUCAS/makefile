@@ -8,7 +8,7 @@ ifeq ($(OS),Windows_NT)
 else
     UNAME_S := $(shell uname -s)
     ifeq ($(UNAME_S),Linux)
-        DOCKER = sudo docker compose
+        DOCKER = sudo docker-compose
         SDOCKER = sudo docker
     else ifeq ($(UNAME_S),Darwin)
         DOCKER = sudo docker compose

@@ -57,7 +57,9 @@ services:
 
 volumes:
   static_volume:
+    driver: local
   django_volume:
+    driver: local
   ssl_certificates:
     driver: local
     name: ssl_certificates
