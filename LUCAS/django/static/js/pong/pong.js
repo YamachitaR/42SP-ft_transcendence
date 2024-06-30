@@ -67,7 +67,6 @@
         clearInterval(this.gameInterval);
         this.gameInterval = null;
         this.jogoRodando = false;
-        clearInterval(this.gameInterval);
       } else {
         console.log('Retornou para a pag do jogo');
         if (!this.gameInterval && (this.jogoVivo === true)) {

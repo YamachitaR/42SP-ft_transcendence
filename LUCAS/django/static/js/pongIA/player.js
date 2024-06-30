@@ -28,6 +28,7 @@
     }
   }
 
+  /*
   Player.prototype.setListeners = function () {
     var player = this;
     var upCode = this.side == "left" ? 119 : 111;
@@ -44,6 +45,25 @@
       player.paddleDirection = 0;
     });
   }
+    */
+
+  Player.prototype.setListeners = function () {
+    var player = this;
+    var upKey = this.side == "left" ? 'KeyW' : 'KeyO';
+    var downKey = this.side == "left" ? 'KeyS' : 'KeyL';
+    window.addEventListener("keydown", function (event) {
+        if (event.code == upKey) {
+            player.paddleDirection = -1 * player.paddle_v;
+        } else if (event.code == downKey) {
+            player.paddleDirection = player.paddle_v;
+        }
+    });
+    window.addEventListener("keyup", function (event) {
+        if (event.code == upKey || event.code == downKey) {
+            player.paddleDirection = 0;
+        }
+    });
+}
 
   Player.prototype.cleanup = function() {
     window.removeEventListener("keydown", this.keypressListener);
