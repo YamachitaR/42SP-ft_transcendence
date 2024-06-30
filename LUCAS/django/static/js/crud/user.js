@@ -33,7 +33,7 @@ export async function fetchPreferencesInfo() {
             if (response.ok) {
                 const data = await response.json();
                 userPreferences = data;
-                console.log("User info loaded", user);
+                console.log("User preferences loaded", userPreferences);
             } else {
                 const errorData = await response.json();
                 console.error('Failed to load games preferences', errorData);

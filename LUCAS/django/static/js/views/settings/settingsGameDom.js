@@ -3,7 +3,6 @@ import { getGamePreferences } from '../../crud/user.js';
 import { token } from '../../main.js';
 
 export async function renderPreferencesGame() {
-    //await getGamePreferences();
     loadUserPreferences();
 }
 

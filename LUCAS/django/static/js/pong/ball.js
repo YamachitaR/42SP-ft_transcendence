@@ -19,7 +19,7 @@
     }
     this.ball_url = ball_url;
     this.position = [400, 250];
-    this.radius = 15;
+    this.radius = 10;
     this.speed = [init_v, init_v];
     this.init_v = init_v;
     this.hits = 0;
@@ -74,13 +74,11 @@
   };
 
   Ball.prototype.checkHits = function () {
-    console.log("ball hits: " + this.hits);
     return (this.newHit > 0)
   };
 
   Ball.prototype.increaseBallSpeed = function () {
     if (this.checkHits()) {
-      console.log('velocidade aumentou, hit: ' + this.hits);
       this.speed[0] += (this.speed[0] < 0) ? -0.5 : 0.5;
       this.speed[1] += (this.speed[1] < 0) ? -0.5 : 0.5;
       this.newHit = 0;

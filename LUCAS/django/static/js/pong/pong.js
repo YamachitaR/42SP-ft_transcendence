@@ -24,31 +24,41 @@
       this.playerRightName = defines.name_right;
     
       this.gameInterval = null;
-      this.isFinish = false;
-      this.isPaused = false;
+      this.jogoVivo = true;
+      this.jogoRodando = true;
       this.winner = null;
     
-      document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
-      window.addEventListener('popstate', this.handleRouteChange.bind(this));
-      window.history.pushState = (f => function pushState(){
-          var ret = f.apply(this, arguments);
-          window.dispatchEvent(new Event('pushstate'));
-          window.dispatchEvent(new Event('locationchange'));
-          return ret;
+      this.handleRouteChangeBound = this.handleRouteChange.bind(this);
+      this.locationChangeHandler = () => { window.dispatchEvent(new Event('locationchange')) };
+
+      document.addEventListener('visibilitychange', this.handleVisibilityChangeBound);
+      window.addEventListener('popstate', this.handleRouteChangeBound);
+
+      window.history.pushState = (f => {
+          const pushState = function pushState() {
+              const ret = f.apply(this, arguments);
+              window.dispatchEvent(new Event('pushstate'));
+              window.dispatchEvent(new Event('locationchange'));
+              return ret;
+          };
+          pushState._original = f;
+          return pushState;
       })(window.history.pushState);
-
-      window.history.replaceState = (f => function replaceState(){
-          var ret = f.apply(this, arguments);
-          window.dispatchEvent(new Event('replacestate'));
-          window.dispatchEvent(new Event('locationchange'));
-          return ret;
+      window.history.replaceState = (f => {
+          const replaceState = function replaceState() {
+              const ret = f.apply(this, arguments);
+              window.dispatchEvent(new Event('replacestate'));
+              window.dispatchEvent(new Event('locationchange'));
+              return ret;
+          };
+          replaceState._original = f;
+          return replaceState;
       })(window.history.replaceState);
-
-      window.addEventListener('popstate', ()=>{ window.dispatchEvent(new Event('locationchange')) });
-      window.addEventListener('locationchange', this.handleRouteChange.bind(this));
+      window.addEventListener('popstate', this.locationChangeHandler);
+      window.addEventListener('locationchange', this.handleRouteChangeBound);
 
       console.log('Eventos visibilitychange e locationchange configurados');
-    }
+    };
 
     Game.prototype.handleVisibilityChange = function () {
       console.log('Evento visibilitychange disparado');
@@ -56,125 +66,140 @@
         console.log('Saiu da pag do jogo');
         clearInterval(this.gameInterval);
         this.gameInterval = null;
-        this.isPaused = true;
+        this.jogoRodando = false;
         clearInterval(this.gameInterval);
       } else {
         console.log('Retornou para a pag do jogo');
-        if (!this.gameInterval && !this.isFinish) {
-          this.isPaused = false;
+        if (!this.gameInterval && (this.jogoVivo === true)) {
+          this.jogoRodando = true;
           this.play();
         }
       }
-    }
+    };
 
     Game.prototype.handleRouteChange = function () {
       console.log('Evento de mudança de rota disparado');
       if (window.location.pathname !== '/caminho-do-jogo') {
         console.log('Saiu da página do jogo - Roteamento SPA');
-        if (this.gameInterval) {
           clearInterval(this.gameInterval);
           this.gameInterval = null;
-          this.isFinish = true;
-        }
+          this.jogoVivo = false;
       }
-    }
+    };
     
     Game.prototype.renderBackground = function () {
+      if ((this.jogoVivo !== true) || !this.canvas || (this.jogoRodando !== true)) return;
       this.context.fillStyle = 'white';
-      if (!this.isFinish && this.canvas) {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.context.fillRect(this.canvas.width/2, 0, 2, this.canvas.height);
-      }
-    }
+      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.context.fillRect(this.canvas.width/2, 0, 2, this.canvas.height);
+    };
 
     Game.prototype.render = function () {
-      if (this.isFinish || this.isPaused) return;
+      if ((this.jogoVivo !== true) || (this.jogoRodando !== true)) return;
       this.renderBackground();
       this.groud.render();
-      this.ball.move();
-      this.ball.render();
-      this.ball.increaseBallSpeed();
-      this.playerLeft.render();
-      this.playerRight.render();
-      this.playerLeft.checkPaddlePosition();
-      this.playerRight.checkPaddlePosition();
-      this.leftDetector.checkCollision();
-      this.rightDetector.checkCollision();
-      this.leftDetector.score();
-      this.rightDetector.score();
+      if (this.ball) {
+        this.ball.move();
+        this.ball.render();
+        this.ball.increaseBallSpeed();
+      }
+      if (this.playerLeft && this.playerRight) {
+        this.playerLeft.render();
+        this.playerRight.render();
+        this.playerLeft.checkPaddlePosition();
+        this.playerRight.checkPaddlePosition();
+      }
+      if (this.leftDetector && this.rightDetector) {
+        this.leftDetector.checkCollision();
+        this.rightDetector.checkCollision();
+        this.leftDetector.score();
+        this.rightDetector.score();
+      }
+
+      if ((this.jogoVivo !== true) || (this.jogoRodando !== true)) return;
       this.renderScores();
 
-      if (this.isFinish || this.isPaused) return;
       if (this.playerLeft.points >= this.maxPoints) {
+        this.jogoVivo = false;
         this.showWinnerMessage(this.playerLeftName);
         this.winner = this.playerLeftName;
         clearInterval(this.gameInterval);
-        this.isFinish = true;
         return this.winner;
       } else if (this.playerRight.points >= this.maxPoints) {
+        this.jogoVivo = false;
         this.showWinnerMessage(this.playerRightName);
         this.winner = this.playerRightName;
         clearInterval(this.gameInterval);
-        this.isFinish = true;
         return this.winner;
       }
-    }
+    };
 
     Game.prototype.renderScores = function () {
+      if ((this.jogoVivo !== true) || (this.jogoRodando !== true)) return;
       this.context.fillStyle = 'white';
       this.context.font = '30px Tahoma';
       this.context.fillText(this.playerLeft.points, this.canvas.width/4 *2 - 40, 40);
       this.context.fillText(this.playerRight.points, this.canvas.width/4 *2 + 25, 40);
-    }
-  
+    };
   
     Game.prototype.showWinnerMessage = function (winner) {
       alert(winner + ' venceu o jogo com ' + this.maxPoints + ' pontos');
-    }
+    };
 
-    Game.prototype.play = function () {  
+    Game.prototype.play = function() {
+      if ((this.jogoVivo !== true) || (this.jogoRodando !== true)) return;
+      console.log('Game play started');
       if (!this.gameInterval) {
-        this.gameInterval = setInterval(this.render.bind(this), 7);
+          this.gameInterval = setInterval(this.render.bind(this), 7);
       }
-    }
+    };
 
     Game.prototype.placar = function () {
-      if (this.gameFinish) {
+      if (this.jogoVivo !== true) {
         return[this.playerLeft.points, this.playerRight.points];
       }
       else {
         return null;
       }
-    }
+    };
 
-    Game.prototype.gameFinish = function () {
-      return this.isFinish;
-    }
+    Game.prototype.gameFinish = function() {
+      const finished = !this.jogoVivo;
+      return finished;
+    };
   
+    Game.prototype.getWinner = function() {
+      if (this.jogoVivo !== true) {
+          console.log('Winner is determined:', this.winner);
+          return this.winner;
+      } else {
+          console.log('No winner yet');
+          return 'none';
+      }
+    };
   
-    Game.prototype.getWinner = function () {
-      if (this.isFinish) {
-        return this.winner;
-      }
-      else {
-        return 'none';
-      }
-    }
 
     Game.prototype.cleanup = function() {
-    
-      document.removeEventListener('visibilitychange', this.handleVisibilityChange);
-      window.removeEventListener('popstate', this.handleRouteChange);
-      window.history.pushState = null;
-      window.history.replaceState = null;
-      window.removeEventListener('locationchange', this.handleRouteChange);
 
-    
+      document.removeEventListener('visibilitychange', this.handleVisibilityChangeBound);
+      window.removeEventListener('popstate', this.handleRouteChangeBound);
+
+      if (window.history.pushState._original) {
+          window.history.pushState = window.history.pushState._original;
+          delete window.history.pushState._original;
+      }
+      if (window.history.replaceState._original) {
+          window.history.replaceState = window.history.replaceState._original;
+          delete window.history.replaceState._original;
+      }
+
+      window.removeEventListener('popstate', this.locationChangeHandler);
+      window.removeEventListener('locationchange', this.handleRouteChangeBound);
+
       if (this.gameInterval) {
         clearInterval(this.gameInterval);
         this.gameInterval = null;
       }
-
     
       if (this.ball) {
         this.ball.cleanup();
@@ -206,11 +231,11 @@
       this.maxPoints = null;
       this.playerLeftName = null;
       this.playerRightName = null;
-      this.isFinish = null;
-      this.isPaused = null;
+      this.jogoVivo = false;
+      this.jogoRodando = false;
       this.winner = null;
 
       console.log('Jogo limpo e recursos liberados');
-    }
+    };
 
   })();

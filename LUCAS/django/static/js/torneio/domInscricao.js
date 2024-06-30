@@ -1,7 +1,7 @@
 //importa o redirecionamento de rotas
 import  { navigateTo }  from '../main.js';
 // Para puxar a preferencia do usuario
-import  { getGamePreferencesData, getGamePreferences, userPreferences } from '../crud/user.js';
+import  { userPreferences } from '../crud/user.js';
 // defines do pong
 import setDefines from "../pong/defines.js";
 // View da tela onde o pong sera renderizado
@@ -32,16 +32,7 @@ function initTournamentSetup() {
     document.getElementById('startClassic').addEventListener('click', handleStartTournament);
 }
 
-// Inscrição do torneio
-//      - coleta a quantidade de jogadores
-//      - coleta os nomes
-
-//Calculo de quantas rodadas serão preciso
-
-// 
-// [3][2][4][1][5]
-
-function handleStartTournament() {
+async function handleStartTournament() {
     const playerCount = parseInt(localStorage.getItem('playerCount'), 10);
     const players = new Set();
 
@@ -58,40 +49,36 @@ function handleStartTournament() {
         players.add(playerName);
     }
 
-    // Converte o Set para um array
     const playersArray = Array.from(players);
 
-    // Armazena a lista de jogadores em localStorage
     localStorage.setItem('players', JSON.stringify(playersArray));
 
-    // Aqui você pode redirecionar para a próxima etapa ou iniciar o torneio
     alert('Jogadores registrados com sucesso!');
-    let winner = criarTorneio(playersArray , playerCount);
+    console.log('Iniciando Torneio');
+    let winner = await criarTorneio(playersArray , playerCount);
+    if (winner === null) {
+        location.reload(true);
+        return null;
+    }
+    console.log('Torneio Finalizado');
     alert('Fim do torneio, Parabens ao jogador: ' + winner);
+    navigateTo('/playGame/', {});
 }
 
 function sorteioVitoriaDireta(x) {
-    // Cria um vetor com números de 1 a X
-    var index = 0;
+    const vetor = Array.from({ length: x }, (_, index) => index);
     
-    let vetor = [];
-    for (let i = 0; i < x; i++) {
-        vetor.push(i);
-    }
-
-    // Embaralha o vetor usando o algoritmo de Fisher-Yates
     for (let i = vetor.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [vetor[i], vetor[j]] = [vetor[j], vetor[i]];
     }
-    let i = 0;
-    while (i < x)
-    {
+
+    for (let i = 0; i < x; i++) {
         if (vetor[i] === 1) {
             return i;
         }
-        i++;
     }
+
     return 0;
 }
 
@@ -99,88 +86,101 @@ function calculaQtRodadas(x) {
     return Math.ceil(Math.log2(x));
 }
 
-function criarTorneio(nomesJogadores, numeroJogadores) {
+async function criarTorneio(nomesJogadores, numeroJogadores) {
 
     var numeroDeRodadas = calculaQtRodadas(numeroJogadores);
     var jogadoresVivos = nomesJogadores;
     var qtCompetidores = numeroJogadores;
     var i = 0;
-
+    
     while (i < numeroDeRodadas) {
-        jogadoresVivos = criarRodadas(jogadoresVivos, qtCompetidores);
+        console.log('Iniciando rodada: ' + i);
+        jogadoresVivos = await criarRodadas(jogadoresVivos, qtCompetidores, i);
+        if (jogadoresVivos === null) {
+            return null;
+        }
         qtCompetidores = Math.ceil(qtCompetidores / 2);
         i++;
     }
     return jogadoresVivos;
 }
 
-async function criarRodadas(jogadoresVivos, qtCompetidores) {
-
-    //calcular quantas vagas tem para a proxima rodada
-    //ou seja, quantos ganhadores possiveis
-    var qtVagas = Math.ceil(qtCompetidores / 2);
-    //Calcula quantos jogos a rodada vai ter 
-    var qtJogos = Math.floor(qtCompetidores / 2);
-
-    //Cria a lista com a qt vagas para colocar os ganhadores da rodada
-    const jogadoresVencedores = new Array(qtVagas).fill(null); // inicializa com null
-    
-    if (qtCompetidores % 2 === 1) {
-        let sorteio = sorteioVitoriaDireta(qtCompetidores);
-        jogadoresVencedores[0] = jogadoresVivos[sorteio];
-        jogadoresVivos[sorteio] = ''; 
-    }
-
+function definirJogos(jogadoresVivos, qtJogos) {
+    let result = [];
     let indexPartidas = 0;
     let indexCompetidores = 0;
 
+    while (indexPartidas < qtJogos) {
+        if (jogadoresVivos[indexCompetidores] === '') {
+            indexCompetidores++;
+        }
+        result.push(jogadoresVivos[indexCompetidores]);
+        indexCompetidores++;
+
+        if (jogadoresVivos[indexCompetidores] === '') {
+            indexCompetidores++;
+        }
+        result.push(jogadoresVivos[indexCompetidores]);
+        indexCompetidores++;
+        indexPartidas++;
+    }
+    return result;
+}
+
+function anunciarJogosRodada(qtJogos, jogosDefinidos, qtCompetidores, jogadoresVencedores) {
+    let msg = '';
+    for (let i = 0; i < qtJogos * 2; i += 2) {
+        msg += ('\n' + jogosDefinidos[i] + ' vs ' + jogosDefinidos[i+1]);
+    }
+    if (qtCompetidores % 2 === 1) {
+        msg += ('\n\nJogador: ' + jogadoresVencedores + ', foi sorteado para passar automaticamente para a proxima rodada');
+    }
+    return msg;
+}
+
+async function criarRodadas(jogadoresVivos, qtCompetidores, indexRodada) {
+
+    var qtVagas = Math.ceil(qtCompetidores / 2);
+    var qtJogos = Math.floor(qtCompetidores / 2);
+
+    let jogadoresVencedores = new Array(qtVagas).fill(null);
+
+    if (qtCompetidores % 2 === 1) {
+        let sorteio = sorteioVitoriaDireta(qtCompetidores);
+        jogadoresVencedores[0] = jogadoresVivos[sorteio];
+        jogadoresVivos[sorteio] = '';
+        sorteio = 0;
+    }
+
+    let jogosDefinidos = definirJogos(jogadoresVivos, qtJogos);
+    let msg =  anunciarJogosRodada(qtJogos, jogosDefinidos, qtCompetidores, jogadoresVencedores[0]);
+    alert ('Iniciando a rodada: ' + (indexRodada + 1) + ' com os seguintes jogos:\n' + msg);
+
+    let indexPartidas = 0;
+    let indexJogosDefinidos = 0
     let vencedorTemp = '';
-    let jogador1 = '';
-    let jogador2 = '';
 
     while (indexPartidas < qtJogos)
     {
-        //define o jogador 1
-        if (jogadoresVivos[indexCompetidores] === '') {
-            indexCompetidores++;
+
+        alert('Inicio da proxima partida, ' + jogosDefinidos[indexJogosDefinidos] + ' vs ' + jogosDefinidos[indexJogosDefinidos+1]);
+        vencedorTemp = await chamarJogo(jogosDefinidos[indexJogosDefinidos], jogosDefinidos[indexJogosDefinidos+1]);
+        if (vencedorTemp === null) {
+            console.log('Torneio Cancelado.');
+            jogosDefinidos = null;
+            jogadoresVencedores = null;
+            return null;
         }
-        jogador1 = jogadoresVivos[indexCompetidores];
-        indexCompetidores++;
 
-        //define o jogador 2
-        if (jogadoresVivos[indexCompetidores] === '') {
-            indexCompetidores++;
-        }
-        jogador2 = jogadoresVivos[indexCompetidores];
-        indexCompetidores++;
-
-        //inicia a partida e recebe o jogador que ganhou
-        alert('Inicio da proxima partida, ' + jogador1 + ' vs ' + jogador2);
-
-        /*
-        chamarJogo(jogador1, jogador2)
-        .then(resultado => {
-            vencedorTemp = resultado;
-            console.log('funcionou caralho! o ' + resultado + ' ganhou');
-        })
-        .catch(erro => {
-            console.error('fudeu foi tudo ' + erro); 
-        });
-        */
-        vencedorTemp = await chamarJogo(jogador1, jogador2);
-
-        //inclue o vencedor na lista dos que vão para o proximo round
         if (qtCompetidores % 2 === 1) {
             jogadoresVencedores[indexPartidas + 1] = vencedorTemp;
         }
         else {
             jogadoresVencedores[indexPartidas] = vencedorTemp;
         }
-            
-        //itera para para a proxima partida
         indexPartidas++;
+        indexJogosDefinidos += 2;
     }
-
     return jogadoresVencedores;
 }
 
@@ -188,65 +188,49 @@ function myDelay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+async function waitForGameToEnd(game) {
+    while (!game.gameFinish()) {
+        await myDelay(2000);
+    }
+    console.log('Game finished');
+}
 
 async function chamarJogo(jogador1, jogador2) {
-    var defines = setDefines(userPreferences);
-    var content = startGameClassic();
     
+    console.log(`Starting game between ${jogador1} and ${jogador2}`);
+
+    const defines = setDefines(userPreferences); 
+    const content = startGameClassic();
+
     defines.name_left = jogador1;
     defines.name_right = jogador2;
 
     document.getElementById('content').innerHTML = content;
-    document.getElementById('p1').innerHTML = defines.name_left; 
-    document.getElementById('p2').innerHTML = defines.name_right; 
-    debugger;    
-    var canvas = document.getElementById('canvas');
-    var game = new PongGame.Game(canvas, defines);    
+    document.getElementById('p1').innerHTML = defines.name_left;
+    document.getElementById('p2').innerHTML = defines.name_right;
+
+    let canvas = document.getElementById('canvas');
+    if (!canvas) {
+        throw new Error('Canvas element not found');
+    }
+
+    let game = new PongGame.Game(canvas, defines);
     game.play();
 
-    var finishGame = false;
-    while (finishGame === false) {
-        await myDelay(2000);
-        finishGame = game.gameFinish();//
+    console.log('Game started');
+
+    await waitForGameToEnd(game);
+
+    const winner = game.getWinner();
+    console.log('Winner:', winner);
+
+    if (!winner || winner === 'none') {
+        game.cleanup();
+        return null;
     }
-    let winner = game.getWinner();
+    game.cleanup();
+    game = null;
     return winner;
 }
-
-/*
-async function chamarJogo(jogador1, jogador2) {
-    const data = userPreferences;
-    var defines = setDefines(data);
-    var content = startGameClassic();
-    
-    defines.name_left = jogador1;
-    defines.name_right = jogador2;
-
-    document.getElementById('content').innerHTML = content;
-    document.getElementById('p1').innerHTML = defines.name_left; 
-    document.getElementById('p2').innerHTML = defines.name_right; 
-    debugger;    
-    var canvas = document.getElementById('canvas');
-    var game = new PongGame.Game(canvas, defines);    
-
-    return new Promise((resolve, reject) => {
-        game.play();
-        var finishGame = false;
-        while (finishGame === false) {
-            finishGame = game.gameFinish();
-            setTimeout(2000);
-        }
-        let winner = game.getWinner();
-        if (finishGame) {
-          resolve(winner); // Chama resolve() quando a operação é bem-sucedida
-        } else {
-          reject('Ocorreu um erro.'); // Chama reject() quando ocorre um erro
-        }
-    });
-}
-*/
-
-//resolve('Operação bem-sucedida!'); // Chama resolve() quando a operação é bem-sucedida
-//reject('Ocorreu um erro.'); // Chama reject() quando ocorre um erro
 
 export { initTournamentSetup };
