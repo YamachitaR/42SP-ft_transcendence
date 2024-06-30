@@ -49,19 +49,6 @@ from rest_framework import serializers
 from .models import CustomUser, Amizade
 
 class AmigoListSerializer(serializers.ModelSerializer):
-    bloqueado = serializers.SerializerMethodField()
-
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'profile_image', 'is_online', 'bloqueado')
-
-    def get_bloqueado(self, obj):
-        request_user = self.context['request'].user
-        try:
-            amizade = Amizade.objects.get(
-                (models.Q(user=request_user) & models.Q(amigo=obj)) |
-                (models.Q(amigo=request_user) & models.Q(user=obj))
-            )
-            return amizade.bloqueado
-        except Amizade.DoesNotExist:
-            return False
+        fields = ('id', 'username', 'email', 'profile_image', 'is_online')

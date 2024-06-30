@@ -60,7 +60,6 @@ class Amizade(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='amigos', on_delete=models.CASCADE)
     amigo = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='amigos_de', on_delete=models.CASCADE)
     aceita = models.BooleanField(default=False)
-    bloqueado = models.BooleanField(default=False)  # Novo campo para bloqueio
     criado_em = models.DateTimeField(auto_now_add=True)
 
     class Meta:

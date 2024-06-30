@@ -10,6 +10,8 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 class ChatConsumer(AsyncWebsocketConsumer):
+    blocked_users = {}  # Dicionário para armazenar o estado de bloqueio
+
     async def connect(self):
         self.user1_id = self.scope['url_route']['kwargs']['user1_id']
         self.user2_id = self.scope['url_route']['kwargs']['user2_id']
@@ -60,6 +62,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         aware_timestamp = make_aware(naive_timestamp)
 
+        if self.is_blocked(user.id):
+            logger.info(f"Message blocked from user {user.id}")
+            return  # Bloquear a mensagem
+
         await self.save_message(user, message, aware_timestamp)
         logger.info(f"Saved message: {message}")
 
@@ -79,6 +85,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         timestamp = event['timestamp']
 
         logger.info(f"Chat message event: {event}")
+
+        if self.is_blocked(username):
+            logger.info(f"Message from {username} is blocked.")
+            return  # Bloquear a mensagem
 
         await self.send(text_data=json.dumps({
             'message': message,
@@ -106,3 +116,30 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def get_username(self, user_id):
         logger.info(f"Fetching username for user_id: {user_id}")
         return CustomUser.objects.get(id=user_id).username
+
+    def is_blocked(self, user_id):
+        """Verifica se o usuário está bloqueado"""
+        return self.user1_id in self.blocked_users and user_id in self.blocked_users[self.user1_id]
+
+    async def block_user(self, blocker_id, blocked_id):
+        """Bloqueia um usuário"""
+        if blocker_id not in self.blocked_users:
+            self.blocked_users[blocker_id] = []
+        self.blocked_users[blocker_id].append(blocked_id)
+
+    async def unblock_user(self, blocker_id, blocked_id):
+        """Desbloqueia um usuário"""
+        if blocker_id in self.blocked_users and blocked_id in self.blocked_users[blocker_id]:
+            self.blocked_users[blocker_id].remove(blocked_id)
+            if not self.blocked_users[blocker_id]:
+                del self.blocked_users[blocker_id]
+
+    async def receive_json(self, content):
+        """Recebe comandos para bloquear/desbloquear usuários"""
+        command = content.get('command')
+        user_id = content.get('user_id')
+
+        if command == 'block':
+            await self.block_user(self.scope['user'].id, user_id)
+        elif command == 'unblock':
+            await self.unblock_user(self.scope['user'].id, user_id)

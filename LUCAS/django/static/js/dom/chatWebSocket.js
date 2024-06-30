@@ -1,7 +1,6 @@
 import { user } from '../crud/user.js';
 import { token } from '../main.js';
 import { fetchUserProfileById } from '../apis.js';
-import { apiVerificarBloqueio, apiBloquearAmigo, apiDesbloquearAmigo } from '../apis.js';
 import { navigateTo } from '../main.js';
 
 let chatSocket = null;
@@ -49,19 +48,6 @@ function saveMessage(roomId, message) {
 
 async function initializeChat(params) {
     const friend = await initProfileUser(params.id);
-    const bloqueado = await apiVerificarBloqueio(params.id, token);
-
-    const blockButton = document.getElementById('block-friend-button');
-    if (bloqueado.bloqueado) {
-        blockButton.style.backgroundColor = 'green';
-        blockButton.innerText = 'Desbloquear Amigo';
-        alert('Este amigo está bloqueado.');
-        clearChatHistory(generateRoomId(params.id));
-        return;
-    } else {
-        blockButton.style.backgroundColor = 'red';
-        blockButton.innerText = 'Bloquear Amigo';
-    }
 
     const roomId = generateRoomId(params.id);
     const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
@@ -163,7 +149,7 @@ async function initializeChat(params) {
         toggleBlockFriend(params.id);
     };
 
-	document.getElementById('join-game-button').onclick = function() {
+    document.getElementById('join-game-button').onclick = function() {
         joinGame(params.id);
     };
 
@@ -184,23 +170,39 @@ function joinGame() {
     navigateTo('/gameClassicViews/', {}); // Navegar para o perfil do amigo com parâmetros
 }
 
-
 async function toggleBlockFriend(friendId) {
-    const bloqueado = await apiVerificarBloqueio(friendId, token);
     const blockButton = document.getElementById('block-friend-button');
-    if (bloqueado.bloqueado) {
-        await apiDesbloquearAmigo(friendId, token);
-        alert('Amigo desbloqueado.');
-        blockButton.style.backgroundColor = 'red';
-        blockButton.innerText = 'Bloquear Amigo';
-        initializeChat({ id: friendId }); // Recarregar o chat
-    } else {
-        await apiBloquearAmigo(friendId, token);
-        alert('Amigo bloqueado.');
+    if (blockButton.innerText === 'Bloquear Amigo') {
+        blockUser(friendId); // Enviar comando de bloqueio via WebSocket
         blockButton.style.backgroundColor = 'green';
         blockButton.innerText = 'Desbloquear Amigo';
+        alert('Amigo bloqueado.');
         clearChatHistory(generateRoomId(friendId)); // Limpar o histórico
         closeChatSocket(); // Fechar o WebSocket
+    } else {
+        unblockUser(friendId); // Enviar comando de desbloqueio via WebSocket
+        blockButton.style.backgroundColor = 'red';
+        blockButton.innerText = 'Bloquear Amigo';
+        alert('Amigo desbloqueado.');
+        initializeChat({ id: friendId }); // Recarregar o chat
+    }
+}
+
+function blockUser(friendId) {
+    if (chatSocket && chatSocket.readyState === WebSocket.OPEN) {
+        chatSocket.send(JSON.stringify({
+            'command': 'block',
+            'user_id': friendId
+        }));
+    }
+}
+
+function unblockUser(friendId) {
+    if (chatSocket && chatSocket.readyState === WebSocket.OPEN) {
+        chatSocket.send(JSON.stringify({
+            'command': 'unblock',
+            'user_id': friendId
+        }));
     }
 }
 
