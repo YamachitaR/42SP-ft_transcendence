@@ -26,7 +26,7 @@ export default function renderChat() {
                             <button id="view-profile-button" class="btn btn-secondary btn-sm">View Profile</button>
                         </div>
                     </div>
-                    <button id="block-friend-button" class="btn btn-danger mb-2">Block Friend</button>
+                    <button id="block-friend-button" class="btn btn-danger mb-2">Bloquear Amigo</button>
                     <button id="join-game-button" class="btn btn-success">Join Game</button>
                 </div>
             </div>

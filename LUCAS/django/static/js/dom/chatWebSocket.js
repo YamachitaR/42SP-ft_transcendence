@@ -41,15 +41,30 @@ function loadChatHistory(roomId) {
 }
 
 function saveMessage(roomId, message) {
+
     const messages = JSON.parse(localStorage.getItem(roomId) || '[]');
-    messages.push(message);
-    localStorage.setItem(roomId, JSON.stringify(messages));
+    
+    if (!messages.find(m => m.timestamp === message.timestamp && m.username === message.username)) {
+        messages.push(message);
+        localStorage.setItem(roomId, JSON.stringify(messages));
+    }
+    //localStorage.setItem(roomId, JSON.stringify(messages));
 }
 
 async function initializeChat(params) {
-    const friend = await initProfileUser(params.id);
 
-    const roomId = generateRoomId(params.id);
+    let userId = null;
+    if (params.id !== undefined) {
+        userId = params.id;
+        localStorage.setItem('MemoryProfile', params.id);
+    }
+    else {
+        userId = localStorage.getItem('MemoryProfile');
+    }
+
+    const friend = await initProfileUser(userId);
+
+    const roomId = generateRoomId(userId);
     const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
     const host = window.location.host;
     const chatSocketUrl = `${protocol}${host}/ws/chat/${roomId}/`;
@@ -87,16 +102,19 @@ async function initializeChat(params) {
             timestamp: timestamp
         };
 
-        chatLog.innerHTML += `
-            <div class="${messageClass}">
-                <div class="header">
-                    <strong>${data.username}</strong> <span>${timestamp}</span>
-                </div>
-                <div class="content">
-                    ${data.message}
-                </div>
-            </div>`;
-        chatLog.scrollTop = chatLog.scrollHeight;
+        const lastMessage = chatLog.lastElementChild;
+        if (!lastMessage || lastMessage.querySelector('.header span').innerText !== timestamp) {
+            chatLog.innerHTML += `
+                <div class="${messageClass}">
+                    <div class="header">
+                        <strong>${data.username}</strong> <span>${timestamp}</span>
+                    </div>
+                    <div class="content">
+                        ${data.message}
+                    </div>
+                </div>`;
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
 
         saveMessage(roomId, message);
     };
