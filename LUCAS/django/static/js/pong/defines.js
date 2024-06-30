@@ -1,4 +1,5 @@
 export default function setDefines(data) {
+    debugger;
     var defines = createDefines();
     defines.init_v = setPreference1(data.preference1);
     defines.paddle_v = setPreference2(data.preference2);
@@ -29,7 +30,6 @@ function createDefines(){
 //velocidade inical da bolinha
 function setPreference1(dataPreference) {
     var preference = 'default';
-    
     switch (dataPreference) {
         case 'Padrao':
             preference = 1;
@@ -40,8 +40,8 @@ function setPreference1(dataPreference) {
         case 'Rapida':
             preference = 2;
           break;
-        case 'Super_rapida':
-            preference = 4;
+        case 'Super_Rapida':
+            preference = 3;
           break;
         default:
             preference = 1;
@@ -53,19 +53,18 @@ function setPreference1(dataPreference) {
 //velocidade das raquete
 function setPreference2(dataPreference) {
     var preference = 'default';
-    
     switch (dataPreference) {
         case 'Padrao':
             preference = 2;
             break;
         case 'Lenta':
-            preference = 1;
+            preference = 0.5;
           break;
         case 'Rapida':
             preference = 2;
           break;
-        case 'Super_rapida':
-            preference = 4;
+        case 'Super_Rapida':
+            preference = 3;
           break;
         default:
             preference = 2;

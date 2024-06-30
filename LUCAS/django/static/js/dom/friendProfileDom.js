@@ -3,7 +3,14 @@ import { apiListarHistoricoJogo } from '../apis.js';
 import { token } from '../main.js';
 
 export async function initProfileUser(params) {
-    const userId = params.id;
+    let userId = null;
+    if (params.id !== undefined) {
+        userId = params.id;
+        localStorage.setItem('MemoryProfile', params.id);
+    }
+    else {
+        userId = localStorage.getItem('MemoryProfile');
+    }
     const token = localStorage.getItem('token'); // Obter o token do localStorage
     const userProfile = await fetchUserProfileById(userId, token);
 
@@ -33,7 +40,6 @@ export async function carregarHistoricoJogos(id) {
             </div>
             <br>
         `;
-
         if (!Array.isArray(historicoJogos) || historicoJogos.length === 0) {
             listaHistorico.innerHTML += '<div class="mt-3 mb-3 text-center">Nenhum histórico de jogos encontrado</div>';
         } else {
