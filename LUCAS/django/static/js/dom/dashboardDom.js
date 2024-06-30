@@ -27,7 +27,7 @@ export async function carregarListaAmigosDashboard() {
         listaAmigos.innerHTML = '';
 
         if (!Array.isArray(amigosData) || amigosData.length === 0) {
-            listaAmigos.innerHTML = '<div class="mt-3 mb-3 text-center">  *_* :{ @¬@¬ </div>';
+            listaAmigos.innerHTML = '<div class="bg-dashboard-2 mt-3 mx-2 p-2 rounded shadow"><h5>Amigos Online</h5></div>';
         } else {
             const friendTemplate = document.getElementById('friend-templateDashboard').content;
 
@@ -93,7 +93,7 @@ export async function carregarHistoricoJogosDashboard() {
 
             // Atualiza os campos de resumo
             document.getElementById('games_play').innerText = `Jogos: ${totalJogos}`;
-            document.getElementId('games_win').innerText = `Vitórias: ${totalVitorias}`;
+            document.getElementById('games_win').innerText = `Vitórias: ${totalVitorias}`;
             document.getElementById('games_loss').innerText = `Derrotas: ${totalDerrotas}`;
         }
     } catch (error) {

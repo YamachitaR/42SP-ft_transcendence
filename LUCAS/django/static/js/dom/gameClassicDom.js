@@ -2,6 +2,7 @@ import { userPreferences, getGamePreferences } from '../crud/user.js';
 import startGameClassic from "../views/startGameClassic.js";
 import { navigateTo } from "../main.js";
 import setDefines from "../pong/defines.js";
+import {apiCriarHistoricoJogo } from '../apis.js'
 
 
 export async function gameClassicDom() {
@@ -46,6 +47,13 @@ export async function gameClassicDom() {
                 });
                 finishGame = game.gameFinish();
             }
+            debugger;
+            let pontos = game.placar();
+            let placar = pontos[0] + '-' + pontos[1]; 
+            let nomesJogadores = defines.name_left + ' vs ' + defines.name_right;
+            let resultadoPartida = defines.name_left === game.getWinner() ? 'win' : 'loss';
+            const chave = localStorage.getItem('token');
+            await apiCriarHistoricoJogo('classic', nomesJogadores, placar, resultadoPartida, chave);
 
             game.cleanup();
             canvas = null;
