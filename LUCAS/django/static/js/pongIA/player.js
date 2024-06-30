@@ -32,7 +32,7 @@
     var player = this;
     var upCode = this.side == "left" ? 119 : 111;
     var downCode = this.side == "left" ? 115 : 108; 
-    window.addEventListener("keypress", function (event) {
+    window.addEventListener("keydown", function (event) {
       if (event.keyCode == upCode) {
         player.paddleDirection = -1 * player.paddle_v;
       } else if (event.keyCode == downCode) {
@@ -46,7 +46,7 @@
   }
 
   Player.prototype.cleanup = function() {
-    window.removeEventListener("keypress", this.keypressListener);
+    window.removeEventListener("keydown", this.keypressListener);
     window.removeEventListener("keyup", this.keyupListener);
     this.paddle.cleanup();  // Certifique-se de que a classe Paddle também tenha um método cleanup
     this.context = null;

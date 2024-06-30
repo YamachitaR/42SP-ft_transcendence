@@ -26,6 +26,7 @@
       this.playerRightName = defines.name_right;
     
       this.gameInterval = null;
+      this.iaInterval = null;
       this.jogoVivo = true;
       this.jogoRodando = true;
       this.winner = null;
@@ -120,21 +121,20 @@
 
       if ((this.jogoVivo !== true) || (this.jogoRodando !== true)) return;
       this.renderScores();
-      if (this.ia) {
-        this.ia.updateAI();
-      }
 
       if (this.playerLeft.points >= this.maxPoints) {
         this.jogoVivo = false;
         this.showWinnerMessage(this.playerLeftName);
         this.winner = this.playerLeftName;
         clearInterval(this.gameInterval);
+        clearInterval(this.iaInterval);
         return this.winner;
       } else if (this.playerRight.points >= this.maxPoints) {
         this.jogoVivo = false;
         this.showWinnerMessage(this.playerRightName);
         this.winner = this.playerRightName;
         clearInterval(this.gameInterval);
+        clearInterval(this.iaInterval);
         return this.winner;
       }
     };
@@ -149,6 +149,14 @@
   
     Game.prototype.showWinnerMessage = function (winner) {
       alert(winner + ' venceu o jogo com ' + this.maxPoints + ' pontos');
+    };
+
+    Game.prototype.playIA = function() {
+      if ((this.jogoVivo !== true) || (this.jogoRodando !== true)) return;
+      console.log('Ia is started');
+      if (!this.iaInterval && this.ia) {
+          this.iaInterval = setInterval(this.ia.updateAI.bind(this.ia), 1000);
+      }
     };
 
     Game.prototype.play = function() {
@@ -203,8 +211,12 @@
 
       if (this.gameInterval) {
         clearInterval(this.gameInterval);
-        this.gameInterval = null;
       }
+      this.gameInterval = null;
+      if (this.iaInterval) {
+        clearInterval(this.iaInterval);
+      }
+      this.iaInterval = null;
     
       if (this.ball) {
         this.ball.cleanup();

@@ -31,6 +31,7 @@ export async function gameIADom() {
             var canvas = document.getElementById('canvas');
             var game = new PongGameIA.Game(canvas, defines);
             game.play();
+            game.playIA();
 
             let finishGame = false;
             let idTimeout = null;
